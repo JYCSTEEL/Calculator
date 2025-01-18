@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 namespace 计价器
 {
     // 抽象类表示产品的共性
-    public abstract class Product
+    public  class Product
     {
+        public string Material { get; set; }
         public string Type { get; set; } // 产品名称
-        public decimal UnitPrice { get; set; } // 单价
+        public int UnitPrice { get; set; } // 单价
         public decimal Sqft { get; set; } // 尺寸
 
       
         public string Color { get; set; } //颜色
 
-        public decimal Height { get; set; }
-        public decimal Width { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
 
         public int Qty { get; set; }
 

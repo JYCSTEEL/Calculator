@@ -17,12 +17,15 @@ namespace 计价器
         /// 控件
         /// </summary>
         /// 
+
+        public DataGridView MainProductView {  get=> dataGridViewProducts; set=> dataGridViewProducts =value; }  
         public TabControl MaintabControl { get => tabControl; }
         public TabPage TabpageCalculator { get => tabPageCalculate; }
         public TabPage TabpageBasicSetUp { get => tabPageSetting; }
 
-        public string ProductType { get=> comboBoxProduct.Text; set=> comboBoxProduct.Text = value; }
-        public int UnitPrice { get => Convert.ToInt32( textBoxUnitPrice.Text); set => textBoxUnitPrice.Text = value.ToString(); }
+        public string SelectedMaterial { get; set; }
+        public string ProductType { get => comboBoxProduct.Text; set => comboBoxProduct.Text = value; }
+        public int UnitPrice { get => Convert.ToInt32(textBoxUnitPrice.Text); set => textBoxUnitPrice.Text = value.ToString(); }
         public int LengthWidthInch { get => Convert.ToInt32(textBoxLengthWidth.Text); set => textBoxLengthWidth.Text = value.ToString(); }
         public int LengthWidthFeet { get => Convert.ToInt32(textBoxLengthWidthFeet.Text); set => textBoxLengthWidthFeet.Text = value.ToString(); }
         public int HeightDeepthInch { get => Convert.ToInt32(textBoxHeightDeepth.Text); set => textBoxHeightDeepth.Text = value.ToString(); }
@@ -54,10 +57,29 @@ namespace 计价器
         public bool IsIronSelected { get => radioButtonIsIron.Checked; set => radioButtonIsIron.Checked = value; }
         public bool IsStainlessSteelSelected { get => radioButtonIsStainless.Checked; set => radioButtonIsStainless.Checked = value; }
         public string SelectedProductType { get => comboBoxSetUpProductType.Text; set => comboBoxSetUpProductType.Text = value; }
-        public int SetUpBasicUnitPrice { get => Convert.ToInt32(textBoxSetUpUnitPrice.Text); set => textBoxSetUpUnitPrice.Text = value.ToString(); }
+        public int SetUpBasicUnitPrice { get => Convert.ToInt32( textBoxSetUpUnitPrice.Text); set => textBoxSetUpUnitPrice.Text = value.ToString(); }
 
-        public int NewProductType { get => Convert.ToInt32(textBoxNewProductType.Text); set => textBoxNewProductType.Text = value.ToString(); }
-        public int NewProductUnitPrice { get => Convert.ToInt32(textBoxNewUnitPrice.Text); set => textBoxNewUnitPrice.Text = value.ToString(); }
+        public string NewProductType { get => textBoxNewProductType.Text; set => textBoxNewProductType.Text = value; }
+        public int NewProductUnitPrice {
+            get
+            {
+                // 如果文本框为空或无法解析为整数，返回默认值 0
+                if (string.IsNullOrWhiteSpace(textBoxNewUnitPrice.Text) || !int.TryParse(textBoxNewUnitPrice.Text, out int value))
+                {
+                    return 0; // 默认返回值
+                }
+                return value;
+            }
+            set
+            {
+                // 将值赋给文本框，如果值为负数，可选择处理逻辑
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException("单价不能为负数！");
+                }
+                textBoxNewUnitPrice.Text = value.ToString();
+            }
+        }
 
 
         ///
@@ -71,7 +93,7 @@ namespace 计价器
         /// 基础设置按钮
         /// </summary>
         public Button BTN_UPDATE_UNIT_PRICE { get => buttonUpdateProductType; }
-        public Button BTN_DELETE_PRODUCT_TYPE {  get => buttonDeleteProductType; }
+        public Button BTN_DELETE_PRODUCT_TYPE { get => buttonDeleteProductType; }
 
         public Button BTN_NEW_PRODUCT_TYPE { get => buttonAddProductType; }
         /// <summary>
@@ -83,7 +105,7 @@ namespace 计价器
         /// <summary>
         /// 文本框
         /// </summary>
-        public TextBox TB_BASIC_UNIT_PRICE { get=> textBoxSetUpUnitPrice; set => textBoxSetUpUnitPrice = value; }
+        public TextBox TB_BASIC_UNIT_PRICE { get => textBoxSetUpUnitPrice; set => textBoxSetUpUnitPrice = value; }
 
         public TextBox TB_NEW_PRODUCT_TYPE { get => textBoxNewProductType; set => textBoxNewProductType = value; }
         public TextBox TB_NEW_PRODUCT_UNIT_PRICE { get => textBoxNewUnitPrice; set => textBoxNewUnitPrice = value; }
@@ -95,6 +117,7 @@ namespace 计价器
         {
             // 初始化逻辑（如果需要）
             InitializeComponent();
+            BindEvents();
         }
 
         // 静态属性，用于获取单例实例
@@ -106,8 +129,25 @@ namespace 计价器
             }
         }
 
+        private void BindEvents()
+        {
+            radioButtonIsIron.CheckedChanged += SetSelectedMaterial;
 
+        }
 
+        private void SetSelectedMaterial(object sender, EventArgs e)
+        {
+            if (radioButtonIsIron.Checked == true)
+            {
 
+                SelectedMaterial = radioButtonIsIron.Text;
+             
+            }
+            else
+            {
+
+                SelectedMaterial = radioButtonIsStainless.Text;
+            }
+        }
     }
 }

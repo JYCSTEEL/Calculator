@@ -62,12 +62,12 @@ namespace 计价器
                 }
             }
         }
-        public int? GetUnitPriceByType(string type)
+        public int GetUnitPrice(string material,string type)
         {
             // 如果输入为空或全是空格，直接返回 null
             if (string.IsNullOrWhiteSpace(type))
             {
-                return null;
+                return 0;
             }
 
             using (var connection = new SQLiteConnection(_connectionString))
@@ -75,50 +75,20 @@ namespace 计价器
                 connection.Open();
 
                 // 查询指定类型的单价
-                string query = "SELECT 单价 FROM 产品表 WHERE 类型 = @Type;";
+                string query = "SELECT 单价 FROM 产品表 WHERE 材料 = @Material AND 类型 = @Type;";
                 using (var command = new SQLiteCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@Material", material);
                     command.Parameters.AddWithValue("@Type", type);
 
                     object result = command.ExecuteScalar();
 
                     // 如果查询结果为空，返回 null，否则返回单价
-                    return result != null ? Convert.ToInt32(result) : (int?)null;
+                    return Convert.ToInt32(result);
                 }
             }
         }
-        // 插入产品数据
-        public void InsertProduct(string material, string type, int unitPrice)
-        {
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                // 检查是否已存在该类型
-                string checkQuery = "SELECT COUNT(*) FROM 产品表 WHERE 类型 = @Type;";
-                using (var checkCommand = new SQLiteCommand(checkQuery, connection))
-                {
-                    checkCommand.Parameters.AddWithValue("@Type", type);
-                    int count = Convert.ToInt32(checkCommand.ExecuteScalar());
-
-                    if (count > 0)
-                    {
-                        MessageBox.Show("此类型已存在！");
-                        return;
-                    }
-                }
-
-                // 插入新数据
-                string insertQuery = "INSERT INTO 产品表 (材料, 类型, 单价) VALUES (@Material, @Type, @UnitPrice);";
-                using (var command = new SQLiteCommand(insertQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@Material", material); // 设置参数
-                    command.Parameters.AddWithValue("@Type", type);
-                    command.Parameters.AddWithValue("@UnitPrice", unitPrice);
-                    command.ExecuteNonQuery(); // 执行插入操作
-                }
-            }
-        }
+     
 
         // 查询所有产品数据
         public DataTable GetAllProducts()
@@ -161,7 +131,48 @@ namespace 计价器
 
             return productTypes;
         }
+        // 获取指定材料的所有产品类型
+        public List<string> GetProductTypesByMaterial(string material)
+        {
+            List<string> productTypes = new List<string>();
 
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT DISTINCT 类型 FROM 产品表 WHERE 材料 = @Material;";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            productTypes.Add(reader["类型"].ToString());
+                        }
+                    }
+                }
+            }
+
+            return productTypes;
+        }
+        // 插入产品数据
+        public void InsertProduct(string material, string type, int unitPrice)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 插入新数据
+                string insertQuery = "INSERT INTO 产品表 (材料, 类型, 单价) VALUES (@Material, @Type, @UnitPrice);";
+                using (var command = new SQLiteCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material); // 设置参数
+                    command.Parameters.AddWithValue("@Type", type);
+                    command.Parameters.AddWithValue("@UnitPrice", unitPrice);
+                    command.ExecuteNonQuery(); // 执行插入操作
+                }
+            }
+        }
         // 更新“产品表”中的单价
         public void UpdateProductPrice(string material, string type, int newUnitPrice)
         {
@@ -194,6 +205,25 @@ namespace 计价器
                 }
             }
         }
+
+        // 检查记录是否存在
+        public bool RecordExists(string material, string type)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM 产品表 WHERE 材料 = @Material AND 类型 = @Type;";
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count > 0; // 返回是否存在
+                }
+            }
+        }
+
     }
 
 }

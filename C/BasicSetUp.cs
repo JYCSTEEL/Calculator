@@ -12,13 +12,57 @@ namespace 计价器
         /// <summary>
         /// 基础设置控件属性
         /// </summary>
-        public bool IsIronSelected { get => mainView.IsIronSelected; set => mainView.IsIronSelected = value; }
-        public bool IsStainlessSteelSelected { get => mainView.IsStainlessSteelSelected; set => mainView.IsStainlessSteelSelected = value; }
-        public string SelectedProductType { get => mainView.SelectedProductType; set => mainView.SelectedProductType = value; }
-        public int SetUpBasicUnitPrice { get => mainView.SetUpBasicUnitPrice; set => mainView.SetUpBasicUnitPrice = value; }
+        /// 
+        public string SelectedMaterial {  get => mainView.SelectedMaterial; set => mainView.SelectedMaterial = value; }
+        public bool IsIronSelected { get => mainView.RB_IS_IRON.Checked; set => mainView.RB_IS_IRON.Checked = value; }
+        public bool IsStainlessSteelSelected { get => mainView.RB_IS_STAINLESS.Checked; set => mainView.RB_IS_STAINLESS.Checked = value; }
+        public string SelectedProductType { get => mainView.CB_PRODUCT_TYPE.Text; set => mainView.CB_PRODUCT_TYPE.Text = value; }
+        public int SetUpBasicUnitPrice
+        {
+            get
+            {
+                // 如果文本框为空或无法解析为整数，返回默认值 0
+                if (string.IsNullOrWhiteSpace(mainView.TB_BASIC_UNIT_PRICE.Text) || !int.TryParse(mainView.TB_BASIC_UNIT_PRICE.Text, out int value))
+                {
+                    return 0; // 默认返回值
+                }
+                return value;
+            }
+            set
+            {
+                // 将值赋给文本框，如果值为负数，可选择处理逻辑
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException("单价不能为负数！");
+                }
+                mainView.TB_BASIC_UNIT_PRICE.Text = value.ToString();
+            }
+        }
 
-        public int NewProductType { get => mainView.NewProductType; set => mainView.NewProductType = value; }
-        public int NewProductUnitPrice { get => mainView.NewProductUnitPrice; set => mainView.NewProductUnitPrice = value; }
+        public string NewProductType { get => mainView.TB_NEW_PRODUCT_TYPE.Text; set => mainView.TB_NEW_PRODUCT_TYPE.Text= value; }
+        public int NewProductUnitPrice
+        {
+            get
+            {
+                // 如果文本框为空或无法解析为整数，返回默认值 0
+                if (string.IsNullOrWhiteSpace(mainView.TB_NEW_PRODUCT_UNIT_PRICE.Text) || !int.TryParse(mainView.TB_NEW_PRODUCT_UNIT_PRICE.Text, out int value))
+                {
+                    return 0; // 默认返回值
+                }
+                return value;
+            }
+            set
+            {
+                // 将值赋给文本框，如果值为负数，可选择处理逻辑
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException("单价不能为负数！");
+                }
+                mainView.TB_NEW_PRODUCT_UNIT_PRICE.Text = value.ToString();
+            }
+        }
+
+        public DataGridView BasicProductView { get => mainView.MainProductView; set => mainView.MainProductView = value; }
         /// <summary>
         /// 基础设置按钮
         /// </summary>
@@ -51,6 +95,8 @@ namespace 计价器
         private BasicSetUp()
         {
             // 初始化逻辑（如果需要）
+            RB_IS_IRON.Checked = true;
+
         }
 
         // 静态属性，用于获取单例实例
