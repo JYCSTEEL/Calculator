@@ -9,7 +9,7 @@ namespace 计价器
     // 抽象类表示产品的共性
     public abstract class Product
     {
-        public string Name { get; set; } // 产品名称
+        public string Type { get; set; } // 产品名称
         public decimal UnitPrice { get; set; } // 单价
         public decimal Sqft { get; set; } // 尺寸
 

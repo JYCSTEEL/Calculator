@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace 计价器
 {
-    public class Calculator
+    public class CalculatorPresenter
     {
         // 静态字段，存储单例实例
-        private static readonly Calculator _instance = new Calculator();
+        private static readonly CalculatorPresenter _instance = new CalculatorPresenter(Calculator.Instance);
 
         // 私有构造函数，防止外部实例化
-        private Calculator()
+        private CalculatorPresenter(Calculator calculator)
         {
             // 初始化逻辑（如果需要）
         }
 
         // 静态属性，用于获取单例实例
-        public static Calculator Instance
+        public static CalculatorPresenter Instance
         {
             get
             {
@@ -34,7 +34,7 @@ namespace 计价器
             price = product.UnitPrice * product.Sqft;
 
             return price;
-           
+
         }
         public decimal CalculateTotalPrice(List<Product> products)
         {
@@ -58,7 +58,5 @@ namespace 计价器
 
             return totalPrice;
         }
-
     }
-
 }

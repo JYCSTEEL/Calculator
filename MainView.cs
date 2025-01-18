@@ -12,6 +12,15 @@ namespace 计价器
 {
     public partial class MainView : Form
     {
+
+        /// <summary>
+        /// 控件
+        /// </summary>
+        /// 
+        public TabControl MaintabControl { get => tabControl; }
+        public TabPage TabpageCalculator { get => tabPageCalculate; }
+        public TabPage TabpageBasicSetUp { get => tabPageSetting; }
+
         public string ProductType { get=> comboBoxProduct.Text; set=> comboBoxProduct.Text = value; }
         public int UnitPrice { get => Convert.ToInt32( textBoxUnitPrice.Text); set => textBoxUnitPrice.Text = value.ToString(); }
         public int LengthWidthInch { get => Convert.ToInt32(textBoxLengthWidth.Text); set => textBoxLengthWidth.Text = value.ToString(); }
@@ -39,15 +48,66 @@ namespace 计价器
         public bool IsCodeLock { get => checkBoxCodeLock.Checked; set => checkBoxCodeLock.Checked = value; }
 
         public bool IsFingerPrintLock { get => checkBoxFingerPrintLock.Checked; set => checkBoxFingerPrintLock.Checked = value; }
+        /// <summary>
+        /// 基础设置控件
+        /// </summary>
+        public bool IsIronSelected { get => radioButtonIsIron.Checked; set => radioButtonIsIron.Checked = value; }
+        public bool IsStainlessSteelSelected { get => radioButtonIsStainless.Checked; set => radioButtonIsStainless.Checked = value; }
+        public string SelectedProductType { get => comboBoxSetUpProductType.Text; set => comboBoxSetUpProductType.Text = value; }
+        public int SetUpBasicUnitPrice { get => Convert.ToInt32(textBoxSetUpUnitPrice.Text); set => textBoxSetUpUnitPrice.Text = value.ToString(); }
+
+        public int NewProductType { get => Convert.ToInt32(textBoxNewProductType.Text); set => textBoxNewProductType.Text = value.ToString(); }
+        public int NewProductUnitPrice { get => Convert.ToInt32(textBoxNewUnitPrice.Text); set => textBoxNewUnitPrice.Text = value.ToString(); }
 
 
+        ///
+        ////
+
+        public RadioButton RB_IS_IRON { get => radioButtonIsIron; set => radioButtonIsIron = value; }
+        public RadioButton RB_IS_STAINLESS { get => radioButtonIsStainless; set => radioButtonIsStainless = value; }
 
 
+        /// <summary>
+        /// 基础设置按钮
+        /// </summary>
+        public Button BTN_UPDATE_UNIT_PRICE { get => buttonUpdateProductType; }
+        public Button BTN_DELETE_PRODUCT_TYPE {  get => buttonDeleteProductType; }
 
-        public MainView()
+        public Button BTN_NEW_PRODUCT_TYPE { get => buttonAddProductType; }
+        /// <summary>
+        /// 下拉框
+        /// </summary>
+
+        public ComboBox CB_PRODUCT_TYPE { get => comboBoxSetUpProductType; set => comboBoxSetUpProductType = value; }
+
+        /// <summary>
+        /// 文本框
+        /// </summary>
+        public TextBox TB_BASIC_UNIT_PRICE { get=> textBoxSetUpUnitPrice; set => textBoxSetUpUnitPrice = value; }
+
+        public TextBox TB_NEW_PRODUCT_TYPE { get => textBoxNewProductType; set => textBoxNewProductType = value; }
+        public TextBox TB_NEW_PRODUCT_UNIT_PRICE { get => textBoxNewUnitPrice; set => textBoxNewUnitPrice = value; }
+        // 静态字段，存储单例实例
+        private static readonly MainView _instance = new MainView();
+
+        // 私有构造函数，防止外部实例化
+        private MainView()
         {
+            // 初始化逻辑（如果需要）
             InitializeComponent();
         }
+
+        // 静态属性，用于获取单例实例
+        public static MainView Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+
+
+
 
     }
 }
