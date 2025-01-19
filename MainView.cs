@@ -24,7 +24,7 @@ namespace 计价器
         public TabPage TabpageBasicSetUp { get => tabPageSetting; }
 
         public string SelectedMaterial { get; set; }
-        public string ProductType { get => comboBoxProduct.Text; set => comboBoxProduct.Text = value; }
+        public string ProductType { get => comboBoxProductName.Text; set => comboBoxProductName.Text = value; }
         public int UnitPrice { get => Convert.ToInt32(textBoxUnitPrice.Text); set => textBoxUnitPrice.Text = value.ToString(); }
         public int LengthWidthInch { get => Convert.ToInt32(textBoxLengthWidth.Text); set => textBoxLengthWidth.Text = value.ToString(); }
         public int LengthWidthFeet { get => Convert.ToInt32(textBoxLengthWidthFeet.Text); set => textBoxLengthWidthFeet.Text = value.ToString(); }
@@ -109,6 +109,48 @@ namespace 计价器
 
         public TextBox TB_NEW_PRODUCT_TYPE { get => textBoxNewProductType; set => textBoxNewProductType = value; }
         public TextBox TB_NEW_PRODUCT_UNIT_PRICE { get => textBoxNewUnitPrice; set => textBoxNewUnitPrice = value; }
+
+
+
+        /// <summary>
+        /// 自定义产品设置
+        /// </summary>
+        /// 
+
+        public ComboBox CP_MATERIAL { get => comboBoxCustomizedProductMaterial; set => comboBoxCustomizedProductMaterial = value; }
+        public ComboBox CP_TYPE { get => comboBoxCustomizedProductType; set => comboBoxCustomizedProductType = value; }
+        public ComboBox CP_CB_NAME { get => comboBoxCustomizedName; set => comboBoxCustomizedName = value; }
+        public TextBox CP_NEW_NAME { get => textBoxCustomizedProductName; set => textBoxCustomizedProductName = value; }
+        public Button CP_BTN_UPDATE { get => buttonCustomizedUpdate; set => buttonCustomizedUpdate = value; }
+        public Button CP_BTN_DELETE { get => buttonCustomizedDelete; set => buttonCustomizedDelete = value; }
+        public Button CP_BTN_ADD { get => buttonCustomizedAdd; set => buttonCustomizedAdd = value; }
+        public CheckBox CP_CLOSER { get => checkBoxCustomizedCloser; set => checkBoxCustomizedCloser = value; }
+        public CheckBox CP_DOORINDOOR { get => checkBoxCustomizedDoorInDoor; set => checkBoxCustomizedDoorInDoor = value; }
+        public CheckBox CP_SCREEN { get => checkBoxCustomizedScreen; set => checkBoxCustomizedScreen = value; }
+
+        public CheckBox CP_POWDER { get => checkBoxCustomizedPowderCoating; set => checkBoxCustomizedPowderCoating = value; }
+        public CheckBox CP_GOLD { get => checkBoxCustomizedGold; set => checkBoxCustomizedGold = value; }
+        public CheckBox CP_BRONZE { get => checkBoxCustomizedBronze; set => checkBoxCustomizedBronze = value; }
+
+        public CheckBox CP_METAL_SHEET { get => checkBoxCustomizedMetalSheet; set => checkBoxCustomizedMetalSheet = value; }
+        public CheckBox CP_PLASTIC { get => checkBoxCustomizedPlastic; set => checkBoxCustomizedPlastic = value; }
+        public CheckBox CP_GLASS { get => checkBoxCustomizedGlass; set => checkBoxCustomizedGlass = value; }
+
+        public CheckBox CP_CURVED { get => checkBoxCustomizedCurved; set => checkBoxCustomizedCurved = value; }
+        public CheckBox CP_HASPOLE { get => checkBoxCustomizedPole; set => checkBoxCustomizedPole = value; }
+        public TextBox CP_POLE_QTY { get => textBoxCustomizedPoleQty; set => textBoxCustomizedPoleQty = value; }
+        public TextBox CP_POLE_PRICE { get => textBoxCustomizedPoleUnitPrice; set => textBoxCustomizedPoleUnitPrice = value; }
+
+        public CheckBox CP_HASLOCK { get => checkBoxCustomizedHasLock; set => checkBoxCustomizedHasLock = value; }
+        public CheckBox CP_NORMAL_LOCK { get => checkBoxCustomizedNormalLock; set => checkBoxCustomizedNormalLock = value; }
+        public CheckBox CP_FINGER_PRINT { get => checkBoxCustomizedFingerPrintLock; set => checkBoxCustomizedFingerPrintLock = value; }
+        public CheckBox CP_CODE_LOCK { get => checkBoxCustomizedCodeLock; set => checkBoxCustomizedCodeLock = value; }
+        public CheckBox CP_AUTO_SWING { get => checkBoxCustomizedSwing; set => checkBoxCustomizedSwing = value; }
+        public CheckBox CP_AUTO_SLIDING { get => checkBoxCustomizedSliding; set => checkBoxCustomizedSliding = value; }
+        public DataGridView CP_DATA_VIEW { get => dataGridViewCustomized; set => dataGridViewCustomized = value; }
+
+
+
         // 静态字段，存储单例实例
         private static readonly MainView _instance = new MainView();
 

@@ -9,12 +9,12 @@ namespace 计价器
     public class MainPresenter
     {
         public MainView View { get=> MainView.Instance; }
-        private BasicSetUpPresenter BasicSetUpPresenter;
+        private BasicPresenter BasicSetUpPresenter;
         private CalculatorPresenter CalculatorPresenter;
         private DatabaseHelper DatabaseHelper;
 
         public MainPresenter(MainView mainView) {
-            BasicSetUpPresenter = BasicSetUpPresenter.Instance;
+            BasicSetUpPresenter = BasicPresenter.Instance;
             CalculatorPresenter = CalculatorPresenter.Instance;
             DatabaseHelper = DatabaseHelper.Instance;
         }

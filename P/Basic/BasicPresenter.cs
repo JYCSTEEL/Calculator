@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
@@ -10,114 +11,64 @@ using System.Windows.Forms;
 
 namespace 计价器
 {
-    public class BasicSetUpPresenter
+    public class BasicPresenter
     {
+       
+
         // 静态字段，存储单例实例
-        private static readonly BasicSetUpPresenter _instance = new BasicSetUpPresenter(BasicSetUp.Instance);
+        private static readonly BasicPresenter _instance = new BasicPresenter(BasicSetUp.Instance, BasicRefresher.Instance);
 
         // 私有构造函数，防止外部实例化
-        private BasicSetUpPresenter(BasicSetUp basicSetUp)
+        private BasicPresenter(BasicSetUp basicSetUp, BasicRefresher BasicRefresher)
         {
             // 初始化逻辑（如果需要）
             BindEvents();
-            LoadData();
             InitializeProductInfo();
-            ReFreshDataGridView();
+
             ConfigureDataGridView(BasicSetUp.Instance.BasicProductView);
+
+         
         }
 
         // 静态属性，用于获取单例实例
-        public static BasicSetUpPresenter Instance
+        public static BasicPresenter Instance
         {
             get
             {
                 return _instance;
             }
         }
-
-        public void LoadData()
-        {
-            // 从数据库获取产品类型
-            List<string> productTypes = DatabaseHelper.Instance.GetProductTypesByMaterial(BasicSetUp.Instance.SelectedMaterial);
-
-            // 清空下拉框并加载新数据
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Clear();
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.AddRange(productTypes.ToArray());
-
-            // 默认选择第一项（如果有数据）
-            if (BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Count > 0)
-            {
-                BasicSetUp.Instance.CB_PRODUCT_TYPE.SelectedIndex = 0;
-            }
-            string material = BasicSetUp.Instance.SelectedMaterial;
-            string type = BasicSetUp.Instance.SelectedProductType;
-            string price = DatabaseHelper.Instance.GetUnitPrice(material,type).ToString();
-            BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
-
-        }
-        private void RefreshUnitPrice()
-        {
-            string price = DatabaseHelper.Instance.GetUnitPrice(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType).ToString();
-            BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
-
-        }
-        private bool VerifyInputType(string type)
-        {
-
-            if (string.IsNullOrWhiteSpace(type) || type == "")
-            {
-              
-                return false;
-            }
-            return true;
-          
-        }
-        private bool VerifyInputUnitPrice(int unitPriceInput)
-        {
-            if (unitPriceInput <= 0)
-            {
-               
-                return false;
-            }
-            return true;
-        }
         public void BindEvents()
         {
             BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += BTN_NEW_PRODUCT_TYPE_Click;
             BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += BTN_UPDATE_UNIT_PRICE_Click;
             BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BTN_DELETE_PRODUCT_TYPE_Click;
-            BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += LoadData;
-            BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += LoadData;
-            BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += LoadData;
-            BasicSetUp.Instance.RB_IS_IRON.CheckedChanged += LoadData;
+            BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
+            BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += BasicRefresher.Instance.LoadData;
+            BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
+            BasicSetUp.Instance.RB_IS_IRON.CheckedChanged += BasicRefresher.Instance.LoadData;
+            BasicSetUp.Instance.RB_IS_STAINLESS.CheckedChanged += BasicRefresher.Instance.LoadData;
 
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.SelectedIndexChanged += RefreshUnitPrice;
+            BasicSetUp.Instance.CB_PRODUCT_TYPE.SelectedIndexChanged += BasicRefresher.Instance.RefreshUnitPrice;
 
         }
-
         private void InitializeProductInfo()
         {
-            List<string> productTypes = DatabaseHelper.Instance.GetProductTypesByMaterial("铁");
+            DataTable dataTable = new DataTable();
+            dataTable = DatabaseHelper.Instance.GetAllProducts();
+            ProductsInfoList.AddProductList(ConvertToProducts(dataTable));
+        }
 
-            foreach (string productType in productTypes)
+        private bool IsProductExist(string material, string type)
+        {
+            bool isProductExist = false;
+            if (DatabaseHelper.Instance.RecordExists(material, type))
             {
-                Product product = new Product();
-                product.Material = "铁";
-                product.Type = productType;
-                product.UnitPrice = DatabaseHelper.Instance.GetUnitPrice("铁", productType);
-                ProductsInfo.AddProduct(product);
 
-            }
-            productTypes = DatabaseHelper.Instance.GetProductTypesByMaterial("不锈钢");
+                isProductExist = true;
+            };
 
-            foreach (string productType in productTypes)
-            {
-                Product product = new Product();
-                product.Material = "不锈钢";
-                product.Type = productType;
-                product.UnitPrice = DatabaseHelper.Instance.GetUnitPrice("不锈钢", productType);
-                ProductsInfo.AddProduct(product);
-            }
+            return isProductExist;
         }
 
         private void AddProductInfo()
@@ -130,7 +81,7 @@ namespace 计价器
             };
 
 
-            ProductsInfo.AddProduct(product);
+            ProductsInfoList.AddProduct(product);
         }
         private void UpdateProductInfo()
         {
@@ -141,32 +92,23 @@ namespace 计价器
                 Type = BasicSetUp.Instance.SelectedProductType,
                 UnitPrice = BasicSetUp.Instance.SetUpBasicUnitPrice,
             };
-            ProductsInfo.AddProduct(product);
+            ProductsInfoList.AddProduct(product);
         }
         private void DeleteProductInfo()
         {
-            Product product = ProductsInfo.FindProduct(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType);
-            ProductsInfo.RemoveProduct(product);
-        }
-        private void RefreshUnitPrice(object sender, EventArgs e)
-        {
-            RefreshUnitPrice();
+            Product product = ProductsInfoList.FindProductFirstOneByMaterialAndType(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType);
+            ProductsInfoList.RemoveProduct(product);
         }
 
-        private void LoadData(object sender, EventArgs e)
-        {
-            LoadData();
-            ReFreshDataGridView();
-        }
         private void BTN_NEW_PRODUCT_TYPE_Click(object sender, EventArgs e)
         {
-            if (!VerifyInputType(BasicSetUp.Instance.NewProductType))
+            if (!IsStringNotNullOrEmpty(BasicSetUp.Instance.NewProductType))
             {
                 MessageBox.Show("类型不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
-            if (!VerifyInputUnitPrice(BasicSetUp.Instance.NewProductUnitPrice))
+            if (!IsIntOverZero(BasicSetUp.Instance.NewProductUnitPrice))
             {
                 MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -180,23 +122,23 @@ namespace 计价器
             AddProductInfo();
             // 调用数据库助手的插入方法
             DatabaseHelper.Instance.InsertProduct(
-                BasicSetUp.Instance.SelectedMaterial, 
-                BasicSetUp.Instance.NewProductType, 
+                BasicSetUp.Instance.SelectedMaterial,
+                BasicSetUp.Instance.NewProductType,
                 BasicSetUp.Instance.NewProductUnitPrice);
             MessageBox.Show("新建产品类型-成功！");
-       
+
         }
 
         private void BTN_UPDATE_UNIT_PRICE_Click(object sender, EventArgs e)
         {
 
-            if (!VerifyInputType(BasicSetUp.Instance.SelectedMaterial))
+            if (!IsStringNotNullOrEmpty(BasicSetUp.Instance.SelectedMaterial))
             {
                 MessageBox.Show("类型不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
-            if (!VerifyInputUnitPrice(BasicSetUp.Instance.SetUpBasicUnitPrice))
+            if (!IsIntOverZero(BasicSetUp.Instance.SetUpBasicUnitPrice))
             {
                 MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -210,11 +152,11 @@ namespace 计价器
             };
             UpdateProductInfo();
             DatabaseHelper.Instance.UpdateProductPrice(
-                BasicSetUp.Instance.SelectedMaterial, 
+                BasicSetUp.Instance.SelectedMaterial,
                 BasicSetUp.Instance.SelectedProductType,
                 BasicSetUp.Instance.SetUpBasicUnitPrice);
             MessageBox.Show("更新产品类型-成功！");
-         
+
         }
 
         private void BTN_DELETE_PRODUCT_TYPE_Click(object sender, EventArgs e)
@@ -227,28 +169,54 @@ namespace 计价器
             DeleteProductInfo();
             DatabaseHelper.Instance.DeleteProduct(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType);
             MessageBox.Show("删除产品类型-成功！");
-        
+
         }
-        private bool IsProductExist(string material ,string type)
+        private bool IsStringNotNullOrEmpty(string type)
         {
-            bool isProductExist = false;
-            if (DatabaseHelper.Instance.RecordExists(material, type))
+
+            if (string.IsNullOrWhiteSpace(type) || type == "")
             {
-             
-                 isProductExist = true;
-            };
 
-            return isProductExist;
+                return false;
+            }
+            return true;
+
         }
-
-        private void ReFreshDataGridView()
+        private bool IsIntOverZero(int unitPriceInput)
         {
+            if (unitPriceInput <= 0)
+            {
 
-            BindingSource bindingSource = new BindingSource();
-            bindingSource.DataSource = ProductsInfo.GetAllProducts();
-            BasicSetUp.Instance.BasicProductView.DataSource = bindingSource;
-
+                return false;
+            }
+            return true;
         }
+
+        public List<Product> ConvertToProducts(DataTable dataTable)
+        {
+            List<Product> products = new List<Product>();
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Product product = new Product
+                {
+                    Material = row["材料"].ToString(),
+
+                    Type = row["类型"].ToString(),
+                    UnitPrice = Convert.ToInt32(row["单价"]),
+                    //Sqft = row["尺寸"] != DBNull.Value ? Convert.ToDecimal(row["尺寸"]) : 0,
+                    //Color = row["颜色"]?.ToString(),
+                    //Height = row["高度"] != DBNull.Value ? Convert.ToDecimal(row["高度"]) : 0,
+                    //Width = row["宽度"] != DBNull.Value ? Convert.ToDecimal(row["宽度"]) : 0,
+                    //Qty = row["数量"] != DBNull.Value ? Convert.ToInt32(row["数量"]) : 0,
+                    //TotalPrice = row["总价"] != DBNull.Value ? Convert.ToInt32(row["总价"]) : 0
+                };
+                products.Add(product);
+            }
+
+            return products;
+        }
+
 
         private void ConfigureDataGridView(DataGridView dataGridView)
         {
@@ -286,6 +254,9 @@ namespace 计价器
 
             // 9. 禁止用户通过点击修改内容
             dataGridView.EditMode = DataGridViewEditMode.EditProgrammatically;
+
+            dataGridView.AllowUserToAddRows = false;
+         
         }
 
 

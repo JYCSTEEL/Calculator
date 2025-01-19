@@ -19,6 +19,7 @@ namespace 计价器
         {
             _connectionString = $"Data Source={databasePath};Version=3;";
             EnsureDatabaseExists(databasePath); // 确保数据库存在
+            
         }
 
         // 获取单例实例
@@ -32,6 +33,7 @@ namespace 计价器
                 SQLiteConnection.CreateFile(databasePath); // 创建数据库文件
             }
             EnsureProductsTableExists();
+            EnsureCustomizedTableExists();
         }
 
         // 检查是否存在表“产品表”，如果不存在则创建
@@ -62,7 +64,65 @@ namespace 计价器
                 }
             }
         }
-        public int GetUnitPrice(string material,string type)
+        public void EnsureCustomizedTableExists()
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                // 检查表是否存在
+                string checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='自定义产品表';";
+                using (var command = new SQLiteCommand(checkTableQuery, connection))
+                {
+                    var result = command.ExecuteScalar();
+
+                    // 如果表不存在，则创建
+                    if (result == null)
+                    {
+                        string createTableQuery = @"
+                    CREATE TABLE 自定义产品表 (
+                        材料 TEXT,
+                        类型 TEXT,
+                        单价 INTEGER,
+                        名称 TEXT,
+                        长度或宽度 INTEGER,
+                        高度或深度 INTEGER,
+                        长度或宽度英尺 INTEGER,
+                        高度或深度英尺 INTEGER,
+                        平方英尺 INTEGER,
+                        设计价格 INTEGER,
+                        设计数量 INTEGER,
+                        粉末涂层 BOOLEAN,
+                        金色 BOOLEAN,
+                        古铜色 BOOLEAN,
+                        含金属板 BOOLEAN,
+                        含塑料 BOOLEAN,
+                        含玻璃 BOOLEAN,
+                        含弯曲 BOOLEAN,
+                        含锁 BOOLEAN,
+                        普通锁 BOOLEAN,
+                        指纹锁 BOOLEAN,
+                        密码锁 BOOLEAN,
+                        含柱子 BOOLEAN,
+                        含闭门器 BOOLEAN,
+                        含门中门 BOOLEAN,
+                        含屏风 BOOLEAN,
+                        含自动摆动 BOOLEAN,
+                        含自动滑动 BOOLEAN,
+                        柱子价格 INTEGER,
+                        柱子数量 INTEGER
+                    );";
+                        using (var createCommand = new SQLiteCommand(createTableQuery, connection))
+                        {
+                            createCommand.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+
+
+        public int GetUnitPrice(string material, string type)
         {
             // 如果输入为空或全是空格，直接返回 null
             if (string.IsNullOrWhiteSpace(type))
@@ -88,7 +148,7 @@ namespace 计价器
                 }
             }
         }
-     
+
 
         // 查询所有产品数据
         public DataTable GetAllProducts()
@@ -108,6 +168,133 @@ namespace 计价器
                 }
             }
         }
+        public DataTable GetAllCustomizedProducts()
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+                string selectQuery = "SELECT * FROM 自定义产品表;";
+                using (var command = new SQLiteCommand(selectQuery, connection))
+                {
+                    using (var adapter = new SQLiteDataAdapter(command))
+                    {
+                        DataTable productsTable = new DataTable();
+                        adapter.Fill(productsTable); // 填充查询结果
+                        return productsTable;
+                    }
+                }
+            }
+        }
+
+        public DataTable GetCustomizedProductsByMaterial(string material)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT * 
+            FROM 自定义产品表
+            WHERE 材料 = @Material;";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+
+                    using (var adapter = new SQLiteDataAdapter(command))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable); // 填充结果到 DataTable
+                        return dataTable;
+                    }
+                }
+            }
+        }
+        public DataTable GetCustomizedProductsByMaterialAndType(string material, string type)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT * 
+            FROM 自定义产品表
+            WHERE 材料 = @Material AND 类型 = @Type;";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+
+                    using (var adapter = new SQLiteDataAdapter(command))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable); // 填充结果到 DataTable
+                        return dataTable;
+                    }
+                }
+            }
+        }
+        public List<string> GetCustomizedNamesByMaterialAndType(string material, string type)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT 名称 
+            FROM 自定义产品表
+            WHERE 材料 = @Material AND 类型 = @Type;";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        List<string> names = new List<string>();
+
+                        while (reader.Read())
+                        {
+                            names.Add(reader["名称"].ToString());
+                        }
+
+                        return names;
+                    }
+                }
+            }
+        }
+        public List<string> GetCustomizedTypesByMaterial(string material)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT DISTINCT 类型 
+            FROM 自定义产品表
+            WHERE 材料 = @Material;";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        List<string> types = new List<string>();
+
+                        while (reader.Read())
+                        {
+                            types.Add(reader["类型"].ToString());
+                        }
+
+                        return types;
+                    }
+                }
+            }
+        }
+
         // 获取所有产品类型
         public List<string> GetAllProductTypes()
         {
@@ -131,6 +318,7 @@ namespace 计价器
 
             return productTypes;
         }
+
         // 获取指定材料的所有产品类型
         public List<string> GetProductTypesByMaterial(string material)
         {
@@ -173,6 +361,143 @@ namespace 计价器
                 }
             }
         }
+        public void InsertCustomizedProduct(CustomizedProduct customizedProduct)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 插入新数据
+                string insertQuery = @"INSERT INTO 自定义产品表 (
+                                    材料, 类型, 单价, 名称, 长度或宽度, 高度或深度, 长度或宽度英尺, 高度或深度英尺, 平方英尺, 设计价格, 设计数量, 
+                                    粉末涂层, 金色, 古铜色, 
+                                    含金属板, 含塑料, 含玻璃, 含弯曲, 含锁, 普通锁, 指纹锁, 密码锁, 
+                                    含柱子, 含闭门器, 含门中门, 含屏风, 含自动摆动, 含自动滑动, 
+                                    柱子价格, 柱子数量
+                                ) VALUES (
+                                    @Material, @Type, @UnitPrice, @Name, @WidthOrLength, @HeightOrDeepth, @WidthOrLengthFeet, @HeightOrDeepthFeet, @Sqft, @DesignPrice, @DesignQty, 
+                                    @IsPowder, @IsGold, @IsBronze, 
+                                    @HasMetalSheet, @HasPlastic, @HasGlass, @HasCurved, @HasLock, @NormalLock, @FingerLock, @CodeLock, 
+                                    @HasPole, @HasCloser, @HasDoorInDoor, @HasScreen, @HasAutoSwing, @HasAutoSliding, 
+                                    @PolePrice, @PoleQty
+                                );";
+
+                using (var command = new SQLiteCommand(insertQuery, connection))
+                {
+                    // 设置主要产品属性
+                    command.Parameters.AddWithValue("@Material", customizedProduct.Material);
+                    command.Parameters.AddWithValue("@Type", customizedProduct.Type);
+                    command.Parameters.AddWithValue("@UnitPrice", customizedProduct.UnitPrice);
+
+                    // 设置嵌套属性 ProductProperty
+                    var property = customizedProduct.Property;
+                    command.Parameters.AddWithValue("@Name", property.Name);
+                    command.Parameters.AddWithValue("@WidthOrLength", property.WidthOrLength);
+                    command.Parameters.AddWithValue("@HeightOrDeepth", property.HeightOrDeepth);
+                    command.Parameters.AddWithValue("@WidthOrLengthFeet", property.WidthOrLengthFeet);
+                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", property.HeightOrDeepthFeet);
+                    command.Parameters.AddWithValue("@Sqft", property.Sqft);
+                    command.Parameters.AddWithValue("@DesignPrice", property.DesignPrice);
+                    command.Parameters.AddWithValue("@DesignQty", property.DesignQty);
+
+                    // 设置布尔属性
+                    command.Parameters.AddWithValue("@IsPowder", property.IsPowder);
+                    command.Parameters.AddWithValue("@IsGold", property.IsGold);
+                    command.Parameters.AddWithValue("@IsBronze", property.IsBronze);
+
+                    command.Parameters.AddWithValue("@HasMetalSheet", property.HasMetalSheet);
+                    command.Parameters.AddWithValue("@HasPlastic", property.HasPlastic);
+                    command.Parameters.AddWithValue("@HasGlass", property.HasGlass);
+                    command.Parameters.AddWithValue("@HasCurved", property.HasCurved);
+                    command.Parameters.AddWithValue("@HasLock", property.HasLock);
+                    command.Parameters.AddWithValue("@NormalLock", property.NormalLock);
+                    command.Parameters.AddWithValue("@FingerLock", property.FingerLock);
+                    command.Parameters.AddWithValue("@CodeLock", property.CodeLock);
+
+                    command.Parameters.AddWithValue("@HasPole", property.HasPole);
+                    command.Parameters.AddWithValue("@HasCloser", property.HasCloser);
+                    command.Parameters.AddWithValue("@HasDoorInDoor", property.HasDoorInDoor);
+                    command.Parameters.AddWithValue("@HasScreen", property.HasScreen);
+                    command.Parameters.AddWithValue("@HasAutoSwing", property.HasAutoSwing);
+                    command.Parameters.AddWithValue("@HasAutoSliding", property.HasAutoSliding);
+
+                    // 设置柱子相关属性
+                    command.Parameters.AddWithValue("@PolePrice", property.PolePrice);
+                    command.Parameters.AddWithValue("@PoleQty", property.PoleQty);
+
+                    command.ExecuteNonQuery(); // 执行插入操作
+                }
+            }
+        }
+        public void InsertCustomizedProduct(string material, string type, string name, CustomizedProduct customizedProduct)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 插入新数据
+                string insertQuery = @"INSERT INTO 自定义产品表 (
+                                材料, 类型, 单价, 名称, 长度或宽度, 高度或深度, 长度或宽度英尺, 高度或深度英尺, 平方英尺, 设计价格, 设计数量, 
+                                粉末涂层, 金色, 古铜色, 
+                                含金属板, 含塑料, 含玻璃, 含弯曲, 含锁, 普通锁, 指纹锁, 密码锁, 
+                                含柱子, 含闭门器, 含门中门, 含屏风, 含自动摆动, 含自动滑动, 
+                                柱子价格, 柱子数量
+                            ) VALUES (
+                                @Material, @Type, @UnitPrice, @Name, @WidthOrLength, @HeightOrDeepth, @WidthOrLengthFeet, @HeightOrDeepthFeet, @Sqft, @DesignPrice, @DesignQty, 
+                                @IsPowder, @IsGold, @IsBronze, 
+                                @HasMetalSheet, @HasPlastic, @HasGlass, @HasCurved, @HasLock, @NormalLock, @FingerLock, @CodeLock, 
+                                @HasPole, @HasCloser, @HasDoorInDoor, @HasScreen, @HasAutoSwing, @HasAutoSliding, 
+                                @PolePrice, @PoleQty
+                            );";
+
+                using (var command = new SQLiteCommand(insertQuery, connection))
+                {
+                    // 设置主要产品属性
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+                    command.Parameters.AddWithValue("@UnitPrice", customizedProduct.UnitPrice);
+
+                    // 设置嵌套属性 ProductProperty
+                    var property = customizedProduct.Property;
+                    command.Parameters.AddWithValue("@Name", name);
+                    command.Parameters.AddWithValue("@WidthOrLength", property.WidthOrLength);
+                    command.Parameters.AddWithValue("@HeightOrDeepth", property.HeightOrDeepth);
+                    command.Parameters.AddWithValue("@WidthOrLengthFeet", property.WidthOrLengthFeet);
+                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", property.HeightOrDeepthFeet);
+                    command.Parameters.AddWithValue("@Sqft", property.Sqft);
+                    command.Parameters.AddWithValue("@DesignPrice", property.DesignPrice);
+                    command.Parameters.AddWithValue("@DesignQty", property.DesignQty);
+
+                    // 设置布尔属性
+                    command.Parameters.AddWithValue("@IsPowder", property.IsPowder);
+                    command.Parameters.AddWithValue("@IsGold", property.IsGold);
+                    command.Parameters.AddWithValue("@IsBronze", property.IsBronze);
+
+                    command.Parameters.AddWithValue("@HasMetalSheet", property.HasMetalSheet);
+                    command.Parameters.AddWithValue("@HasPlastic", property.HasPlastic);
+                    command.Parameters.AddWithValue("@HasGlass", property.HasGlass);
+                    command.Parameters.AddWithValue("@HasCurved", property.HasCurved);
+                    command.Parameters.AddWithValue("@HasLock", property.HasLock);
+                    command.Parameters.AddWithValue("@NormalLock", property.NormalLock);
+                    command.Parameters.AddWithValue("@FingerLock", property.FingerLock);
+                    command.Parameters.AddWithValue("@CodeLock", property.CodeLock);
+
+                    command.Parameters.AddWithValue("@HasPole", property.HasPole);
+                    command.Parameters.AddWithValue("@HasCloser", property.HasCloser);
+                    command.Parameters.AddWithValue("@HasDoorInDoor", property.HasDoorInDoor);
+                    command.Parameters.AddWithValue("@HasScreen", property.HasScreen);
+                    command.Parameters.AddWithValue("@HasAutoSwing", property.HasAutoSwing);
+                    command.Parameters.AddWithValue("@HasAutoSliding", property.HasAutoSliding);
+
+                    // 设置柱子相关属性
+                    command.Parameters.AddWithValue("@PolePrice", property.PolePrice);
+                    command.Parameters.AddWithValue("@PoleQty", property.PoleQty);
+
+                    command.ExecuteNonQuery(); // 执行插入操作
+                }
+            }
+        }
+
         // 更新“产品表”中的单价
         public void UpdateProductPrice(string material, string type, int newUnitPrice)
         {
@@ -189,6 +514,174 @@ namespace 计价器
                 }
             }
         }
+        public void UpdateCustomizedProduct(CustomizedProduct customizedProduct)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                // 更新数据
+                string updateQuery = @"
+            UPDATE 自定义产品表
+            SET 
+                单价 = @UnitPrice,
+                名称 = @Name,
+                长度或宽度 = @WidthOrLength,
+                高度或深度 = @HeightOrDeepth,
+                长度或宽度英尺 = @WidthOrLengthFeet,
+                高度或深度英尺 = @HeightOrDeepthFeet,
+                平方英尺 = @Sqft,
+                设计价格 = @DesignPrice,
+                设计数量 = @DesignQty,
+                粉末涂层 = @IsPowder,
+                金色 = @IsGold,
+                古铜色 = @IsBronze,
+                含金属板 = @HasMetalSheet,
+                含塑料 = @HasPlastic,
+                含玻璃 = @HasGlass,
+                含弯曲 = @HasCurved,
+                含锁 = @HasLock,
+                普通锁 = @NormalLock,
+                指纹锁 = @FingerLock,
+                密码锁 = @CodeLock,
+                含柱子 = @HasPole,
+                含闭门器 = @HasCloser,
+                含门中门 = @HasDoorInDoor,
+                含屏风 = @HasScreen,
+                含自动摆动 = @HasAutoSwing,
+                含自动滑动 = @HasAutoSliding,
+                柱子价格 = @PolePrice,
+                柱子数量 = @PoleQty
+            WHERE 
+                材料 = @Material AND 类型 = @Type;";
+
+                using (var command = new SQLiteCommand(updateQuery, connection))
+                {
+                    // 设置主要产品属性
+                    command.Parameters.AddWithValue("@Material", customizedProduct.Material);
+                    command.Parameters.AddWithValue("@Type", customizedProduct.Type);
+                    command.Parameters.AddWithValue("@UnitPrice", customizedProduct.UnitPrice);
+
+                    // 设置嵌套属性 ProductProperty
+                    var property = customizedProduct.Property;
+                    command.Parameters.AddWithValue("@Name", property.Name);
+                    command.Parameters.AddWithValue("@WidthOrLength", property.WidthOrLength);
+                    command.Parameters.AddWithValue("@HeightOrDeepth", property.HeightOrDeepth);
+                    command.Parameters.AddWithValue("@WidthOrLengthFeet", property.WidthOrLengthFeet);
+                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", property.HeightOrDeepthFeet);
+                    command.Parameters.AddWithValue("@Sqft", property.Sqft);
+                    command.Parameters.AddWithValue("@DesignPrice", property.DesignPrice);
+                    command.Parameters.AddWithValue("@DesignQty", property.DesignQty);
+
+                    // 设置布尔属性
+                    command.Parameters.AddWithValue("@IsPowder", property.IsPowder);
+                    command.Parameters.AddWithValue("@IsGold", property.IsGold);
+                    command.Parameters.AddWithValue("@IsBronze", property.IsBronze);
+                    command.Parameters.AddWithValue("@HasMetalSheet", property.HasMetalSheet);
+                    command.Parameters.AddWithValue("@HasPlastic", property.HasPlastic);
+                    command.Parameters.AddWithValue("@HasGlass", property.HasGlass);
+                    command.Parameters.AddWithValue("@HasCurved", property.HasCurved);
+                    command.Parameters.AddWithValue("@HasLock", property.HasLock);
+                    command.Parameters.AddWithValue("@NormalLock", property.NormalLock);
+                    command.Parameters.AddWithValue("@FingerLock", property.FingerLock);
+                    command.Parameters.AddWithValue("@CodeLock", property.CodeLock);
+                    command.Parameters.AddWithValue("@HasPole", property.HasPole);
+                    command.Parameters.AddWithValue("@HasCloser", property.HasCloser);
+                    command.Parameters.AddWithValue("@HasDoorInDoor", property.HasDoorInDoor);
+                    command.Parameters.AddWithValue("@HasScreen", property.HasScreen);
+                    command.Parameters.AddWithValue("@HasAutoSwing", property.HasAutoSwing);
+                    command.Parameters.AddWithValue("@HasAutoSliding", property.HasAutoSliding);
+                    command.Parameters.AddWithValue("@PolePrice", property.PolePrice);
+                    command.Parameters.AddWithValue("@PoleQty", property.PoleQty);
+
+                    command.ExecuteNonQuery(); // 执行更新操作
+                }
+            }
+        }
+
+        public void UpdateCustomizedProduct(string material, string type, string name, CustomizedProduct customizedProduct)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                // 更新数据
+                string updateQuery = @"
+            UPDATE 自定义产品表
+            SET 
+                单价 = @UnitPrice,
+                长度或宽度 = @WidthOrLength,
+                高度或深度 = @HeightOrDeepth,
+                长度或宽度英尺 = @WidthOrLengthFeet,
+                高度或深度英尺 = @HeightOrDeepthFeet,
+                平方英尺 = @Sqft,
+                设计价格 = @DesignPrice,
+                设计数量 = @DesignQty,
+                粉末涂层 = @IsPowder,
+                金色 = @IsGold,
+                古铜色 = @IsBronze,
+                含金属板 = @HasMetalSheet,
+                含塑料 = @HasPlastic,
+                含玻璃 = @HasGlass,
+                含弯曲 = @HasCurved,
+                含锁 = @HasLock,
+                普通锁 = @NormalLock,
+                指纹锁 = @FingerLock,
+                密码锁 = @CodeLock,
+                含柱子 = @HasPole,
+                含闭门器 = @HasCloser,
+                含门中门 = @HasDoorInDoor,
+                含屏风 = @HasScreen,
+                含自动摆动 = @HasAutoSwing,
+                含自动滑动 = @HasAutoSliding,
+                柱子价格 = @PolePrice,
+                柱子数量 = @PoleQty
+            WHERE 
+                材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
+
+                using (var command = new SQLiteCommand(updateQuery, connection))
+                {
+                    // 设置更新条件
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+                    command.Parameters.AddWithValue("@Name", name);
+
+                    // 设置更新内容
+                    var property = customizedProduct.Property;
+                    command.Parameters.AddWithValue("@UnitPrice", customizedProduct.UnitPrice);
+                    command.Parameters.AddWithValue("@WidthOrLength", property.WidthOrLength);
+                    command.Parameters.AddWithValue("@HeightOrDeepth", property.HeightOrDeepth);
+                    command.Parameters.AddWithValue("@WidthOrLengthFeet", property.WidthOrLengthFeet);
+                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", property.HeightOrDeepthFeet);
+                    command.Parameters.AddWithValue("@Sqft", property.Sqft);
+                    command.Parameters.AddWithValue("@DesignPrice", property.DesignPrice);
+                    command.Parameters.AddWithValue("@DesignQty", property.DesignQty);
+
+                    // 设置布尔属性
+                    command.Parameters.AddWithValue("@IsPowder", property.IsPowder);
+                    command.Parameters.AddWithValue("@IsGold", property.IsGold);
+                    command.Parameters.AddWithValue("@IsBronze", property.IsBronze);
+                    command.Parameters.AddWithValue("@HasMetalSheet", property.HasMetalSheet);
+                    command.Parameters.AddWithValue("@HasPlastic", property.HasPlastic);
+                    command.Parameters.AddWithValue("@HasGlass", property.HasGlass);
+                    command.Parameters.AddWithValue("@HasCurved", property.HasCurved);
+                    command.Parameters.AddWithValue("@HasLock", property.HasLock);
+                    command.Parameters.AddWithValue("@NormalLock", property.NormalLock);
+                    command.Parameters.AddWithValue("@FingerLock", property.FingerLock);
+                    command.Parameters.AddWithValue("@CodeLock", property.CodeLock);
+                    command.Parameters.AddWithValue("@HasPole", property.HasPole);
+                    command.Parameters.AddWithValue("@HasCloser", property.HasCloser);
+                    command.Parameters.AddWithValue("@HasDoorInDoor", property.HasDoorInDoor);
+                    command.Parameters.AddWithValue("@HasScreen", property.HasScreen);
+                    command.Parameters.AddWithValue("@HasAutoSwing", property.HasAutoSwing);
+                    command.Parameters.AddWithValue("@HasAutoSliding", property.HasAutoSliding);
+                    command.Parameters.AddWithValue("@PolePrice", property.PolePrice);
+                    command.Parameters.AddWithValue("@PoleQty", property.PoleQty);
+
+                    command.ExecuteNonQuery(); // 执行更新操作
+                }
+            }
+        }
 
         // 根据条件删除“产品表”中的一行数据
         public void DeleteProduct(string material, string type)
@@ -201,6 +694,47 @@ namespace 计价器
                 {
                     command.Parameters.AddWithValue("@Material", material); // 设置材料参数
                     command.Parameters.AddWithValue("@Type", type);         // 设置类型参数
+                    command.ExecuteNonQuery(); // 执行删除操作
+                }
+            }
+        }
+        public void DeleteCustomizedProduct(CustomizedProduct customizedProduct)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string deleteQuery = @"
+            DELETE FROM 自定义产品表
+            WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
+
+                using (var command = new SQLiteCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", customizedProduct.Material);
+                    command.Parameters.AddWithValue("@Type", customizedProduct.Type);
+
+                    command.Parameters.AddWithValue("@Name", customizedProduct.Property.Name);
+
+                    command.ExecuteNonQuery(); // 执行删除操作
+                }
+            }
+        }
+        public void DeleteCustomizedProduct(string material, string type, string name)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string deleteQuery = @"
+            DELETE FROM 自定义产品表
+            WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
+
+                using (var command = new SQLiteCommand(deleteQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+                    command.Parameters.AddWithValue("@Name", name);
+
                     command.ExecuteNonQuery(); // 执行删除操作
                 }
             }
@@ -223,7 +757,53 @@ namespace 计价器
                 }
             }
         }
+        public bool DoesProductExist(string material, string type, string name)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT COUNT(1) 
+            FROM 自定义产品表
+            WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+                    command.Parameters.AddWithValue("@Name", name);
+
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count > 0;
+                }
+            }
+        }
+        public bool DoesProductExist(CustomizedProduct customizedProduct)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT COUNT(1) 
+            FROM 自定义产品表
+            WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", customizedProduct.Material);
+                    command.Parameters.AddWithValue("@Type", customizedProduct.Type);
+                    command.Parameters.AddWithValue("@Name", customizedProduct.Property.Name);
+
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count > 0;
+                }
+            }
+        }
+
 
     }
+
 
 }

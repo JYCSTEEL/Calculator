@@ -95,8 +95,6 @@ namespace 计价器
         private BasicSetUp()
         {
             // 初始化逻辑（如果需要）
-            RB_IS_IRON.Checked = true;
-
         }
 
         // 静态属性，用于获取单例实例
@@ -108,6 +106,7 @@ namespace 计价器
             }
         }
 
+    
    
     }
 }
