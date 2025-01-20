@@ -18,7 +18,12 @@ namespace 计价器
         /// </summary>
         /// 
 
-        public DataGridView MainProductView {  get=> dataGridViewProducts; set=> dataGridViewProducts =value; }  
+        public CheckBox SelectAllCustomized { get => checkBoxSelectAllCustomizedList; set => checkBoxSelectAllCustomizedList = value; }
+        public CheckBox SelectAllCalculator { get => checkBoxSelectAllCalculatorList; set => checkBoxSelectAllCalculatorList = value; }
+        public CheckedListBox ChecklistBoxCustomized { get => checkedListBoxCustomized; set => checkedListBoxCustomized = value; }
+        public CheckedListBox ChecklistBoxCalculator { get => checkedListBoxCalculator; set => checkedListBoxCalculator = value; }
+
+        public DataGridView MainProductView { get => dataGridViewProducts; set => dataGridViewProducts = value; }
         public TabControl MaintabControl { get => tabControl; }
         public TabPage TabpageCalculator { get => tabPageCalculate; }
         public TabPage TabpageBasicSetUp { get => tabPageSetting; }
@@ -205,7 +210,7 @@ namespace 计价器
 
         public TextBox CC_TOTAL_PRICE { get => textBoxCalculatorTotalPrice; set => textBoxCalculatorTotalPrice = value; }
 
-
+        public Button CC_BTN_CALCULATE { get => buttonCalculatorCalculate; set => buttonCalculatorCalculate = value; }
 
         // 静态字段，存储单例实例
         private static readonly MainView _instance = new MainView();

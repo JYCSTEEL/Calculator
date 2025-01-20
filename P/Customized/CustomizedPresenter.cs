@@ -25,9 +25,18 @@ namespace 计价器
             // 初始化逻辑（如果需要）
             BindEvents();
             InitializeProductInfo();
+
+            InitializeCheckedListBox();
             InitializeData();
 
 
+        }
+
+        private void InitializeCheckedListBox()
+        {
+            
+            ViewMGR.IniatialAndSelectAllCheckedListBox("自定义产品表",CustomizedSetting.Instance.CheckListBoxCustomized);
+            CustomizedSetting.Instance.CP_SELECT_ALL.Checked = true;
         }
 
         // 静态属性，用于获取单例实例
@@ -100,7 +109,7 @@ namespace 计价器
             product.Property.HasCurved = CustomizedSetting.Instance.CURVED.Checked;
             product.Property.HasPole = CustomizedSetting.Instance.POLE.Checked;
             product.Property.HasLock = CustomizedSetting.Instance.HASLOCK.Checked;
-            product.Property.DesignPrice = SafeParseInt(CustomizedSetting.Instance.DESIGN_PRICE.Text, "设计价格");
+            product.Property.DesignPrice = SafeParseInt(CustomizedSetting.Instance.DESIGN_PRICE.Text, "花样价格");
 
             if (product.Property.HasPole)
             {
@@ -153,7 +162,7 @@ namespace 计价器
 
             product.Property.HasLock = CustomizedSetting.Instance.HASLOCK.Checked;
 
-            product.Property.DesignPrice = SafeParseInt(CustomizedSetting.Instance.DESIGN_PRICE.Text, "设计价格");
+            product.Property.DesignPrice = SafeParseInt(CustomizedSetting.Instance.DESIGN_PRICE.Text, "花样价格");
             if (product.Property.HasPole)
             {
                 product.Property.PolePrice = SafeParseInt(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
@@ -347,56 +356,51 @@ namespace 计价器
                 }
                 return true;
             }
-            public List<CustomizedProduct> ConvertDataTableToCustomizedProductList(DataTable dataTable)
+        public List<CustomizedProduct> ConvertDataTableToCustomizedProductList(DataTable dataTable)
+        {
+            List<CustomizedProduct> products = new List<CustomizedProduct>();
+
+            foreach (DataRow row in dataTable.Rows)
             {
-                List<CustomizedProduct> products = new List<CustomizedProduct>();
-
-                foreach (DataRow row in dataTable.Rows)
+                CustomizedProduct product = new CustomizedProduct
                 {
-                    CustomizedProduct product = new CustomizedProduct
+                    Material = row["材料"].ToString(),
+                    Type = row["类型"].ToString(),
+                    UnitPrice = row["单价"] != DBNull.Value ? Convert.ToInt32(row["单价"]) : 0,
+
+                    Property = new ProductProperty
                     {
-                        Material = row["材料"].ToString(),
-                        Type = row["类型"].ToString(),
-                        UnitPrice = row["单价"] != DBNull.Value ? Convert.ToInt32(row["单价"]) : 0,
-                        Property = new ProductProperty
-                        {
-                            ProductName = row["名称"].ToString(),
-                            WidthOrLength = row["长度或宽度"] != DBNull.Value ? Convert.ToInt32(row["长度或宽度"]) : 0,
-                            HeightOrDeepth = row["高度或深度"] != DBNull.Value ? Convert.ToInt32(row["高度或深度"]) : 0,
-                            WidthOrLengthFeet = row["长度或宽度英尺"] != DBNull.Value ? Convert.ToInt32(row["长度或宽度英尺"]) : 0,
-                            HeightOrDeepthFeet = row["高度或深度英尺"] != DBNull.Value ? Convert.ToInt32(row["高度或深度英尺"]) : 0,
-                            Sqft = row["平方英尺"] != DBNull.Value ? Convert.ToInt32(row["平方英尺"]) : 0,
-                            DesignPrice = row["设计价格"] != DBNull.Value ? Convert.ToInt32(row["设计价格"]) : 0,
-                            DesignQty = row["设计数量"] != DBNull.Value ? Convert.ToInt32(row["设计数量"]) : 0,
-                            IsPowder = row["粉末涂层"] != DBNull.Value && Convert.ToBoolean(row["粉末涂层"]),
-                            IsGold = row["金色"] != DBNull.Value && Convert.ToBoolean(row["金色"]),
-                            IsBronze = row["古铜色"] != DBNull.Value && Convert.ToBoolean(row["古铜色"]),
-                            HasMetalSheet = row["含金属板"] != DBNull.Value && Convert.ToBoolean(row["含金属板"]),
-                            HasPlastic = row["含塑料"] != DBNull.Value && Convert.ToBoolean(row["含塑料"]),
-                            HasGlass = row["含玻璃"] != DBNull.Value && Convert.ToBoolean(row["含玻璃"]),
-                            HasCurved = row["含弯曲"] != DBNull.Value && Convert.ToBoolean(row["含弯曲"]),
-                            HasLock = row["含锁"] != DBNull.Value && Convert.ToBoolean(row["含锁"]),
-                            NormalLock = row["普通锁"] != DBNull.Value && Convert.ToBoolean(row["普通锁"]),
-                            FingerLock = row["指纹锁"] != DBNull.Value && Convert.ToBoolean(row["指纹锁"]),
-                            CodeLock = row["密码锁"] != DBNull.Value && Convert.ToBoolean(row["密码锁"]),
-                            HasPole = row["含柱子"] != DBNull.Value && Convert.ToBoolean(row["含柱子"]),
-                            HasCloser = row["含闭门器"] != DBNull.Value && Convert.ToBoolean(row["含闭门器"]),
-                            HasDoorInDoor = row["含门中门"] != DBNull.Value && Convert.ToBoolean(row["含门中门"]),
-                            HasScreen = row["含屏风"] != DBNull.Value && Convert.ToBoolean(row["含屏风"]),
-                            HasAutoSwing = row["含自动摆动"] != DBNull.Value && Convert.ToBoolean(row["含自动摆动"]),
-                            HasAutoSliding = row["含自动滑动"] != DBNull.Value && Convert.ToBoolean(row["含自动滑动"]),
-                            PolePrice = row["柱子价格"] != DBNull.Value ? Convert.ToInt32(row["柱子价格"]) : 0,
-                            PoleQty = row["柱子数量"] != DBNull.Value ? Convert.ToInt32(row["柱子数量"]) : 0
-                        }
-                    };
+                        ProductName = row["名称"].ToString(),
+                        DesignPrice = row["花样价格"] != DBNull.Value ? Convert.ToInt32(row["花样价格"]) : 0,
+                        IsPowder = row["烤漆"] != DBNull.Value && Convert.ToBoolean(row["烤漆"]),
+                        IsGold = row["金色"] != DBNull.Value && Convert.ToBoolean(row["金色"]),
+                        IsBronze = row["古铜色"] != DBNull.Value && Convert.ToBoolean(row["古铜色"]),
+                        HasMetalSheet = row["铁板"] != DBNull.Value && Convert.ToBoolean(row["铁板"]),
+                        HasPlastic = row["胶板"] != DBNull.Value && Convert.ToBoolean(row["胶板"]),
+                        HasGlass = row["玻璃"] != DBNull.Value && Convert.ToBoolean(row["玻璃"]),
+                        HasCurved = row["弧形"] != DBNull.Value && Convert.ToBoolean(row["弧形"]),
+                        HasLock = row["有锁"] != DBNull.Value && Convert.ToBoolean(row["有锁"]),
+                        NormalLock = row["普通锁"] != DBNull.Value && Convert.ToBoolean(row["普通锁"]),
+                        FingerLock = row["指纹锁"] != DBNull.Value && Convert.ToBoolean(row["指纹锁"]),
+                        CodeLock = row["密码锁"] != DBNull.Value && Convert.ToBoolean(row["密码锁"]),
+                        HasPole = row["有柱子"] != DBNull.Value && Convert.ToBoolean(row["有柱子"]),
+                        HasCloser = row["有闭门器"] != DBNull.Value && Convert.ToBoolean(row["有闭门器"]),
+                        HasDoorInDoor = row["门中门"] != DBNull.Value && Convert.ToBoolean(row["门中门"]),
+                        HasScreen = row["纱窗"] != DBNull.Value && Convert.ToBoolean(row["纱窗"]),
+                        HasAutoSwing = row["电动双开"] != DBNull.Value && Convert.ToBoolean(row["电动双开"]),
+                        HasAutoSliding = row["电动推拉"] != DBNull.Value && Convert.ToBoolean(row["电动推拉"]),
+                        PolePrice = row["柱子价格"] != DBNull.Value ? Convert.ToInt32(row["柱子价格"]) : 0,
+                        PoleQty = row["柱子数量"] != DBNull.Value ? Convert.ToInt32(row["柱子数量"]) : 0
+                    }
+                };
 
-                    products.Add(product);
-                }
-
-                return products;
+                products.Add(product);
             }
 
-       
+            return products;
+        }
+
+
 
         private int SafeParseInt(string input, string fieldName)
         {
@@ -411,5 +415,6 @@ namespace 计价器
             }
         }
 
+    
     }
 }

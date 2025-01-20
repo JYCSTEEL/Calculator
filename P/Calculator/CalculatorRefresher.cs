@@ -159,24 +159,19 @@ namespace 计价器
 
         public void ReFreshDataGridView()
         {
-
+         
             BindingSource bindingSource = new BindingSource();
             bindingSource.DataSource = DatabaseHelper.Instance.GetAllCalculatorProducts();
          
           
             Calculator.Instance.DATAVIEW.DataSource = bindingSource;
-            DataTable dt = bindingSource.DataSource as DataTable;
-      
-            string[] names = new string[] { "材料", "类型", "名称", "单个产品价格", "产品数量", "总共价格" };
 
-            //材料, 类型, 名称, 单价, 长度或宽度, 高度或深度, 长度或宽度英尺, 高度或深度英尺, 平方英尺, 设计价格, 设计数量, 
-            //                    粉末涂层, 金色, 古铜色, 
-            //                    含金属板, 含塑料, 含玻璃, 含弯曲, 含锁, 普通锁, 指纹锁, 密码锁, 
-            //                    含柱子, 含闭门器, 含门中门, 含屏风, 含自动摆动, 含自动滑动, 
-            //                    柱子价格, 柱子数量, 单个产品价格, 产品数量, 总共价格
-            DatagridviewMGR.SetDataTableOnlyShow(Calculator.Instance.DATAVIEW, dt, names);
+            List<string> names = ViewMGR.GetCheckedNamesFromCheckedListBox(Calculator.Instance.CheckListBoxCalculator);
+
+
+            ViewMGR.OnlyShowColumnsByNames(Calculator.Instance.DATAVIEW, names);
         }
-
+   
         public void LoadType()
         {
             LoadComboBoxType();

@@ -15,7 +15,7 @@ namespace 计价器
         // 私有构造函数，防止外部实例化
         private CustomizedRefresher()
         {
-      
+
 
         }
         public static CustomizedRefresher Instance
@@ -25,7 +25,7 @@ namespace 计价器
                 return _instance;
             }
         }
-    
+
         private void LoadComboBoxType()
         {
 
@@ -48,7 +48,7 @@ namespace 计价器
             {
                 CustomizedSetting.Instance.TYPE.SelectedIndex = 0;
             }
-        
+
 
         }
         private void LoadComboBoxName()
@@ -76,7 +76,7 @@ namespace 计价器
             {
                 CustomizedSetting.Instance.CB_NAME.SelectedIndex = 0;
             }
-   
+
 
         }
 
@@ -161,25 +161,7 @@ namespace 计价器
             ReFreshDataGridView();
         }
 
-        private void ReFreshDataGridView()
-        {
 
-            BindingSource bindingSource = new BindingSource();
-            bindingSource.DataSource = DatabaseHelper.Instance.GetAllCustomizedProducts();
-         
-          
-            CustomizedSetting.Instance.DATAVIEW.DataSource = bindingSource;
-            DataTable dt = bindingSource.DataSource as DataTable;
-
-            string[] names = new string[] { "材料", "类型", "名称", "单价", "粉末涂层", "金色", "古铜色", "含金属板", "含塑料", "含玻璃", "含弯曲" };
-
-            //材料, 类型, 名称, 单价, 长度或宽度, 高度或深度, 长度或宽度英尺, 高度或深度英尺, 平方英尺, 设计价格, 设计数量, 
-            //                    粉末涂层, 金色, 古铜色, 
-            //                    含金属板, 含塑料, 含玻璃, 含弯曲, 含锁, 普通锁, 指纹锁, 密码锁, 
-            //                    含柱子, 含闭门器, 含门中门, 含屏风, 含自动摆动, 含自动滑动, 
-            //                    柱子价格, 柱子数量
-            DatagridviewMGR.SetDataTableOnlyShow(CustomizedSetting.Instance.DATAVIEW, dt, names);
-        }
 
         public void LoadType()
         {
@@ -198,6 +180,25 @@ namespace 计价器
             LoadComboBoxType();
             LoadComboBoxName();
             LoadProperty();
+            ReFreshDataGridView();
+        }
+
+        public void ReFreshDataGridView()
+        {
+
+            BindingSource bindingSource = new BindingSource();
+            bindingSource.DataSource = DatabaseHelper.Instance.GetAllCustomizedProducts();
+
+
+            CustomizedSetting.Instance.DATAVIEW.DataSource = bindingSource;
+
+            List<string> names = ViewMGR.GetCheckedNamesFromCheckedListBox(CustomizedSetting.Instance.CheckListBoxCustomized);
+
+
+            ViewMGR.OnlyShowColumnsByNames(CustomizedSetting.Instance.DATAVIEW, names);
+        }
+        public void ReFreshDataGridView(object sender, EventArgs e)
+        {
             ReFreshDataGridView();
         }
     }

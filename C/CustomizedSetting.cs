@@ -16,7 +16,10 @@ namespace 计价器
         public ComboBox MATERIAL { get => mainView.CP_MATERIAL; set => mainView.CP_MATERIAL = value; }
         public ComboBox TYPE { get => mainView.CP_TYPE; set => mainView.CP_TYPE = value; }
 
+        public CheckedListBox CheckListBoxCustomized { get => mainView.ChecklistBoxCustomized; set => mainView.ChecklistBoxCustomized = value; }
 
+
+        public CheckBox CP_SELECT_ALL { get => mainView.SelectAllCustomized; set => mainView.SelectAllCustomized = value; }
 
         public DataGridView DATAVIEW { get => mainView.CP_DATA_VIEW; set => mainView.CP_DATA_VIEW = value; }
     
@@ -72,7 +75,7 @@ namespace 计价器
             }
         }
 
-    
-   
+
+     
     }
 }

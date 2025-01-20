@@ -81,38 +81,32 @@ namespace 计价器
                     if (result == null)
                     {
                         string createTableQuery = @"
-                    CREATE TABLE 自定义产品表 (
-                        材料 TEXT,
-                        类型 TEXT,
-                        单价 INTEGER,
-                        名称 TEXT,
-                        长度或宽度 INTEGER,
-                        高度或深度 INTEGER,
-                        长度或宽度英尺 INTEGER,
-                        高度或深度英尺 INTEGER,
-                        平方英尺 INTEGER,
-                        设计价格 INTEGER,
-                        设计数量 INTEGER,
-                        粉末涂层 BOOLEAN,
-                        金色 BOOLEAN,
-                        古铜色 BOOLEAN,
-                        含金属板 BOOLEAN,
-                        含塑料 BOOLEAN,
-                        含玻璃 BOOLEAN,
-                        含弯曲 BOOLEAN,
-                        含锁 BOOLEAN,
-                        普通锁 BOOLEAN,
-                        指纹锁 BOOLEAN,
-                        密码锁 BOOLEAN,
-                        含柱子 BOOLEAN,
-                        含闭门器 BOOLEAN,
-                        含门中门 BOOLEAN,
-                        含屏风 BOOLEAN,
-                        含自动摆动 BOOLEAN,
-                        含自动滑动 BOOLEAN,
-                        柱子价格 INTEGER,
-                        柱子数量 INTEGER
-                    );";
+                CREATE TABLE 自定义产品表 (
+                    材料 TEXT,
+                    类型 TEXT,
+                    名称 TEXT,
+                    单价 INTEGER,
+                    花样价格 INTEGER,
+                    烤漆 BOOLEAN,
+                    金色 BOOLEAN,
+                    古铜色 BOOLEAN,
+                    铁板 BOOLEAN,
+                    胶板 BOOLEAN,
+                    玻璃 BOOLEAN,
+                    弧形 BOOLEAN,
+                    有锁 BOOLEAN,
+                    普通锁 BOOLEAN,
+                    指纹锁 BOOLEAN,
+                    密码锁 BOOLEAN,
+                    有柱子 BOOLEAN,
+                    有闭门器 BOOLEAN,
+                    门中门 BOOLEAN,
+                    纱窗 BOOLEAN,
+                    电动双开 BOOLEAN,
+                    电动推拉 BOOLEAN,
+                    柱子价格 INTEGER,
+                    柱子数量 INTEGER
+                );";
                         using (var createCommand = new SQLiteCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
@@ -121,7 +115,6 @@ namespace 计价器
                 }
             }
         }
-
         public void EnsureCalculatorTableExists()
         {
             using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
@@ -138,42 +131,41 @@ namespace 计价器
                     if (result == null)
                     {
                         string createTableQuery = @"
-                    CREATE TABLE 计价表 (
-                        材料 TEXT,
-                        类型 TEXT,
- 名称 TEXT,
-                        单价 INTEGER,
-                       
-                        长度或宽度 INTEGER,
-                        高度或深度 INTEGER,
-                        长度或宽度英尺 INTEGER,
-                        高度或深度英尺 INTEGER,
-                        平方英尺 INTEGER,
-                        设计价格 INTEGER,
-                        设计数量 INTEGER,
-                        粉末涂层 BOOLEAN,
-                        金色 BOOLEAN,
-                        古铜色 BOOLEAN,
-                        含金属板 BOOLEAN,
-                        含塑料 BOOLEAN,
-                        含玻璃 BOOLEAN,
-                        含弯曲 BOOLEAN,
-                        含锁 BOOLEAN,
-                        普通锁 BOOLEAN,
-                        指纹锁 BOOLEAN,
-                        密码锁 BOOLEAN,
-                        含柱子 BOOLEAN,
-                        含闭门器 BOOLEAN,
-                        含门中门 BOOLEAN,
-                        含屏风 BOOLEAN,
-                        含自动摆动 BOOLEAN,
-                        含自动滑动 BOOLEAN,
-                        柱子价格 INTEGER,
-                        柱子数量 INTEGER,
-                        单个产品价格 INTEGER,
-                        产品数量 INTEGER,
-                        总共价格 INTEGER
-                    );";
+                CREATE TABLE 计价表 (
+                    材料 TEXT,
+                    类型 TEXT,
+                    名称 TEXT,
+                    单价 INTEGER,
+                    长度或宽度 INTEGER,
+                    高度或深度 INTEGER,
+                    长度或宽度英尺 INTEGER,
+                    高度或深度英尺 INTEGER,
+                    平方英尺 INTEGER,
+                    花样价格 INTEGER,
+                    花样数量 INTEGER,
+                    烤漆 BOOLEAN,
+                    金色 BOOLEAN,
+                    古铜色 BOOLEAN,
+                    铁板 BOOLEAN,
+                    胶板 BOOLEAN,
+                    玻璃 BOOLEAN,
+                    弧形 BOOLEAN,
+                    有锁 BOOLEAN,
+                    普通锁 BOOLEAN,
+                    指纹锁 BOOLEAN,
+                    密码锁 BOOLEAN,
+                    有柱子 BOOLEAN,
+                    有闭门器 BOOLEAN,
+                    门中门 BOOLEAN,
+                    纱窗 BOOLEAN,
+                    电动双开 BOOLEAN,
+                    电动推拉 BOOLEAN,
+                    柱子价格 INTEGER,
+                    柱子数量 INTEGER,
+                    单个产品价格 INTEGER,
+                    产品数量 INTEGER,
+                    总共价格 INTEGER
+                );";
                         using (var createCommand = new SQLiteCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
@@ -182,7 +174,6 @@ namespace 计价器
                 }
             }
         }
-
 
         public int GetUnitPrice(string material, string type)
         {
@@ -371,7 +362,7 @@ namespace 计价器
                 }
             }
         }
-        public List<string> GetCalculatorNamesByMaterialAndType(string material, string type, string name)
+        public List<string> GetCalculatorNamesByMaterialAndType(string material, string type)
         {
             using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
             {
@@ -380,13 +371,12 @@ namespace 计价器
                 string query = @"
             SELECT 名称 
             FROM 计价表
-            WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
+            WHERE 材料 = @Material AND 类型 = @Type;";
 
                 using (var command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Material", material);
                     command.Parameters.AddWithValue("@Type", type);
-                    command.Parameters.AddWithValue("@Name", name);
                     using (var reader = command.ExecuteReader())
                     {
                         List<string> names = new List<string>();
@@ -505,18 +495,18 @@ namespace 计价器
 
                 // 插入新数据
                 string insertQuery = @"INSERT INTO 自定义产品表 (
-                                    材料, 类型, 单价, 名称, 长度或宽度, 高度或深度, 长度或宽度英尺, 高度或深度英尺, 平方英尺, 设计价格, 设计数量, 
-                                    粉末涂层, 金色, 古铜色, 
-                                    含金属板, 含塑料, 含玻璃, 含弯曲, 含锁, 普通锁, 指纹锁, 密码锁, 
-                                    含柱子, 含闭门器, 含门中门, 含屏风, 含自动摆动, 含自动滑动, 
-                                    柱子价格, 柱子数量
-                                ) VALUES (
-                                    @Material, @Type, @UnitPrice, @Name, @WidthOrLength, @HeightOrDeepth, @WidthOrLengthFeet, @HeightOrDeepthFeet, @Sqft, @DesignPrice, @DesignQty, 
-                                    @IsPowder, @IsGold, @IsBronze, 
-                                    @HasMetalSheet, @HasPlastic, @HasGlass, @HasCurved, @HasLock, @NormalLock, @FingerLock, @CodeLock, 
-                                    @HasPole, @HasCloser, @HasDoorInDoor, @HasScreen, @HasAutoSwing, @HasAutoSliding, 
-                                    @PolePrice, @PoleQty
-                                );";
+                                材料, 类型, 名称, 单价, 花样价格,  
+                                烤漆, 金色, 古铜色,  
+                                铁板, 胶板, 玻璃, 弧形, 有锁, 普通锁, 指纹锁, 密码锁,  
+                                有柱子, 有闭门器, 门中门, 纱窗, 电动双开, 电动推拉,  
+                                柱子价格, 柱子数量
+                            ) VALUES (
+                                @Material, @Type, @Name, @UnitPrice, @DesignPrice,  
+                                @IsPowder, @IsGold, @IsBronze,  
+                                @HasMetalSheet, @HasPlastic, @HasGlass, @HasCurved, @HasLock, @NormalLock, @FingerLock, @CodeLock,  
+                                @HasPole, @HasCloser, @HasDoorInDoor, @HasScreen, @HasAutoSwing, @HasAutoSliding,  
+                                @PolePrice, @PoleQty
+                            );";
 
                 using (var command = new SQLiteCommand(insertQuery, connection))
                 {
@@ -528,13 +518,7 @@ namespace 计价器
                     // 设置嵌套属性 ProductProperty
                     var property = customizedProduct.Property;
                     command.Parameters.AddWithValue("@Name", property.ProductName);
-                    command.Parameters.AddWithValue("@WidthOrLength", property.WidthOrLength);
-                    command.Parameters.AddWithValue("@HeightOrDeepth", property.HeightOrDeepth);
-                    command.Parameters.AddWithValue("@WidthOrLengthFeet", property.WidthOrLengthFeet);
-                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", property.HeightOrDeepthFeet);
-                    command.Parameters.AddWithValue("@Sqft", property.Sqft);
                     command.Parameters.AddWithValue("@DesignPrice", property.DesignPrice);
-                    command.Parameters.AddWithValue("@DesignQty", property.DesignQty);
 
                     // 设置布尔属性
                     command.Parameters.AddWithValue("@IsPowder", property.IsPowder);
@@ -565,6 +549,7 @@ namespace 计价器
                 }
             }
         }
+
         public void InsertCalculatorProduct(CalculatorProduct customizedProduct)
         {
             using (var connection = new SQLiteConnection(_connectionString))
@@ -573,18 +558,18 @@ namespace 计价器
 
                 // 插入新数据
                 string insertQuery = @"INSERT INTO 计价表 (
-                                材料, 类型, 名称, 单价, 长度或宽度, 高度或深度, 长度或宽度英尺, 高度或深度英尺, 平方英尺, 设计价格, 设计数量, 
-                                粉末涂层, 金色, 古铜色, 
-                                含金属板, 含塑料, 含玻璃, 含弯曲, 含锁, 普通锁, 指纹锁, 密码锁, 
-                                含柱子, 含闭门器, 含门中门, 含屏风, 含自动摆动, 含自动滑动, 
-                                柱子价格, 柱子数量, 单个产品价格, 产品数量, 总共价格
-                            ) VALUES (
-                                @Material, @Type, @Name, @UnitPrice, @WidthOrLength, @HeightOrDeepth, @WidthOrLengthFeet, @HeightOrDeepthFeet, @Sqft, @DesignPrice, @DesignQty, 
-                                @IsPowder, @IsGold, @IsBronze, 
-                                @HasMetalSheet, @HasPlastic, @HasGlass, @HasCurved, @HasLock, @NormalLock, @FingerLock, @CodeLock, 
-                                @HasPole, @HasCloser, @HasDoorInDoor, @HasScreen, @HasAutoSwing, @HasAutoSliding, 
-                                @PolePrice, @PoleQty, @SinglePrice, @Qty, @TotalPrice
-                            );";
+                            材料, 类型, 名称, 单价, 长度或宽度, 高度或深度, 长度或宽度英尺, 高度或深度英尺, 平方英尺, 花样价格, 花样数量, 
+                            烤漆, 金色, 古铜色, 
+                            铁板, 胶板, 玻璃, 弧形, 有锁, 普通锁, 指纹锁, 密码锁, 
+                            有柱子, 有闭门器, 门中门, 纱窗, 电动双开, 电动推拉, 
+                            柱子价格, 柱子数量, 单个产品价格, 产品数量, 总共价格
+                        ) VALUES (
+                            @Material, @Type, @Name, @UnitPrice, @WidthOrLength, @HeightOrDeepth, @WidthOrLengthFeet, @HeightOrDeepthFeet, @Sqft, @DesignPrice, @DesignQty, 
+                            @IsPowder, @IsGold, @IsBronze, 
+                            @HasMetalSheet, @HasPlastic, @HasGlass, @HasCurved, @HasLock, @NormalLock, @FingerLock, @CodeLock, 
+                            @HasPole, @HasCloser, @HasDoorInDoor, @HasScreen, @HasAutoSwing, @HasAutoSliding, 
+                            @PolePrice, @PoleQty, @SinglePrice, @Qty, @TotalPrice
+                        );";
 
                 using (var command = new SQLiteCommand(insertQuery, connection))
                 {
@@ -604,13 +589,13 @@ namespace 计价器
                     command.Parameters.AddWithValue("@TotalPrice", customizedProduct.TotalPrice);
 
                     // 其他参数校验和绑定
-                    command.Parameters.AddWithValue("@WidthOrLength", property?.WidthOrLength ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@HeightOrDeepth", property?.HeightOrDeepth ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@WidthOrLengthFeet", property?.WidthOrLengthFeet ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", property?.HeightOrDeepthFeet ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@Sqft", property?.Sqft ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@WidthOrLength", customizedProduct.WidthOrLength);
+                    command.Parameters.AddWithValue("@HeightOrDeepth", customizedProduct.HeightOrDeepth);
+                    command.Parameters.AddWithValue("@WidthOrLengthFeet", customizedProduct.WidthOrLengthFeet);
+                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", customizedProduct.HeightOrDeepthFeet);
+                    command.Parameters.AddWithValue("@Sqft", customizedProduct.Sqft);
                     command.Parameters.AddWithValue("@DesignPrice", property?.DesignPrice ?? (object)DBNull.Value);
-                    command.Parameters.AddWithValue("@DesignQty", property?.DesignQty ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@DesignQty", customizedProduct.DesignQty);
 
                     // 布尔值转换为数据库支持的整数
                     command.Parameters.AddWithValue("@IsPowder", property?.IsPowder == true ? 1 : 0);
@@ -640,74 +625,6 @@ namespace 计价器
             }
         }
 
-        public void InsertCustomizedProduct(string material, string type, string name, CustomizedProduct customizedProduct)
-        {
-            using (var connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-
-                // 插入新数据
-                string insertQuery = @"INSERT INTO 自定义产品表 (
-                                材料, 类型, 单价, 名称, 长度或宽度, 高度或深度, 长度或宽度英尺, 高度或深度英尺, 平方英尺, 设计价格, 设计数量, 
-                                粉末涂层, 金色, 古铜色, 
-                                含金属板, 含塑料, 含玻璃, 含弯曲, 含锁, 普通锁, 指纹锁, 密码锁, 
-                                含柱子, 含闭门器, 含门中门, 含屏风, 含自动摆动, 含自动滑动, 
-                                柱子价格, 柱子数量
-                            ) VALUES (
-                                @Material, @Type, @UnitPrice, @Name, @WidthOrLength, @HeightOrDeepth, @WidthOrLengthFeet, @HeightOrDeepthFeet, @Sqft, @DesignPrice, @DesignQty, 
-                                @IsPowder, @IsGold, @IsBronze, 
-                                @HasMetalSheet, @HasPlastic, @HasGlass, @HasCurved, @HasLock, @NormalLock, @FingerLock, @CodeLock, 
-                                @HasPole, @HasCloser, @HasDoorInDoor, @HasScreen, @HasAutoSwing, @HasAutoSliding, 
-                                @PolePrice, @PoleQty
-                            );";
-
-                using (var command = new SQLiteCommand(insertQuery, connection))
-                {
-                    // 设置主要产品属性
-                    command.Parameters.AddWithValue("@Material", material);
-                    command.Parameters.AddWithValue("@Type", type);
-                    command.Parameters.AddWithValue("@UnitPrice", customizedProduct.UnitPrice);
-
-                    // 设置嵌套属性 ProductProperty
-                    var property = customizedProduct.Property;
-                    command.Parameters.AddWithValue("@Name", name);
-                    command.Parameters.AddWithValue("@WidthOrLength", property.WidthOrLength);
-                    command.Parameters.AddWithValue("@HeightOrDeepth", property.HeightOrDeepth);
-                    command.Parameters.AddWithValue("@WidthOrLengthFeet", property.WidthOrLengthFeet);
-                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", property.HeightOrDeepthFeet);
-                    command.Parameters.AddWithValue("@Sqft", property.Sqft);
-                    command.Parameters.AddWithValue("@DesignPrice", property.DesignPrice);
-                    command.Parameters.AddWithValue("@DesignQty", property.DesignQty);
-
-                    // 设置布尔属性
-                    command.Parameters.AddWithValue("@IsPowder", property.IsPowder);
-                    command.Parameters.AddWithValue("@IsGold", property.IsGold);
-                    command.Parameters.AddWithValue("@IsBronze", property.IsBronze);
-
-                    command.Parameters.AddWithValue("@HasMetalSheet", property.HasMetalSheet);
-                    command.Parameters.AddWithValue("@HasPlastic", property.HasPlastic);
-                    command.Parameters.AddWithValue("@HasGlass", property.HasGlass);
-                    command.Parameters.AddWithValue("@HasCurved", property.HasCurved);
-                    command.Parameters.AddWithValue("@HasLock", property.HasLock);
-                    command.Parameters.AddWithValue("@NormalLock", property.NormalLock);
-                    command.Parameters.AddWithValue("@FingerLock", property.FingerLock);
-                    command.Parameters.AddWithValue("@CodeLock", property.CodeLock);
-
-                    command.Parameters.AddWithValue("@HasPole", property.HasPole);
-                    command.Parameters.AddWithValue("@HasCloser", property.HasCloser);
-                    command.Parameters.AddWithValue("@HasDoorInDoor", property.HasDoorInDoor);
-                    command.Parameters.AddWithValue("@HasScreen", property.HasScreen);
-                    command.Parameters.AddWithValue("@HasAutoSwing", property.HasAutoSwing);
-                    command.Parameters.AddWithValue("@HasAutoSliding", property.HasAutoSliding);
-
-                    // 设置柱子相关属性
-                    command.Parameters.AddWithValue("@PolePrice", property.PolePrice);
-                    command.Parameters.AddWithValue("@PoleQty", property.PoleQty);
-
-                    command.ExecuteNonQuery(); // 执行插入操作
-                }
-            }
-        }
 
         // 更新“产品表”中的单价
         public void UpdateProductPrice(string material, string type, int newUnitPrice)
@@ -737,30 +654,24 @@ namespace 计价器
         SET 
             单价 = @UnitPrice,
             名称 = @NewName,
-            长度或宽度 = @WidthOrLength,
-            高度或深度 = @HeightOrDeepth,
-            长度或宽度英尺 = @WidthOrLengthFeet,
-            高度或深度英尺 = @HeightOrDeepthFeet,
-            平方英尺 = @Sqft,
-            设计价格 = @DesignPrice,
-            设计数量 = @DesignQty,
-            粉末涂层 = @IsPowder,
+            花样价格 = @DesignPrice,
+            烤漆 = @IsPowder,
             金色 = @IsGold,
             古铜色 = @IsBronze,
-            含金属板 = @HasMetalSheet,
-            含塑料 = @HasPlastic,
-            含玻璃 = @HasGlass,
-            含弯曲 = @HasCurved,
-            含锁 = @HasLock,
+            铁板 = @HasMetalSheet,
+            胶板 = @HasPlastic,
+            玻璃 = @HasGlass,
+            弧形 = @HasCurved,
+            有锁 = @HasLock,
             普通锁 = @NormalLock,
             指纹锁 = @FingerLock,
             密码锁 = @CodeLock,
-            含柱子 = @HasPole,
-            含闭门器 = @HasCloser,
-            含门中门 = @HasDoorInDoor,
-            含屏风 = @HasScreen,
-            含自动摆动 = @HasAutoSwing,
-            含自动滑动 = @HasAutoSliding,
+            有柱子 = @HasPole,
+            有闭门器 = @HasCloser,
+            门中门 = @HasDoorInDoor,
+            纱窗 = @HasScreen,
+            电动双开 = @HasAutoSwing,
+            电动推拉 = @HasAutoSliding,
             柱子价格 = @PolePrice,
             柱子数量 = @PoleQty
         WHERE 
@@ -777,32 +688,28 @@ namespace 计价器
                     var property = updatedProduct.Property;
                     command.Parameters.AddWithValue("@UnitPrice", updatedProduct.UnitPrice);
                     command.Parameters.AddWithValue("@NewName", property.ProductName);
-                    command.Parameters.AddWithValue("@WidthOrLength", property.WidthOrLength);
-                    command.Parameters.AddWithValue("@HeightOrDeepth", property.HeightOrDeepth);
-                    command.Parameters.AddWithValue("@WidthOrLengthFeet", property.WidthOrLengthFeet);
-                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", property.HeightOrDeepthFeet);
-                    command.Parameters.AddWithValue("@Sqft", property.Sqft);
                     command.Parameters.AddWithValue("@DesignPrice", property.DesignPrice);
-                    command.Parameters.AddWithValue("@DesignQty", property.DesignQty);
 
                     // 设置布尔属性的参数
-                    command.Parameters.AddWithValue("@IsPowder", property.IsPowder);
-                    command.Parameters.AddWithValue("@IsGold", property.IsGold);
-                    command.Parameters.AddWithValue("@IsBronze", property.IsBronze);
-                    command.Parameters.AddWithValue("@HasMetalSheet", property.HasMetalSheet);
-                    command.Parameters.AddWithValue("@HasPlastic", property.HasPlastic);
-                    command.Parameters.AddWithValue("@HasGlass", property.HasGlass);
-                    command.Parameters.AddWithValue("@HasCurved", property.HasCurved);
-                    command.Parameters.AddWithValue("@HasLock", property.HasLock);
-                    command.Parameters.AddWithValue("@NormalLock", property.NormalLock);
-                    command.Parameters.AddWithValue("@FingerLock", property.FingerLock);
-                    command.Parameters.AddWithValue("@CodeLock", property.CodeLock);
-                    command.Parameters.AddWithValue("@HasPole", property.HasPole);
-                    command.Parameters.AddWithValue("@HasCloser", property.HasCloser);
-                    command.Parameters.AddWithValue("@HasDoorInDoor", property.HasDoorInDoor);
-                    command.Parameters.AddWithValue("@HasScreen", property.HasScreen);
-                    command.Parameters.AddWithValue("@HasAutoSwing", property.HasAutoSwing);
-                    command.Parameters.AddWithValue("@HasAutoSliding", property.HasAutoSliding);
+                    command.Parameters.AddWithValue("@IsPowder", property.IsPowder ? 1 : 0);
+                    command.Parameters.AddWithValue("@IsGold", property.IsGold ? 1 : 0);
+                    command.Parameters.AddWithValue("@IsBronze", property.IsBronze ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasMetalSheet", property.HasMetalSheet ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasPlastic", property.HasPlastic ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasGlass", property.HasGlass ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasCurved", property.HasCurved ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasLock", property.HasLock ? 1 : 0);
+                    command.Parameters.AddWithValue("@NormalLock", property.NormalLock ? 1 : 0);
+                    command.Parameters.AddWithValue("@FingerLock", property.FingerLock ? 1 : 0);
+                    command.Parameters.AddWithValue("@CodeLock", property.CodeLock ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasPole", property.HasPole ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasCloser", property.HasCloser ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasDoorInDoor", property.HasDoorInDoor ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasScreen", property.HasScreen ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasAutoSwing", property.HasAutoSwing ? 1 : 0);
+                    command.Parameters.AddWithValue("@HasAutoSliding", property.HasAutoSliding ? 1 : 0);
+
+                    // 设置柱子相关属性
                     command.Parameters.AddWithValue("@PolePrice", property.PolePrice);
                     command.Parameters.AddWithValue("@PoleQty", property.PoleQty);
 
@@ -810,6 +717,7 @@ namespace 计价器
                 }
             }
         }
+
         public void UpdateCalculatorProduct(CalculatorProduct queryProduct, CalculatorProduct updatedProduct)
         {
             using (var connection = new SQLiteConnection(_connectionString))
@@ -829,25 +737,25 @@ namespace 计价器
             长度或宽度英尺 = @WidthOrLengthFeet,
             高度或深度英尺 = @HeightOrDeepthFeet,
             平方英尺 = @Sqft,
-            设计价格 = @DesignPrice,
-            设计数量 = @DesignQty,
-            粉末涂层 = @IsPowder,
+            花样价格 = @DesignPrice,
+            花样数量 = @DesignQty,
+            烤漆 = @IsPowder,
             金色 = @IsGold,
             古铜色 = @IsBronze,
-            含金属板 = @HasMetalSheet,
-            含塑料 = @HasPlastic,
-            含玻璃 = @HasGlass,
-            含弯曲 = @HasCurved,
-            含锁 = @HasLock,
+            铁板 = @HasMetalSheet,
+            胶板 = @HasPlastic,
+            玻璃 = @HasGlass,
+            弧形 = @HasCurved,
+            有锁 = @HasLock,
             普通锁 = @NormalLock,
             指纹锁 = @FingerLock,
             密码锁 = @CodeLock,
-            含柱子 = @HasPole,
-            含闭门器 = @HasCloser,
-            含门中门 = @HasDoorInDoor,
-            含屏风 = @HasScreen,
-            含自动摆动 = @HasAutoSwing,
-            含自动滑动 = @HasAutoSliding,
+            有柱子 = @HasPole,
+            有闭门器 = @HasCloser,
+            门中门 = @HasDoorInDoor,
+            纱窗 = @HasScreen,
+            电动双开 = @HasAutoSwing,
+            电动推拉 = @HasAutoSliding,
             柱子价格 = @PolePrice,
             柱子数量 = @PoleQty,
             单个产品价格 = @SinglePrice,
@@ -861,25 +769,25 @@ namespace 计价器
             长度或宽度英尺 = @OldWidthOrLengthFeet AND
             高度或深度英尺 = @OldHeightOrDeepthFeet AND
             平方英尺 = @OldSqft AND
-            设计价格 = @OldDesignPrice AND
-            设计数量 = @OldDesignQty AND
-            粉末涂层 = @OldIsPowder AND
+            花样价格 = @OldDesignPrice AND
+            花样数量 = @OldDesignQty AND
+            烤漆 = @OldIsPowder AND
             金色 = @OldIsGold AND
             古铜色 = @OldIsBronze AND
-            含金属板 = @OldHasMetalSheet AND
-            含塑料 = @OldHasPlastic AND
-            含玻璃 = @OldHasGlass AND
-            含弯曲 = @OldHasCurved AND
-            含锁 = @OldHasLock AND
+            铁板 = @OldHasMetalSheet AND
+            胶板 = @OldHasPlastic AND
+            玻璃 = @OldHasGlass AND
+            弧形 = @OldHasCurved AND
+            有锁 = @OldHasLock AND
             普通锁 = @OldNormalLock AND
             指纹锁 = @OldFingerLock AND
             密码锁 = @OldCodeLock AND
-            含柱子 = @OldHasPole AND
-            含闭门器 = @OldHasCloser AND
-            含门中门 = @OldHasDoorInDoor AND
-            含屏风 = @OldHasScreen AND
-            含自动摆动 = @OldHasAutoSwing AND
-            含自动滑动 = @OldHasAutoSliding AND
+            有柱子 = @OldHasPole AND
+            有闭门器 = @OldHasCloser AND
+            门中门 = @OldHasDoorInDoor AND
+            纱窗 = @OldHasScreen AND
+            电动双开 = @OldHasAutoSwing AND
+            电动推拉 = @OldHasAutoSliding AND
             柱子价格 = @OldPolePrice AND
             柱子数量 = @OldPoleQty AND
             单个产品价格 = @OldSinglePrice AND
@@ -893,13 +801,13 @@ namespace 计价器
                     command.Parameters.AddWithValue("@Type", queryProduct.Type);
                     command.Parameters.AddWithValue("@Name", queryProduct.Property.ProductName);
                     command.Parameters.AddWithValue("@OldUnitPrice", queryProduct.UnitPrice);
-                    command.Parameters.AddWithValue("@OldWidthOrLength", queryProduct.Property.WidthOrLength);
-                    command.Parameters.AddWithValue("@OldHeightOrDeepth", queryProduct.Property.HeightOrDeepth);
-                    command.Parameters.AddWithValue("@OldWidthOrLengthFeet", queryProduct.Property.WidthOrLengthFeet);
-                    command.Parameters.AddWithValue("@OldHeightOrDeepthFeet", queryProduct.Property.HeightOrDeepthFeet);
-                    command.Parameters.AddWithValue("@OldSqft", queryProduct.Property.Sqft);
+                    command.Parameters.AddWithValue("@OldWidthOrLength", queryProduct.WidthOrLength);
+                    command.Parameters.AddWithValue("@OldHeightOrDeepth", queryProduct.HeightOrDeepth);
+                    command.Parameters.AddWithValue("@OldWidthOrLengthFeet", queryProduct.WidthOrLengthFeet);
+                    command.Parameters.AddWithValue("@OldHeightOrDeepthFeet", queryProduct.HeightOrDeepthFeet);
+                    command.Parameters.AddWithValue("@OldSqft", queryProduct.Sqft);
                     command.Parameters.AddWithValue("@OldDesignPrice", queryProduct.Property.DesignPrice);
-                    command.Parameters.AddWithValue("@OldDesignQty", queryProduct.Property.DesignQty);
+                    command.Parameters.AddWithValue("@OldDesignQty", queryProduct.DesignQty);
                     command.Parameters.AddWithValue("@OldIsPowder", queryProduct.Property.IsPowder);
                     command.Parameters.AddWithValue("@OldIsGold", queryProduct.Property.IsGold);
                     command.Parameters.AddWithValue("@OldIsBronze", queryProduct.Property.IsBronze);
@@ -928,13 +836,13 @@ namespace 计价器
                     command.Parameters.AddWithValue("@NewType", updatedProduct.Type);
                     command.Parameters.AddWithValue("@NewName", updatedProduct.Property.ProductName);
                     command.Parameters.AddWithValue("@UnitPrice", updatedProduct.UnitPrice);
-                    command.Parameters.AddWithValue("@WidthOrLength", updatedProduct.Property.WidthOrLength);
-                    command.Parameters.AddWithValue("@HeightOrDeepth", updatedProduct.Property.HeightOrDeepth);
-                    command.Parameters.AddWithValue("@WidthOrLengthFeet", updatedProduct.Property.WidthOrLengthFeet);
-                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", updatedProduct.Property.HeightOrDeepthFeet);
-                    command.Parameters.AddWithValue("@Sqft", updatedProduct.Property.Sqft);
+                    command.Parameters.AddWithValue("@WidthOrLength", updatedProduct.WidthOrLength);
+                    command.Parameters.AddWithValue("@HeightOrDeepth", updatedProduct.HeightOrDeepth);
+                    command.Parameters.AddWithValue("@WidthOrLengthFeet", updatedProduct.WidthOrLengthFeet);
+                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", updatedProduct.HeightOrDeepthFeet);
+                    command.Parameters.AddWithValue("@Sqft", updatedProduct.Sqft);
                     command.Parameters.AddWithValue("@DesignPrice", updatedProduct.Property.DesignPrice);
-                    command.Parameters.AddWithValue("@DesignQty", updatedProduct.Property.DesignQty);
+                    command.Parameters.AddWithValue("@DesignQty", updatedProduct.DesignQty);
                     command.Parameters.AddWithValue("@IsPowder", updatedProduct.Property.IsPowder);
                     command.Parameters.AddWithValue("@IsGold", updatedProduct.Property.IsGold);
                     command.Parameters.AddWithValue("@IsBronze", updatedProduct.Property.IsBronze);
@@ -962,7 +870,6 @@ namespace 计价器
                 }
             }
         }
-
 
 
         // 根据条件删除“产品表”中的一行数据
@@ -1038,25 +945,25 @@ namespace 计价器
             长度或宽度英尺 = @WidthOrLengthFeet AND
             高度或深度英尺 = @HeightOrDeepthFeet AND
             平方英尺 = @Sqft AND
-            设计价格 = @DesignPrice AND
-            设计数量 = @DesignQty AND
-            粉末涂层 = @IsPowder AND
+            花样价格 = @DesignPrice AND
+            花样数量 = @DesignQty AND
+            烤漆 = @IsPowder AND
             金色 = @IsGold AND
             古铜色 = @IsBronze AND
-            含金属板 = @HasMetalSheet AND
-            含塑料 = @HasPlastic AND
-            含玻璃 = @HasGlass AND
-            含弯曲 = @HasCurved AND
-            含锁 = @HasLock AND
+            铁板 = @HasMetalSheet AND
+            胶板 = @HasPlastic AND
+            玻璃 = @HasGlass AND
+            弧形 = @HasCurved AND
+            有锁 = @HasLock AND
             普通锁 = @NormalLock AND
             指纹锁 = @FingerLock AND
             密码锁 = @CodeLock AND
-            含柱子 = @HasPole AND
-            含闭门器 = @HasCloser AND
-            含门中门 = @HasDoorInDoor AND
-            含屏风 = @HasScreen AND
-            含自动摆动 = @HasAutoSwing AND
-            含自动滑动 = @HasAutoSliding AND
+            有柱子 = @HasPole AND
+            有闭门器 = @HasCloser AND
+            门中门 = @HasDoorInDoor AND
+            纱窗 = @HasScreen AND
+            电动双开 = @HasAutoSwing AND
+            电动推拉 = @HasAutoSliding AND
             柱子价格 = @PolePrice AND
             柱子数量 = @PoleQty AND
             单个产品价格 = @SinglePrice AND
@@ -1070,13 +977,13 @@ namespace 计价器
                     command.Parameters.AddWithValue("@Type", queryProduct.Type);
                     command.Parameters.AddWithValue("@Name", queryProduct.Property.ProductName);
                     command.Parameters.AddWithValue("@UnitPrice", queryProduct.UnitPrice);
-                    command.Parameters.AddWithValue("@WidthOrLength", queryProduct.Property.WidthOrLength);
-                    command.Parameters.AddWithValue("@HeightOrDeepth", queryProduct.Property.HeightOrDeepth);
-                    command.Parameters.AddWithValue("@WidthOrLengthFeet", queryProduct.Property.WidthOrLengthFeet);
-                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", queryProduct.Property.HeightOrDeepthFeet);
-                    command.Parameters.AddWithValue("@Sqft", queryProduct.Property.Sqft);
+                    command.Parameters.AddWithValue("@WidthOrLength", queryProduct.WidthOrLength);
+                    command.Parameters.AddWithValue("@HeightOrDeepth", queryProduct.HeightOrDeepth);
+                    command.Parameters.AddWithValue("@WidthOrLengthFeet", queryProduct.WidthOrLengthFeet);
+                    command.Parameters.AddWithValue("@HeightOrDeepthFeet", queryProduct.HeightOrDeepthFeet);
+                    command.Parameters.AddWithValue("@Sqft", queryProduct.Sqft);
                     command.Parameters.AddWithValue("@DesignPrice", queryProduct.Property.DesignPrice);
-                    command.Parameters.AddWithValue("@DesignQty", queryProduct.Property.DesignQty);
+                    command.Parameters.AddWithValue("@DesignQty", queryProduct.DesignQty);
 
                     // 设置布尔属性参数
                     command.Parameters.AddWithValue("@IsPowder", queryProduct.Property.IsPowder);
@@ -1169,6 +1076,54 @@ namespace 计价器
                     return count > 0;
                 }
             }
+        }
+
+        public bool DoesCalculatorProductExist(CalculatorProduct product)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT COUNT(1) 
+            FROM 计价表
+            WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", product.Material);
+                    command.Parameters.AddWithValue("@Type", product.Type);
+                    command.Parameters.AddWithValue("@Name", product.Property.ProductName);
+
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    return count > 0;
+                }
+            }
+        }
+        public List<string> GetTableColumnNames(string tableName)
+        {
+            List<string> columnNames = new List<string>();
+            string connectionString = "Data Source=database.sqlite;Version=3;";
+
+            using (var connection = new SQLiteConnection(connectionString))
+            {
+                connection.Open();
+
+                // 使用 PRAGMA 查询表信息
+                string query = $"PRAGMA table_info({tableName});";
+
+                using (var command = new SQLiteCommand(query, connection))
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // 第 2 列为列名
+                        columnNames.Add(reader["name"].ToString());
+                    }
+                }
+            }
+
+            return columnNames;
         }
 
 

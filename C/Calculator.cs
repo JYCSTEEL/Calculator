@@ -13,11 +13,15 @@ namespace 计价器
         /// 基础设置控件属性
         /// </summary>
         /// 
+
+
+        public CheckBox CC_SELECT_ALL { get => mainView.SelectAllCalculator; set => mainView.SelectAllCalculator = value; }
         public ComboBox CC_MATERIAL { get => mainView.CC_MATERIAL; set => mainView.CC_MATERIAL = value; }
         public ComboBox CC_TYPE { get => mainView.CC_TYPE; set => mainView.CC_TYPE = value; }
 
         public ComboBox PRODUCT_NAME { get => mainView.CC_PRODUCT_NAME; set => mainView.CC_PRODUCT_NAME = value; }
-     
+
+        public CheckedListBox CheckListBoxCalculator { get => mainView.ChecklistBoxCalculator; set => mainView.ChecklistBoxCalculator = value; }
 
 
         public TextBox UNIT_PRICE { get => mainView.CC_UNIT_PRICE; set => mainView.CC_UNIT_PRICE = value; }
@@ -72,6 +76,7 @@ namespace 计价器
 
         public TextBox HEIGHT_DEEPTH_FEET { get => mainView.CC_HEIGHT_DEEPTH_FEET; set => mainView.CC_HEIGHT_DEEPTH_FEET = value; }
         public TextBox SQFT { get => mainView.CC_SQFT; set => mainView.CC_SQFT = value; }
+        public Button CC_BTN_CALCULATE { get => mainView.CC_BTN_CALCULATE; set => mainView.CC_BTN_CALCULATE = value; }
 
 
         // 静态字段，存储单例实例

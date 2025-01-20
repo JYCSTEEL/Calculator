@@ -8,54 +8,225 @@ using System.Windows.Forms;
 
 namespace 计价器
 {
-    public static class DatagridviewMGR
+    public static class ViewMGR
     {
-        public static void HideColumnsByNames(DataGridView dataGridView, DataTable yourDataSource, List<string> names)
+        public static void OnlyShowColumnsByNames(DataGridView dataGridView, List<string> names)
         {
-            dataGridView.DataSource = yourDataSource;
-
-
-            // 遍历所有列，隐藏不需要的
+            // 遍历所有列
             foreach (DataGridViewColumn column in dataGridView.Columns)
             {
+                // 判断列标题是否包含 names 中的任意值
+                bool shouldShow = false;
                 foreach (string name in names)
                 {
-                    if (column.Name == name)
+                    if (column.HeaderText.Contains(name))
                     {
-                        column.Visible = false; // 隐藏列
+                        shouldShow = true;
+                        break; // 如果找到匹配项，停止内部循环
                     }
                 }
 
+                // 根据判断结果设置列的可见性
+                column.Visible = shouldShow;
+            }
+        }
+
+
+
+        public static CalculatorProduct GetSelectedCalculatorProduct(DataGridView dataGridView)
+        {
+            // 检查是否有选中行
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("未选中任何一行数据！");
+                return null;
             }
 
-        }
-        public static void HideColumnsByName(DataGridView dataGridView, DataTable yourDataSource, string name)
-        {
-            dataGridView.DataSource = yourDataSource;
+            // 获取选中的行（第一行）
+            DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
 
-
-            // 遍历所有列，隐藏不需要的
-            foreach (DataGridViewColumn column in dataGridView.Columns)
+            // 创建 CalculatorProduct 实例
+            CalculatorProduct product = new CalculatorProduct
             {
+                Material = selectedRow.Cells["材料"].Value.ToString(),
+                Type = selectedRow.Cells["类型"].Value.ToString(),
 
-                if (column.Name == name)
+                DesignQty = Convert.ToInt32(selectedRow.Cells["花样数量"].Value),
+                UnitPrice = Convert.ToInt32(selectedRow.Cells["单价"].Value),
+                SinglePrice = Convert.ToInt32(selectedRow.Cells["单个产品价格"].Value),
+                Qty = Convert.ToInt32(selectedRow.Cells["产品数量"].Value),
+                TotalPrice = Convert.ToInt32(selectedRow.Cells["总共价格"].Value),
+                Property = new ProductProperty
                 {
-                    column.Visible = false; // 隐藏列
+                    ProductName = selectedRow.Cells["名称"].Value.ToString(),
+                    DesignPrice = Convert.ToInt32(selectedRow.Cells["花样价格"].Value),
+                    IsPowder = Convert.ToBoolean(selectedRow.Cells["烤漆"].Value),
+                    IsGold = Convert.ToBoolean(selectedRow.Cells["金色"].Value),
+                    IsBronze = Convert.ToBoolean(selectedRow.Cells["古铜色"].Value),
+                    HasMetalSheet = Convert.ToBoolean(selectedRow.Cells["铁板"].Value),
+                    HasPlastic = Convert.ToBoolean(selectedRow.Cells["胶板"].Value),
+                    HasGlass = Convert.ToBoolean(selectedRow.Cells["玻璃"].Value),
+                    HasCurved = Convert.ToBoolean(selectedRow.Cells["弧形"].Value),
+                    HasLock = Convert.ToBoolean(selectedRow.Cells["有锁"].Value),
+                    NormalLock = Convert.ToBoolean(selectedRow.Cells["普通锁"].Value),
+                    FingerLock = Convert.ToBoolean(selectedRow.Cells["指纹锁"].Value),
+                    CodeLock = Convert.ToBoolean(selectedRow.Cells["密码锁"].Value),
+                    HasPole = Convert.ToBoolean(selectedRow.Cells["有柱子"].Value),
+                    HasCloser = Convert.ToBoolean(selectedRow.Cells["有闭门器"].Value),
+                    HasDoorInDoor = Convert.ToBoolean(selectedRow.Cells["门中门"].Value),
+                    HasScreen = Convert.ToBoolean(selectedRow.Cells["纱窗"].Value),
+                    HasAutoSwing = Convert.ToBoolean(selectedRow.Cells["电动双开"].Value),
+                    HasAutoSliding = Convert.ToBoolean(selectedRow.Cells["电动推拉"].Value),
+                    PolePrice = Convert.ToInt32(selectedRow.Cells["柱子价格"].Value),
+                    PoleQty = Convert.ToInt32(selectedRow.Cells["柱子数量"].Value)
                 }
 
+            };
+
+            return product;
+        }
+
+        public static Product GetSelectedProduct(DataGridView dataGridView)
+        {
+            // 检查是否有选中行
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("未选中任何一行数据！");
+                return null;
+            }
+
+            // 获取选中的行（第一行）
+            DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
+
+            // 创建 CalculatorProduct 实例
+            Product product = new Product
+            {
+                Material = selectedRow.Cells["材料"].Value.ToString(),
+                Type = selectedRow.Cells["类型"].Value.ToString(),
+                UnitPrice = Convert.ToInt32(selectedRow.Cells["单价"].Value)
+
+            };
+
+            return product;
+        }
+        public static CustomizedProduct GetSelectedCustomizedProduct(DataGridView dataGridView)
+        {
+            // 检查是否有选中行
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("未选中任何一行数据！");
+                return null;
+            }
+
+            // 获取选中的行（第一行）
+            DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
+
+            // 创建 CalculatorProduct 实例
+            CustomizedProduct product = new CustomizedProduct
+            {
+                Material = selectedRow.Cells["材料"].Value.ToString(),
+                Type = selectedRow.Cells["类型"].Value.ToString(),
+                UnitPrice = Convert.ToInt32(selectedRow.Cells["单价"].Value),
+
+                Property = new ProductProperty
+                {
+                    ProductName = selectedRow.Cells["名称"].Value.ToString(),
+                    DesignPrice = Convert.ToInt32(selectedRow.Cells["花样价格"].Value),
+                    IsPowder = Convert.ToBoolean(selectedRow.Cells["烤漆"].Value),
+                    IsGold = Convert.ToBoolean(selectedRow.Cells["金色"].Value),
+                    IsBronze = Convert.ToBoolean(selectedRow.Cells["古铜色"].Value),
+                    HasMetalSheet = Convert.ToBoolean(selectedRow.Cells["铁板"].Value),
+                    HasPlastic = Convert.ToBoolean(selectedRow.Cells["胶板"].Value),
+                    HasGlass = Convert.ToBoolean(selectedRow.Cells["玻璃"].Value),
+                    HasCurved = Convert.ToBoolean(selectedRow.Cells["弧形"].Value),
+                    HasLock = Convert.ToBoolean(selectedRow.Cells["有锁"].Value),
+                    NormalLock = Convert.ToBoolean(selectedRow.Cells["普通锁"].Value),
+                    FingerLock = Convert.ToBoolean(selectedRow.Cells["指纹锁"].Value),
+                    CodeLock = Convert.ToBoolean(selectedRow.Cells["密码锁"].Value),
+                    HasPole = Convert.ToBoolean(selectedRow.Cells["有柱子"].Value),
+                    HasCloser = Convert.ToBoolean(selectedRow.Cells["有闭门器"].Value),
+                    HasDoorInDoor = Convert.ToBoolean(selectedRow.Cells["门中门"].Value),
+                    HasScreen = Convert.ToBoolean(selectedRow.Cells["纱窗"].Value),
+                    HasAutoSwing = Convert.ToBoolean(selectedRow.Cells["电动双开"].Value),
+                    HasAutoSliding = Convert.ToBoolean(selectedRow.Cells["电动推拉"].Value),
+                    PolePrice = Convert.ToInt32(selectedRow.Cells["柱子价格"].Value),
+                    PoleQty = Convert.ToInt32(selectedRow.Cells["柱子数量"].Value)
+                }
+            };
+
+            return product;
+        }
+
+        /// <summary>
+        /// 获得选中的名字 
+        /// </summary>
+        /// <param name="checkedListBox"></param>
+        /// <returns></returns>
+        public static List<string> GetCheckedNamesFromCheckedListBox(CheckedListBox checkedListBox)
+        {
+            // 获取所有被选中的项的文本
+            List<string> selectedTexts = new List<string>();
+
+            foreach (string  item in checkedListBox.CheckedItems)
+            {
+                selectedTexts.Add(item);
 
             }
 
+
+
+            return selectedTexts;
         }
 
+        /// <summary>
+        /// 获得所有数据库中 某表 的 所有列名
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public static List<string> GetAllColumnsNamesFromDatabase(string tableName)
+        {
+            List<string> controlTexts = new List<string>();
 
-        public static void SetDataTableOnlyShow(DataGridView dataGridView, DataTable yourDataSource, params string[] names)
-        {// 从原始 DataTable 创建一个新的包含特定列的 DataTable
-            DataTable filteredTable = yourDataSource.DefaultView.ToTable(false, names);
-            // 绑定到 DataGridView
-            dataGridView.DataSource = filteredTable;
+            controlTexts = DatabaseHelper.Instance.GetTableColumnNames(tableName);
 
+            return controlTexts;
+        }
 
+        public static void IniatialAndSelectAllCheckedListBox(string table, CheckedListBox checkedListBox)
+        {
+            List<string> strings = new List<string>();
+            strings = GetAllColumnsNamesFromDatabase(table);
+            // 清空现有项
+            checkedListBox.Items.Clear();
+
+            // 添加新的项
+            checkedListBox.Items.AddRange(strings.ToArray());
+            for (int i = 0; i < checkedListBox.Items.Count; i++)
+            {
+                checkedListBox.SetItemChecked(i, true);
+            }
+
+        }
+        public static void SelectAllCheckedListBox(CheckedListBox checkedListBox)
+        {
+         
+            for (int i = 0; i < checkedListBox.Items.Count; i++)
+            {
+                checkedListBox.SetItemChecked(i, true);
+            }
+
+            checkedListBox.SelectedIndex = 0;
+        }
+        public static void UnSelectAllCheckedListBox( CheckedListBox checkedListBox)
+        {
+
+            for (int i = 0; i < checkedListBox.Items.Count; i++)
+            {
+                checkedListBox.SetItemChecked(i, false);
+
+            }
+
+            checkedListBox.SelectedIndex = -1;
         }
     }
 }

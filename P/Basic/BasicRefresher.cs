@@ -100,10 +100,9 @@ namespace 计价器
      
         }
 
-        internal void LoadSelectedRow(object sender, DataGridViewCellEventArgs e)
+        public void LoadSelectedRow(object sender, DataGridViewCellEventArgs e)
         {
-            Product product = 
-
+          
             string material = BasicSetUp.Instance.SelectedMaterial;
             List<Product> products = ProductsInfoList.GetAllProductsByMaterial(material);
 

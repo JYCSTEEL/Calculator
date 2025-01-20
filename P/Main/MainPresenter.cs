@@ -37,7 +37,7 @@ namespace 计价器
         public void BindEvents()
         {
 
-            BasicSetUp.Instance.BasicProductView.CellClick += BasicRefresher.Instance.LoadSelectedRow;
+          //  BasicSetUp.Instance.BasicProductView.CellClick += BasicRefresher.Instance.LoadSelectedRow;
             BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
             BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += BasicRefresher.Instance.LoadData;
             BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
@@ -75,6 +75,12 @@ namespace 计价器
             CustomizedSetting.Instance.POLE_PRICE.Leave += TextBox_Leave;
             CustomizedSetting.Instance.POLE_QTY.Leave += TextBox_Leave;
 
+
+            CustomizedSetting.Instance.CheckListBoxCustomized.SelectedValueChanged += CustomizedRefresher.Instance.ReFreshDataGridView;
+
+            CustomizedSetting.Instance.CP_SELECT_ALL.CheckedChanged += CustomizedSelectAllCheckedList;
+
+
             Calculator.Instance.CC_MATERIAL.SelectedValueChanged += CalculatorRefresher.Instance.LoadType;
             Calculator.Instance.CC_TYPE.SelectedValueChanged += CalculatorRefresher.Instance.LoadName;
             Calculator.Instance.PRODUCT_NAME.SelectedValueChanged += CalculatorRefresher.Instance.LoadProperty;
@@ -104,8 +110,38 @@ namespace 计价器
 
             Calculator.Instance.UNIT_PRICE.Leave += TextBox_Leave;
 
-
+            Calculator.Instance.CheckListBoxCalculator.SelectedValueChanged += CalculatorRefresher.Instance.ReFreshDataGridView;
+            Calculator.Instance.CC_SELECT_ALL.CheckedChanged += CalculatorSelectAllCheckedList;
         }
+
+        private void CalculatorSelectAllCheckedList(object sender, EventArgs e)
+        {
+            if (Calculator.Instance.CC_SELECT_ALL.Checked)
+            {
+
+                ViewMGR.SelectAllCheckedListBox(Calculator.Instance.CheckListBoxCalculator);
+
+            }
+            else
+            {
+                ViewMGR.UnSelectAllCheckedListBox(Calculator.Instance.CheckListBoxCalculator);
+            }
+        }
+
+        private void CustomizedSelectAllCheckedList(object sender, EventArgs e)
+        {
+          
+            if (CustomizedSetting.Instance.CP_SELECT_ALL.Checked)
+            {
+
+                ViewMGR.SelectAllCheckedListBox(CustomizedSetting.Instance.CheckListBoxCustomized);
+            }
+            else
+            {
+                ViewMGR.UnSelectAllCheckedListBox(CustomizedSetting.Instance.CheckListBoxCustomized);
+            }
+        }
+
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             // 检查是否为数字或控制键（如退格键）

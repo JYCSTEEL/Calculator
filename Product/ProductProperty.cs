@@ -9,17 +9,8 @@ namespace 计价器
     public class ProductProperty
     {
         public string ProductName { get; set; }
-        public int WidthOrLength { get; set; }
-        public int HeightOrDeepth { get; set; }
-
-        public int WidthOrLengthFeet { get; set; }
-        public int HeightOrDeepthFeet { get; set; }
-
-        public int Sqft { get; set; }
 
         public int DesignPrice { get; set; }
-
-        public int DesignQty { get; set; }
 
 
         public bool IsPowder { get; set; }
