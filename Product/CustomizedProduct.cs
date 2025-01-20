@@ -9,7 +9,7 @@ namespace 计价器
     // 抽象类表示产品的共性
     public  class CustomizedProduct:Product
     {
-
+     
         public ProductProperty Property = new ProductProperty();
      
         public CustomizedProduct() { 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +28,10 @@ namespace 计价器
         private void LoadComboBoxData()
         {
 
+         
             string material = BasicSetUp.Instance.SelectedMaterial;
             List<Product> products = ProductsInfoList.GetAllProductsByMaterial(material);
+           
             List<string> productTypes = new List<string> ();
 
             foreach (var item in products)
@@ -41,6 +44,7 @@ namespace 计价器
             // 清空下拉框并加载新数据
             BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Clear();
             BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.AddRange(productTypes.ToArray());
+         
 
             // 默认选择第一项（如果有数据）
             if (BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Count > 0)
@@ -69,6 +73,11 @@ namespace 计价器
             LoadComboBoxData();
             ReFreshDataGridView();
         }
+        public void LoadData()
+        {
+            LoadComboBoxData();
+            ReFreshDataGridView();
+        }
         private void RefreshUnitPrice()
         {
             string price = DatabaseHelper.Instance.GetUnitPrice(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType).ToString();
@@ -83,13 +92,53 @@ namespace 计价器
         {
 
             BindingSource bindingSource = new BindingSource();
-            bindingSource.DataSource = ProductsInfoList.GetAllProducts();
+            bindingSource.DataSource = DatabaseHelper.Instance.GetAllProducts();
+        
             BasicSetUp.Instance.BasicProductView.DataSource = bindingSource;
 
-            BasicSetUp.Instance.BasicProductView.Columns[BasicSetUp.Instance.BasicProductView.Columns.Count - 1].Visible = false;
-
+          
+     
         }
 
+        internal void LoadSelectedRow(object sender, DataGridViewCellEventArgs e)
+        {
+            Product product = 
 
+            string material = BasicSetUp.Instance.SelectedMaterial;
+            List<Product> products = ProductsInfoList.GetAllProductsByMaterial(material);
+
+            List<string> productTypes = new List<string>();
+
+            foreach (var item in products)
+            {
+                productTypes.Add(item.Type);
+
+            }
+
+
+            // 清空下拉框并加载新数据
+            BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Clear();
+            BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.AddRange(productTypes.ToArray());
+
+
+            // 默认选择第一项（如果有数据）
+            if (BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Count > 0)
+            {
+                BasicSetUp.Instance.CB_PRODUCT_TYPE.SelectedIndex = 0;
+            }
+            string type = BasicSetUp.Instance.SelectedProductType;
+            var product = ProductsInfoList.FindProductFirstOneByMaterialAndType(material, type);
+            if (product != null)
+            {
+                string price = product.UnitPrice.ToString();
+                BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
+            }
+            else
+            {
+                string price = "0";
+                BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
+            }
+
+        }
     }
 }

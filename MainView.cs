@@ -24,33 +24,33 @@ namespace 计价器
         public TabPage TabpageBasicSetUp { get => tabPageSetting; }
 
         public string SelectedMaterial { get; set; }
-        public string ProductType { get => comboBoxProductName.Text; set => comboBoxProductName.Text = value; }
-        public int UnitPrice { get => Convert.ToInt32(textBoxUnitPrice.Text); set => textBoxUnitPrice.Text = value.ToString(); }
-        public int LengthWidthInch { get => Convert.ToInt32(textBoxLengthWidth.Text); set => textBoxLengthWidth.Text = value.ToString(); }
-        public int LengthWidthFeet { get => Convert.ToInt32(textBoxLengthWidthFeet.Text); set => textBoxLengthWidthFeet.Text = value.ToString(); }
-        public int HeightDeepthInch { get => Convert.ToInt32(textBoxHeightDeepth.Text); set => textBoxHeightDeepth.Text = value.ToString(); }
-        public int HeightDeepthFeet { get => Convert.ToInt32(textBoxHeightDeepthFeet.Text); set => textBoxHeightDeepthFeet.Text = value.ToString(); }
-        public int Sqft { get => Convert.ToInt32(textBoxSqft.Text); set => textBoxSqft.Text = value.ToString(); }
-        public int PoleQty { get => Convert.ToInt32(textBoxPoleQty.Text); set => textBoxPoleQty.Text = value.ToString(); }
-        public int DesignUnitPrice { get => Convert.ToInt32(textBoxDesignUnitPrice.Text); set => textBoxDesignUnitPrice.Text = value.ToString(); }
-        public int PredictDesignQty { get => Convert.ToInt32(textBoxPredictQtyOfDesign.Text); set => textBoxPredictQtyOfDesign.Text = value.ToString(); }
-        public bool HasPole { get => checkBoxPole.Checked; set => checkBoxPole.Checked = value; }
-        public bool IsPowderCoating { get => checkBoxPowderCoating.Checked; set => checkBoxPowderCoating.Checked = value; }
-        public bool IsBronze { get => checkBoxBronze.Checked; set => checkBoxBronze.Checked = value; }
-        public bool IsGold { get => checkBoxGold.Checked; set => checkBoxGold.Checked = value; }
-        public bool HasGlass { get => checkBoxGlass.Checked; set => checkBoxGlass.Checked = value; }
-        public bool HasScreen { get => checkBoxScreen.Checked; set => checkBoxPole.Checked = value; }
-        public bool HasPlastic { get => checkBoxPlastic.Checked; set => checkBoxPlastic.Checked = value; }
-        public bool HasMetalSheet { get => checkBoxMetalSheet.Checked; set => checkBoxMetalSheet.Checked = value; }
-        public bool HasCurve { get => checkBoxCurve.Checked; set => checkBoxCurve.Checked = value; }
-        public bool HasCloser { get => checkBoxCloser.Checked; set => checkBoxCloser.Checked = value; }
+        public string ProductType { get => comboBoxCalculatorName.Text; set => comboBoxCalculatorName.Text = value; }
+        public int UnitPrice { get => Convert.ToInt32(textBoxCalculatorUnitPrice.Text); set => textBoxCalculatorUnitPrice.Text = value.ToString(); }
+        public int LengthWidthInch { get => Convert.ToInt32(textBoxCalculatorLengthWidth.Text); set => textBoxCalculatorLengthWidth.Text = value.ToString(); }
+        public int LengthWidthFeet { get => Convert.ToInt32(textBoxCalculatorLengthWidthFeet.Text); set => textBoxCalculatorLengthWidthFeet.Text = value.ToString(); }
+        public int HeightDeepthInch { get => Convert.ToInt32(textBoxCalculatorHeightDeepth.Text); set => textBoxCalculatorHeightDeepth.Text = value.ToString(); }
+        public int HeightDeepthFeet { get => Convert.ToInt32(textBoxCalculatorHeightDeepthFeet.Text); set => textBoxCalculatorHeightDeepthFeet.Text = value.ToString(); }
+        public int Sqft { get => Convert.ToInt32(textBoxCalculatorSqft.Text); set => textBoxCalculatorSqft.Text = value.ToString(); }
+        public int PoleQty { get => Convert.ToInt32(textBoxCalculatorPoleQty.Text); set => textBoxCalculatorPoleQty.Text = value.ToString(); }
+        public int DesignUnitPrice { get => Convert.ToInt32(textBoxCalculatorDesignUnitPrice.Text); set => textBoxCalculatorDesignUnitPrice.Text = value.ToString(); }
+        public int PredictDesignQty { get => Convert.ToInt32(textBoxCalculatorPredictQtyOfDesign.Text); set => textBoxCalculatorPredictQtyOfDesign.Text = value.ToString(); }
+        public bool HasPole { get => checkBoxCalculatorPole.Checked; set => checkBoxCalculatorPole.Checked = value; }
+        public bool IsPowderCoating { get => checkBoxCalculatorPowderCoating.Checked; set => checkBoxCalculatorPowderCoating.Checked = value; }
+        public bool IsBronze { get => checkBoxCalculatorBronze.Checked; set => checkBoxCalculatorBronze.Checked = value; }
+        public bool IsGold { get => checkBoxCalculatorGold.Checked; set => checkBoxCalculatorGold.Checked = value; }
+        public bool HasGlass { get => checkBoxCalculatorGlass.Checked; set => checkBoxCalculatorGlass.Checked = value; }
+        public bool HasScreen { get => checkBoxCalculatorScreen.Checked; set => checkBoxCalculatorPole.Checked = value; }
+        public bool HasPlastic { get => checkBoxCalculatorPlastic.Checked; set => checkBoxCalculatorPlastic.Checked = value; }
+        public bool HasMetalSheet { get => checkBoxCalculatorMetalSheet.Checked; set => checkBoxCalculatorMetalSheet.Checked = value; }
+        public bool HasCurve { get => checkBoxCalculatorCurve.Checked; set => checkBoxCalculatorCurve.Checked = value; }
+        public bool HasCloser { get => checkBoxCalculatorCloser.Checked; set => checkBoxCalculatorCloser.Checked = value; }
 
-        public bool HasLock { get => checkBoxHasLock.Checked; set => checkBoxHasLock.Checked = value; }
-        public bool IsNormalLock { get => checkBoxNormalLock.Checked; set => checkBoxNormalLock.Checked = value; }
+        public bool HasLock { get => checkBoxCalculatorHasLock.Checked; set => checkBoxCalculatorHasLock.Checked = value; }
+        public bool IsNormalLock { get => checkBoxCalculatorNormalLock.Checked; set => checkBoxCalculatorNormalLock.Checked = value; }
 
-        public bool IsCodeLock { get => checkBoxCodeLock.Checked; set => checkBoxCodeLock.Checked = value; }
+        public bool IsCodeLock { get => checkBoxCalculatorCodeLock.Checked; set => checkBoxCalculatorCodeLock.Checked = value; }
 
-        public bool IsFingerPrintLock { get => checkBoxFingerPrintLock.Checked; set => checkBoxFingerPrintLock.Checked = value; }
+        public bool IsFingerPrintLock { get => checkBoxCalculatorFingerPrintLock.Checked; set => checkBoxCalculatorFingerPrintLock.Checked = value; }
         /// <summary>
         /// 基础设置控件
         /// </summary>
@@ -140,6 +140,7 @@ namespace 计价器
         public CheckBox CP_HASPOLE { get => checkBoxCustomizedPole; set => checkBoxCustomizedPole = value; }
         public TextBox CP_POLE_QTY { get => textBoxCustomizedPoleQty; set => textBoxCustomizedPoleQty = value; }
         public TextBox CP_POLE_PRICE { get => textBoxCustomizedPoleUnitPrice; set => textBoxCustomizedPoleUnitPrice = value; }
+        public TextBox CP_DESIGN_PRICE { get => textBoxCustomizedDesignPrice; set => textBoxCustomizedDesignPrice = value; }
 
         public CheckBox CP_HASLOCK { get => checkBoxCustomizedHasLock; set => checkBoxCustomizedHasLock = value; }
         public CheckBox CP_NORMAL_LOCK { get => checkBoxCustomizedNormalLock; set => checkBoxCustomizedNormalLock = value; }
@@ -148,6 +149,61 @@ namespace 计价器
         public CheckBox CP_AUTO_SWING { get => checkBoxCustomizedSwing; set => checkBoxCustomizedSwing = value; }
         public CheckBox CP_AUTO_SLIDING { get => checkBoxCustomizedSliding; set => checkBoxCustomizedSliding = value; }
         public DataGridView CP_DATA_VIEW { get => dataGridViewCustomized; set => dataGridViewCustomized = value; }
+        /// <summary>
+        /// 计算器部分的控件定义
+        /// </summary>
+        public ComboBox CC_MATERIAL { get => comboBoxCalculatorMaterial; set => comboBoxCalculatorMaterial = value; }
+        public ComboBox CC_TYPE { get => comboBoxCalculatorType; set => comboBoxCalculatorType = value; }
+
+        public ComboBox CC_PRODUCT_NAME { get => comboBoxCalculatorName; set => comboBoxCalculatorName = value; }
+
+        public TextBox CC_UNIT_PRICE { get => textBoxCalculatorUnitPrice; set => textBoxCalculatorUnitPrice = value; }
+        public TextBox CC_WIDTH_LENGTH { get => textBoxCalculatorLengthWidth; set => textBoxCalculatorLengthWidth = value; }
+
+        public TextBox CC_HEIGHT_DEEPTH { get => textBoxCalculatorHeightDeepth; set => textBoxCalculatorHeightDeepth = value; }
+
+        public TextBox CC_DESIGN_PRICE { get => textBoxCalculatorDesignUnitPrice; set => textBoxCalculatorDesignUnitPrice = value; }
+
+        public TextBox CC_WIDTH_LENGTH_FEET { get => textBoxCalculatorLengthWidthFeet; set => textBoxCalculatorLengthWidthFeet = value; }
+
+        public TextBox CC_HEIGHT_DEEPTH_FEET { get => textBoxCalculatorHeightDeepthFeet; set => textBoxCalculatorHeightDeepthFeet = value; }
+
+        public TextBox CC_SQFT { get => textBoxCalculatorSqft; set => textBoxCalculatorSqft = value; }
+
+        public TextBox CC_DESIGN_QTY { get => textBoxCalculatorPredictQtyOfDesign; set => textBoxCalculatorPredictQtyOfDesign = value; }
+        public CheckBox CC_POWDER { get => checkBoxCalculatorPowderCoating; set => checkBoxCalculatorPowderCoating = value; }
+        public Button CC_BTN_UPDATE { get => buttonCalculatorUpdate; set => buttonCalculatorUpdate = value; }
+        public Button CC_BTN_DELETE { get => buttonDelete; set => buttonDelete = value; }
+        public Button CC_BTN_ADD { get => buttonCalculatorAdd; set => buttonCalculatorAdd = value; }
+        public CheckBox CC_CLOSER { get => checkBoxCalculatorCloser; set => checkBoxCalculatorCloser = value; }
+        public CheckBox CC_DOORINDOOR { get => checkBoxCalculatorDoorInDoor; set => checkBoxCalculatorDoorInDoor = value; }
+        public CheckBox CC_SCREEN { get => checkBoxCalculatorScreen; set => checkBoxCalculatorScreen = value; }
+        public CheckBox CC_GOLD { get => checkBoxCalculatorGold; set => checkBoxCalculatorGold = value; }
+        public CheckBox CC_BRONZE { get => checkBoxCalculatorBronze; set => checkBoxCalculatorBronze = value; }
+
+        public CheckBox CC_METAL_SHEET { get => checkBoxCalculatorMetalSheet; set => checkBoxCalculatorMetalSheet = value; }
+        public CheckBox CC_PLASTIC { get => checkBoxCalculatorPlastic; set => checkBoxCalculatorPlastic = value; }
+        public CheckBox CC_GLASS { get => checkBoxCalculatorGlass; set => checkBoxCalculatorGlass = value; }
+
+        public CheckBox CC_CURVED { get => checkBoxCalculatorCurve; set => checkBoxCalculatorCurve = value; }
+        public CheckBox CC_HASPOLE { get => checkBoxCalculatorPole; set => checkBoxCalculatorPole = value; }
+        public TextBox CC_POLE_QTY { get => textBoxCalculatorPoleQty; set => textBoxCalculatorPoleQty = value; }
+        public TextBox CC_POLE_PRICE { get => textBoxCalculatorPoleUnitPrice; set => textBoxCalculatorPoleUnitPrice = value; }
+      
+        public CheckBox CC_HASLOCK { get => checkBoxCalculatorHasLock; set => checkBoxCalculatorHasLock = value; }
+        public CheckBox CC_NORMAL_LOCK { get => checkBoxCalculatorNormalLock; set => checkBoxCalculatorNormalLock = value; }
+        public CheckBox CC_FINGER_PRINT { get => checkBoxCalculatorFingerPrintLock; set => checkBoxCalculatorFingerPrintLock = value; }
+        public CheckBox CC_CODE_LOCK { get => checkBoxCalculatorCodeLock; set => checkBoxCalculatorCodeLock = value; }
+        public CheckBox CC_AUTO_SWING { get => checkBoxCalculatorAutoSwing; set => checkBoxCalculatorAutoSwing = value; }
+        public CheckBox CC_AUTO_SLIDING { get => checkBoxCalculatorAutoSliding; set => checkBoxCalculatorAutoSliding = value; }
+        public DataGridView CC_DATA_VIEW { get => dataGridViewCalculator; set => dataGridViewCalculator = value; }
+        public TextBox CC_ALL_TOTAL_PRICE { get => textBoxCalculatorAllPrice; set => textBoxCalculatorAllPrice = value; }
+
+        public TextBox CC_SINGLE_PRICE { get => textBoxCalculatorPrice; set => textBoxCalculatorPrice = value; }
+
+        public TextBox CC_PRODUCT_QTY { get => textBoxCalculatorQty; set => textBoxCalculatorQty = value; }
+
+        public TextBox CC_TOTAL_PRICE { get => textBoxCalculatorTotalPrice; set => textBoxCalculatorTotalPrice = value; }
 
 
 
@@ -174,6 +230,7 @@ namespace 计价器
         private void BindEvents()
         {
             radioButtonIsIron.CheckedChanged += SetSelectedMaterial;
+            radioButtonIsStainless.CheckedChanged += SetSelectedMaterial;
 
         }
 

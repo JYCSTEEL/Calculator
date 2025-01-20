@@ -29,47 +29,53 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBoxProductName = new System.Windows.Forms.ComboBox();
+            this.comboBoxCalculatorName = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxLengthWidth = new System.Windows.Forms.TextBox();
-            this.textBoxHeightDeepth = new System.Windows.Forms.TextBox();
+            this.textBoxCalculatorLengthWidth = new System.Windows.Forms.TextBox();
+            this.textBoxCalculatorHeightDeepth = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBoxSqft = new System.Windows.Forms.TextBox();
+            this.textBoxCalculatorSqft = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBoxUnitPrice = new System.Windows.Forms.TextBox();
+            this.textBoxCalculatorUnitPrice = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageCalculate = new System.Windows.Forms.TabPage();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.checkBoxGold = new System.Windows.Forms.CheckBox();
-            this.checkBoxPowderCoating = new System.Windows.Forms.CheckBox();
-            this.checkBoxPlastic = new System.Windows.Forms.CheckBox();
-            this.checkBoxBronze = new System.Windows.Forms.CheckBox();
-            this.checkBoxGlass = new System.Windows.Forms.CheckBox();
-            this.checkBoxCurve = new System.Windows.Forms.CheckBox();
-            this.checkBoxMetalSheet = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBoxCloser = new System.Windows.Forms.CheckBox();
-            this.checkBoxScreen = new System.Windows.Forms.CheckBox();
-            this.checkBoxDoorInDoor = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.checkBoxHasLock = new System.Windows.Forms.CheckBox();
-            this.checkBoxNormalLock = new System.Windows.Forms.CheckBox();
-            this.checkBoxCodeLock = new System.Windows.Forms.CheckBox();
-            this.checkBoxFingerPrintLock = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textBoxPredictQtyOfDesign = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBoxDesignUnitPrice = new System.Windows.Forms.TextBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCalculatorAutoSliding = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorAutoSwing = new System.Windows.Forms.CheckBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.checkBoxCalculatorPole = new System.Windows.Forms.CheckBox();
+            this.textBoxCalculatorPoleUnitPrice = new System.Windows.Forms.TextBox();
+            this.textBoxCalculatorPoleQty = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCalculatorGold = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorPowderCoating = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorPlastic = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorBronze = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorGlass = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorCurve = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorMetalSheet = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCalculatorCloser = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorScreen = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorDoorInDoor = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCalculatorHasLock = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorNormalLock = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorCodeLock = new System.Windows.Forms.CheckBox();
+            this.checkBoxCalculatorFingerPrintLock = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBoxCalculatorPredictQtyOfDesign = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBoxCalculatorDesignUnitPrice = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBoxHeightDeepthFeet = new System.Windows.Forms.TextBox();
-            this.textBoxLengthWidthFeet = new System.Windows.Forms.TextBox();
+            this.textBoxCalculatorHeightDeepthFeet = new System.Windows.Forms.TextBox();
+            this.textBoxCalculatorLengthWidthFeet = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBoxPoleQty = new System.Windows.Forms.TextBox();
-            this.checkBoxPole = new System.Windows.Forms.CheckBox();
             this.tabPageSetting = new System.Windows.Forms.TabPage();
             this.dataGridViewProducts = new System.Windows.Forms.DataGridView();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -92,17 +98,15 @@
             this.label13 = new System.Windows.Forms.Label();
             this.textBoxSetUpUnitPrice = new System.Windows.Forms.TextBox();
             this.tabPageProducts = new System.Windows.Forms.TabPage();
-            this.dataGridViewCustomized = new System.Windows.Forms.DataGridView();
-            this.buttonCustomizedAdd = new System.Windows.Forms.Button();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.buttonCustomizedDelete = new System.Windows.Forms.Button();
-            this.buttonCustomizedUpdate = new System.Windows.Forms.Button();
-            this.label24 = new System.Windows.Forms.Label();
-            this.comboBoxCustomizedProductMaterial = new System.Windows.Forms.ComboBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.textBoxCustomizedProductName = new System.Windows.Forms.TextBox();
-            this.comboBoxCustomizedProductType = new System.Windows.Forms.ComboBox();
-            this.label26 = new System.Windows.Forms.Label();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCustomizedSliding = new System.Windows.Forms.CheckBox();
+            this.checkBoxCustomizedSwing = new System.Windows.Forms.CheckBox();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCustomizedPole = new System.Windows.Forms.CheckBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBoxCustomizedPoleUnitPrice = new System.Windows.Forms.TextBox();
+            this.textBoxCustomizedPoleQty = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.checkBoxCustomizedGold = new System.Windows.Forms.CheckBox();
             this.checkBoxCustomizedPowderCoating = new System.Windows.Forms.CheckBox();
@@ -120,24 +124,43 @@
             this.checkBoxCustomizedNormalLock = new System.Windows.Forms.CheckBox();
             this.checkBoxCustomizedCodeLock = new System.Windows.Forms.CheckBox();
             this.checkBoxCustomizedFingerPrintLock = new System.Windows.Forms.CheckBox();
-            this.checkBoxCustomizedPole = new System.Windows.Forms.CheckBox();
-            this.textBoxPoleUnitPrice = new System.Windows.Forms.TextBox();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.checkBoxAutoSwing = new System.Windows.Forms.CheckBox();
-            this.checkBoxAutoSliding = new System.Windows.Forms.CheckBox();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.textBoxCustomizedPoleUnitPrice = new System.Windows.Forms.TextBox();
-            this.textBoxCustomizedPoleQty = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.checkBoxCustomizedSliding = new System.Windows.Forms.CheckBox();
-            this.checkBoxCustomizedSwing = new System.Windows.Forms.CheckBox();
+            this.dataGridViewCustomized = new System.Windows.Forms.DataGridView();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.comboBoxCustomizedName = new System.Windows.Forms.ComboBox();
+            this.comboBoxCustomizedProductType = new System.Windows.Forms.ComboBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.buttonCustomizedAdd = new System.Windows.Forms.Button();
+            this.buttonCustomizedDelete = new System.Windows.Forms.Button();
+            this.buttonCustomizedUpdate = new System.Windows.Forms.Button();
+            this.label24 = new System.Windows.Forms.Label();
+            this.comboBoxCustomizedProductMaterial = new System.Windows.Forms.ComboBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.textBoxCustomizedProductName = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.textBoxCustomizedDesignPrice = new System.Windows.Forms.TextBox();
+            this.dataGridViewCalculator = new System.Windows.Forms.DataGridView();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.textBoxCalculatorPrice = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.textBoxCalculatorQty = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBoxCalculatorTotalPrice = new System.Windows.Forms.TextBox();
+            this.buttonCalculatorAdd = new System.Windows.Forms.Button();
+            this.buttonCalculatorUpdate = new System.Windows.Forms.Button();
+            this.buttonDelete = new System.Windows.Forms.Button();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.textBoxCalculatorAllPrice = new System.Windows.Forms.TextBox();
+            this.comboBoxCalculatorType = new System.Windows.Forms.ComboBox();
+            this.comboBoxCalculatorMaterial = new System.Windows.Forms.ComboBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.tabPageSetUpUnitPrice = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.tabPageCalculate.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -147,95 +170,96 @@
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPageProducts.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomized)).BeginInit();
-            this.groupBox8.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
-            this.groupBox11.SuspendLayout();
-            this.groupBox12.SuspendLayout();
-            this.groupBox13.SuspendLayout();
-            this.groupBox14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomized)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCalculator)).BeginInit();
+            this.groupBox15.SuspendLayout();
+            this.groupBox16.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(41, 9);
+            this.label1.Location = new System.Drawing.Point(211, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 0;
-            this.label1.Text = "产品";
+            this.label1.Text = "名称";
             // 
-            // comboBoxProductName
+            // comboBoxCalculatorName
             // 
-            this.comboBoxProductName.FormattingEnabled = true;
-            this.comboBoxProductName.Location = new System.Drawing.Point(76, 6);
-            this.comboBoxProductName.Name = "comboBoxProductName";
-            this.comboBoxProductName.Size = new System.Drawing.Size(49, 20);
-            this.comboBoxProductName.TabIndex = 1;
+            this.comboBoxCalculatorName.FormattingEnabled = true;
+            this.comboBoxCalculatorName.Location = new System.Drawing.Point(246, 13);
+            this.comboBoxCalculatorName.Name = "comboBoxCalculatorName";
+            this.comboBoxCalculatorName.Size = new System.Drawing.Size(49, 20);
+            this.comboBoxCalculatorName.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 63);
+            this.label2.Location = new System.Drawing.Point(12, 91);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 2;
             this.label2.Text = "宽度/长度";
             // 
-            // textBoxLengthWidth
+            // textBoxCalculatorLengthWidth
             // 
-            this.textBoxLengthWidth.Location = new System.Drawing.Point(76, 60);
-            this.textBoxLengthWidth.Name = "textBoxLengthWidth";
-            this.textBoxLengthWidth.Size = new System.Drawing.Size(48, 21);
-            this.textBoxLengthWidth.TabIndex = 3;
+            this.textBoxCalculatorLengthWidth.Location = new System.Drawing.Point(77, 88);
+            this.textBoxCalculatorLengthWidth.Name = "textBoxCalculatorLengthWidth";
+            this.textBoxCalculatorLengthWidth.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorLengthWidth.TabIndex = 3;
             // 
-            // textBoxHeightDeepth
+            // textBoxCalculatorHeightDeepth
             // 
-            this.textBoxHeightDeepth.Location = new System.Drawing.Point(76, 87);
-            this.textBoxHeightDeepth.Name = "textBoxHeightDeepth";
-            this.textBoxHeightDeepth.Size = new System.Drawing.Size(48, 21);
-            this.textBoxHeightDeepth.TabIndex = 5;
+            this.textBoxCalculatorHeightDeepth.Location = new System.Drawing.Point(77, 115);
+            this.textBoxCalculatorHeightDeepth.Name = "textBoxCalculatorHeightDeepth";
+            this.textBoxCalculatorHeightDeepth.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorHeightDeepth.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 90);
+            this.label3.Location = new System.Drawing.Point(12, 118);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 4;
             this.label3.Text = "高度/深度";
             // 
-            // textBoxSqft
+            // textBoxCalculatorSqft
             // 
-            this.textBoxSqft.Location = new System.Drawing.Point(76, 114);
-            this.textBoxSqft.Name = "textBoxSqft";
-            this.textBoxSqft.ReadOnly = true;
-            this.textBoxSqft.Size = new System.Drawing.Size(48, 21);
-            this.textBoxSqft.TabIndex = 7;
+            this.textBoxCalculatorSqft.Location = new System.Drawing.Point(267, 115);
+            this.textBoxCalculatorSqft.Name = "textBoxCalculatorSqft";
+            this.textBoxCalculatorSqft.ReadOnly = true;
+            this.textBoxCalculatorSqft.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorSqft.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 118);
+            this.label4.Location = new System.Drawing.Point(267, 91);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 6;
             this.label4.Text = "平方英尺";
             // 
-            // textBoxUnitPrice
+            // textBoxCalculatorUnitPrice
             // 
-            this.textBoxUnitPrice.Location = new System.Drawing.Point(76, 32);
-            this.textBoxUnitPrice.Name = "textBoxUnitPrice";
-            this.textBoxUnitPrice.ReadOnly = true;
-            this.textBoxUnitPrice.Size = new System.Drawing.Size(48, 21);
-            this.textBoxUnitPrice.TabIndex = 9;
+            this.textBoxCalculatorUnitPrice.Location = new System.Drawing.Point(77, 60);
+            this.textBoxCalculatorUnitPrice.Name = "textBoxCalculatorUnitPrice";
+            this.textBoxCalculatorUnitPrice.ReadOnly = true;
+            this.textBoxCalculatorUnitPrice.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorUnitPrice.TabIndex = 9;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 35);
+            this.label5.Location = new System.Drawing.Point(6, 63);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 12);
             this.label5.TabIndex = 8;
@@ -246,261 +270,127 @@
             this.tabControl.Controls.Add(this.tabPageCalculate);
             this.tabControl.Controls.Add(this.tabPageSetting);
             this.tabControl.Controls.Add(this.tabPageProducts);
+            this.tabControl.Controls.Add(this.tabPageSetUpUnitPrice);
             this.tabControl.Location = new System.Drawing.Point(12, 7);
             this.tabControl.Multiline = true;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(754, 431);
+            this.tabControl.Size = new System.Drawing.Size(829, 431);
             this.tabControl.TabIndex = 10;
             // 
             // tabPageCalculate
             // 
+            this.tabPageCalculate.Controls.Add(this.groupBox16);
+            this.tabPageCalculate.Controls.Add(this.groupBox15);
+            this.tabPageCalculate.Controls.Add(this.dataGridViewCalculator);
             this.tabPageCalculate.Controls.Add(this.groupBox12);
             this.tabPageCalculate.Controls.Add(this.groupBox11);
             this.tabPageCalculate.Controls.Add(this.groupBox3);
             this.tabPageCalculate.Controls.Add(this.groupBox2);
             this.tabPageCalculate.Controls.Add(this.groupBox1);
             this.tabPageCalculate.Controls.Add(this.label12);
-            this.tabPageCalculate.Controls.Add(this.textBoxPredictQtyOfDesign);
+            this.tabPageCalculate.Controls.Add(this.textBoxCalculatorPredictQtyOfDesign);
             this.tabPageCalculate.Controls.Add(this.label11);
-            this.tabPageCalculate.Controls.Add(this.textBoxDesignUnitPrice);
+            this.tabPageCalculate.Controls.Add(this.textBoxCalculatorDesignUnitPrice);
             this.tabPageCalculate.Controls.Add(this.label8);
             this.tabPageCalculate.Controls.Add(this.label9);
-            this.tabPageCalculate.Controls.Add(this.textBoxHeightDeepthFeet);
-            this.tabPageCalculate.Controls.Add(this.textBoxLengthWidthFeet);
+            this.tabPageCalculate.Controls.Add(this.textBoxCalculatorHeightDeepthFeet);
+            this.tabPageCalculate.Controls.Add(this.textBoxCalculatorLengthWidthFeet);
             this.tabPageCalculate.Controls.Add(this.label7);
             this.tabPageCalculate.Controls.Add(this.label6);
-            this.tabPageCalculate.Controls.Add(this.comboBoxProductName);
-            this.tabPageCalculate.Controls.Add(this.textBoxUnitPrice);
-            this.tabPageCalculate.Controls.Add(this.label1);
+            this.tabPageCalculate.Controls.Add(this.textBoxCalculatorUnitPrice);
             this.tabPageCalculate.Controls.Add(this.label5);
             this.tabPageCalculate.Controls.Add(this.label2);
-            this.tabPageCalculate.Controls.Add(this.textBoxSqft);
-            this.tabPageCalculate.Controls.Add(this.textBoxLengthWidth);
+            this.tabPageCalculate.Controls.Add(this.textBoxCalculatorSqft);
+            this.tabPageCalculate.Controls.Add(this.textBoxCalculatorLengthWidth);
             this.tabPageCalculate.Controls.Add(this.label4);
             this.tabPageCalculate.Controls.Add(this.label3);
-            this.tabPageCalculate.Controls.Add(this.textBoxHeightDeepth);
+            this.tabPageCalculate.Controls.Add(this.textBoxCalculatorHeightDeepth);
             this.tabPageCalculate.Location = new System.Drawing.Point(4, 22);
             this.tabPageCalculate.Name = "tabPageCalculate";
             this.tabPageCalculate.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCalculate.Size = new System.Drawing.Size(746, 405);
+            this.tabPageCalculate.Size = new System.Drawing.Size(821, 405);
             this.tabPageCalculate.TabIndex = 0;
             this.tabPageCalculate.Text = "计算器";
             this.tabPageCalculate.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
+            // groupBox12
             // 
-            this.groupBox3.Controls.Add(this.checkBoxGold);
-            this.groupBox3.Controls.Add(this.checkBoxPowderCoating);
-            this.groupBox3.Controls.Add(this.checkBoxPlastic);
-            this.groupBox3.Controls.Add(this.checkBoxBronze);
-            this.groupBox3.Controls.Add(this.checkBoxGlass);
-            this.groupBox3.Controls.Add(this.checkBoxCurve);
-            this.groupBox3.Controls.Add(this.checkBoxMetalSheet);
-            this.groupBox3.Location = new System.Drawing.Point(262, 9);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(211, 93);
-            this.groupBox3.TabIndex = 39;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "通用";
+            this.groupBox12.Controls.Add(this.checkBoxCalculatorAutoSliding);
+            this.groupBox12.Controls.Add(this.checkBoxCalculatorAutoSwing);
+            this.groupBox12.Location = new System.Drawing.Point(585, 141);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(230, 55);
+            this.groupBox12.TabIndex = 42;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "栏杆门";
             // 
-            // checkBoxGold
+            // checkBoxCalculatorAutoSliding
             // 
-            this.checkBoxGold.AutoSize = true;
-            this.checkBoxGold.Location = new System.Drawing.Point(87, 20);
-            this.checkBoxGold.Name = "checkBoxGold";
-            this.checkBoxGold.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxGold.TabIndex = 12;
-            this.checkBoxGold.Text = "金色";
-            this.checkBoxGold.UseVisualStyleBackColor = true;
+            this.checkBoxCalculatorAutoSliding.AutoSize = true;
+            this.checkBoxCalculatorAutoSliding.Location = new System.Drawing.Point(85, 24);
+            this.checkBoxCalculatorAutoSliding.Name = "checkBoxCalculatorAutoSliding";
+            this.checkBoxCalculatorAutoSliding.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCalculatorAutoSliding.TabIndex = 22;
+            this.checkBoxCalculatorAutoSliding.Text = "电推拉";
+            this.checkBoxCalculatorAutoSliding.UseVisualStyleBackColor = true;
             // 
-            // checkBoxPowderCoating
+            // checkBoxCalculatorAutoSwing
             // 
-            this.checkBoxPowderCoating.AutoSize = true;
-            this.checkBoxPowderCoating.Location = new System.Drawing.Point(21, 20);
-            this.checkBoxPowderCoating.Name = "checkBoxPowderCoating";
-            this.checkBoxPowderCoating.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxPowderCoating.TabIndex = 10;
-            this.checkBoxPowderCoating.Text = "烤漆";
-            this.checkBoxPowderCoating.UseVisualStyleBackColor = true;
+            this.checkBoxCalculatorAutoSwing.AutoSize = true;
+            this.checkBoxCalculatorAutoSwing.Location = new System.Drawing.Point(19, 24);
+            this.checkBoxCalculatorAutoSwing.Name = "checkBoxCalculatorAutoSwing";
+            this.checkBoxCalculatorAutoSwing.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCalculatorAutoSwing.TabIndex = 21;
+            this.checkBoxCalculatorAutoSwing.Text = "电双开";
+            this.checkBoxCalculatorAutoSwing.UseVisualStyleBackColor = true;
             // 
-            // checkBoxPlastic
+            // groupBox11
             // 
-            this.checkBoxPlastic.AutoSize = true;
-            this.checkBoxPlastic.Location = new System.Drawing.Point(87, 42);
-            this.checkBoxPlastic.Name = "checkBoxPlastic";
-            this.checkBoxPlastic.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxPlastic.TabIndex = 15;
-            this.checkBoxPlastic.Text = "胶板";
-            this.checkBoxPlastic.UseVisualStyleBackColor = true;
+            this.groupBox11.Controls.Add(this.label20);
+            this.groupBox11.Controls.Add(this.checkBoxCalculatorPole);
+            this.groupBox11.Controls.Add(this.textBoxCalculatorPoleUnitPrice);
+            this.groupBox11.Controls.Add(this.textBoxCalculatorPoleQty);
+            this.groupBox11.Controls.Add(this.label10);
+            this.groupBox11.Location = new System.Drawing.Point(585, 9);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(230, 72);
+            this.groupBox11.TabIndex = 41;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "栏杆";
             // 
-            // checkBoxBronze
+            // label20
             // 
-            this.checkBoxBronze.AutoSize = true;
-            this.checkBoxBronze.Location = new System.Drawing.Point(141, 20);
-            this.checkBoxBronze.Name = "checkBoxBronze";
-            this.checkBoxBronze.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxBronze.TabIndex = 11;
-            this.checkBoxBronze.Text = "古铜";
-            this.checkBoxBronze.UseVisualStyleBackColor = true;
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(69, 21);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(29, 12);
+            this.label20.TabIndex = 41;
+            this.label20.Text = "单价";
             // 
-            // checkBoxGlass
+            // checkBoxCalculatorPole
             // 
-            this.checkBoxGlass.AutoSize = true;
-            this.checkBoxGlass.Location = new System.Drawing.Point(141, 42);
-            this.checkBoxGlass.Name = "checkBoxGlass";
-            this.checkBoxGlass.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxGlass.TabIndex = 13;
-            this.checkBoxGlass.Text = "玻璃";
-            this.checkBoxGlass.UseVisualStyleBackColor = true;
+            this.checkBoxCalculatorPole.AutoSize = true;
+            this.checkBoxCalculatorPole.Location = new System.Drawing.Point(15, 20);
+            this.checkBoxCalculatorPole.Name = "checkBoxCalculatorPole";
+            this.checkBoxCalculatorPole.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorPole.TabIndex = 17;
+            this.checkBoxCalculatorPole.Text = "大柱";
+            this.checkBoxCalculatorPole.UseVisualStyleBackColor = true;
             // 
-            // checkBoxCurve
+            // textBoxCalculatorPoleUnitPrice
             // 
-            this.checkBoxCurve.AutoSize = true;
-            this.checkBoxCurve.Location = new System.Drawing.Point(21, 64);
-            this.checkBoxCurve.Name = "checkBoxCurve";
-            this.checkBoxCurve.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxCurve.TabIndex = 18;
-            this.checkBoxCurve.Text = "弧形";
-            this.checkBoxCurve.UseVisualStyleBackColor = true;
+            this.textBoxCalculatorPoleUnitPrice.Location = new System.Drawing.Point(104, 15);
+            this.textBoxCalculatorPoleUnitPrice.Name = "textBoxCalculatorPoleUnitPrice";
+            this.textBoxCalculatorPoleUnitPrice.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorPoleUnitPrice.TabIndex = 40;
             // 
-            // checkBoxMetalSheet
+            // textBoxCalculatorPoleQty
             // 
-            this.checkBoxMetalSheet.AutoSize = true;
-            this.checkBoxMetalSheet.Location = new System.Drawing.Point(21, 42);
-            this.checkBoxMetalSheet.Name = "checkBoxMetalSheet";
-            this.checkBoxMetalSheet.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxMetalSheet.TabIndex = 16;
-            this.checkBoxMetalSheet.Text = "铁板";
-            this.checkBoxMetalSheet.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.checkBoxCloser);
-            this.groupBox2.Controls.Add(this.checkBoxScreen);
-            this.groupBox2.Controls.Add(this.checkBoxDoorInDoor);
-            this.groupBox2.Location = new System.Drawing.Point(479, 87);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(230, 48);
-            this.groupBox2.TabIndex = 38;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "防盗门";
-            // 
-            // checkBoxCloser
-            // 
-            this.checkBoxCloser.AutoSize = true;
-            this.checkBoxCloser.Location = new System.Drawing.Point(19, 20);
-            this.checkBoxCloser.Name = "checkBoxCloser";
-            this.checkBoxCloser.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxCloser.TabIndex = 20;
-            this.checkBoxCloser.Text = "闭门器";
-            this.checkBoxCloser.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxScreen
-            // 
-            this.checkBoxScreen.AutoSize = true;
-            this.checkBoxScreen.Location = new System.Drawing.Point(151, 20);
-            this.checkBoxScreen.Name = "checkBoxScreen";
-            this.checkBoxScreen.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxScreen.TabIndex = 14;
-            this.checkBoxScreen.Text = "纱窗";
-            this.checkBoxScreen.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxDoorInDoor
-            // 
-            this.checkBoxDoorInDoor.AutoSize = true;
-            this.checkBoxDoorInDoor.Location = new System.Drawing.Point(85, 20);
-            this.checkBoxDoorInDoor.Name = "checkBoxDoorInDoor";
-            this.checkBoxDoorInDoor.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxDoorInDoor.TabIndex = 19;
-            this.checkBoxDoorInDoor.Text = "门中门";
-            this.checkBoxDoorInDoor.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.checkBoxHasLock);
-            this.groupBox1.Controls.Add(this.checkBoxNormalLock);
-            this.groupBox1.Controls.Add(this.checkBoxCodeLock);
-            this.groupBox1.Controls.Add(this.checkBoxFingerPrintLock);
-            this.groupBox1.Location = new System.Drawing.Point(262, 107);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(211, 89);
-            this.groupBox1.TabIndex = 37;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "锁相关";
-            // 
-            // checkBoxHasLock
-            // 
-            this.checkBoxHasLock.AutoSize = true;
-            this.checkBoxHasLock.Location = new System.Drawing.Point(19, 20);
-            this.checkBoxHasLock.Name = "checkBoxHasLock";
-            this.checkBoxHasLock.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxHasLock.TabIndex = 36;
-            this.checkBoxHasLock.Text = "有锁";
-            this.checkBoxHasLock.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxNormalLock
-            // 
-            this.checkBoxNormalLock.AutoSize = true;
-            this.checkBoxNormalLock.Location = new System.Drawing.Point(19, 46);
-            this.checkBoxNormalLock.Name = "checkBoxNormalLock";
-            this.checkBoxNormalLock.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxNormalLock.TabIndex = 21;
-            this.checkBoxNormalLock.Text = "普通锁";
-            this.checkBoxNormalLock.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxCodeLock
-            // 
-            this.checkBoxCodeLock.AutoSize = true;
-            this.checkBoxCodeLock.Location = new System.Drawing.Point(151, 46);
-            this.checkBoxCodeLock.Name = "checkBoxCodeLock";
-            this.checkBoxCodeLock.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxCodeLock.TabIndex = 22;
-            this.checkBoxCodeLock.Text = "机械锁";
-            this.checkBoxCodeLock.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxFingerPrintLock
-            // 
-            this.checkBoxFingerPrintLock.AutoSize = true;
-            this.checkBoxFingerPrintLock.Location = new System.Drawing.Point(85, 46);
-            this.checkBoxFingerPrintLock.Name = "checkBoxFingerPrintLock";
-            this.checkBoxFingerPrintLock.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxFingerPrintLock.TabIndex = 23;
-            this.checkBoxFingerPrintLock.Text = "指纹锁";
-            this.checkBoxFingerPrintLock.UseVisualStyleBackColor = true;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(11, 171);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(53, 12);
-            this.label12.TabIndex = 34;
-            this.label12.Text = "预计个数";
-            // 
-            // textBoxPredictQtyOfDesign
-            // 
-            this.textBoxPredictQtyOfDesign.Location = new System.Drawing.Point(76, 168);
-            this.textBoxPredictQtyOfDesign.Name = "textBoxPredictQtyOfDesign";
-            this.textBoxPredictQtyOfDesign.ReadOnly = true;
-            this.textBoxPredictQtyOfDesign.Size = new System.Drawing.Size(48, 21);
-            this.textBoxPredictQtyOfDesign.TabIndex = 35;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(11, 144);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 12);
-            this.label11.TabIndex = 32;
-            this.label11.Text = "花样单价";
-            // 
-            // textBoxDesignUnitPrice
-            // 
-            this.textBoxDesignUnitPrice.Location = new System.Drawing.Point(76, 141);
-            this.textBoxDesignUnitPrice.Name = "textBoxDesignUnitPrice";
-            this.textBoxDesignUnitPrice.Size = new System.Drawing.Size(48, 21);
-            this.textBoxDesignUnitPrice.TabIndex = 33;
+            this.textBoxCalculatorPoleQty.Location = new System.Drawing.Point(104, 41);
+            this.textBoxCalculatorPoleQty.Name = "textBoxCalculatorPoleQty";
+            this.textBoxCalculatorPoleQty.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorPoleQty.TabIndex = 24;
             // 
             // label10
             // 
@@ -511,10 +401,224 @@
             this.label10.TabIndex = 31;
             this.label10.Text = "数量";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.checkBoxCalculatorGold);
+            this.groupBox3.Controls.Add(this.checkBoxCalculatorPowderCoating);
+            this.groupBox3.Controls.Add(this.checkBoxCalculatorPlastic);
+            this.groupBox3.Controls.Add(this.checkBoxCalculatorBronze);
+            this.groupBox3.Controls.Add(this.checkBoxCalculatorGlass);
+            this.groupBox3.Controls.Add(this.checkBoxCalculatorCurve);
+            this.groupBox3.Controls.Add(this.checkBoxCalculatorMetalSheet);
+            this.groupBox3.Location = new System.Drawing.Point(371, 9);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(211, 93);
+            this.groupBox3.TabIndex = 39;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "通用";
+            // 
+            // checkBoxCalculatorGold
+            // 
+            this.checkBoxCalculatorGold.AutoSize = true;
+            this.checkBoxCalculatorGold.Location = new System.Drawing.Point(87, 20);
+            this.checkBoxCalculatorGold.Name = "checkBoxCalculatorGold";
+            this.checkBoxCalculatorGold.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorGold.TabIndex = 12;
+            this.checkBoxCalculatorGold.Text = "金色";
+            this.checkBoxCalculatorGold.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorPowderCoating
+            // 
+            this.checkBoxCalculatorPowderCoating.AutoSize = true;
+            this.checkBoxCalculatorPowderCoating.Location = new System.Drawing.Point(21, 20);
+            this.checkBoxCalculatorPowderCoating.Name = "checkBoxCalculatorPowderCoating";
+            this.checkBoxCalculatorPowderCoating.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorPowderCoating.TabIndex = 10;
+            this.checkBoxCalculatorPowderCoating.Text = "烤漆";
+            this.checkBoxCalculatorPowderCoating.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorPlastic
+            // 
+            this.checkBoxCalculatorPlastic.AutoSize = true;
+            this.checkBoxCalculatorPlastic.Location = new System.Drawing.Point(87, 42);
+            this.checkBoxCalculatorPlastic.Name = "checkBoxCalculatorPlastic";
+            this.checkBoxCalculatorPlastic.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorPlastic.TabIndex = 15;
+            this.checkBoxCalculatorPlastic.Text = "胶板";
+            this.checkBoxCalculatorPlastic.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorBronze
+            // 
+            this.checkBoxCalculatorBronze.AutoSize = true;
+            this.checkBoxCalculatorBronze.Location = new System.Drawing.Point(141, 20);
+            this.checkBoxCalculatorBronze.Name = "checkBoxCalculatorBronze";
+            this.checkBoxCalculatorBronze.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorBronze.TabIndex = 11;
+            this.checkBoxCalculatorBronze.Text = "古铜";
+            this.checkBoxCalculatorBronze.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorGlass
+            // 
+            this.checkBoxCalculatorGlass.AutoSize = true;
+            this.checkBoxCalculatorGlass.Location = new System.Drawing.Point(141, 42);
+            this.checkBoxCalculatorGlass.Name = "checkBoxCalculatorGlass";
+            this.checkBoxCalculatorGlass.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorGlass.TabIndex = 13;
+            this.checkBoxCalculatorGlass.Text = "玻璃";
+            this.checkBoxCalculatorGlass.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorCurve
+            // 
+            this.checkBoxCalculatorCurve.AutoSize = true;
+            this.checkBoxCalculatorCurve.Location = new System.Drawing.Point(21, 64);
+            this.checkBoxCalculatorCurve.Name = "checkBoxCalculatorCurve";
+            this.checkBoxCalculatorCurve.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorCurve.TabIndex = 18;
+            this.checkBoxCalculatorCurve.Text = "弧形";
+            this.checkBoxCalculatorCurve.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorMetalSheet
+            // 
+            this.checkBoxCalculatorMetalSheet.AutoSize = true;
+            this.checkBoxCalculatorMetalSheet.Location = new System.Drawing.Point(21, 42);
+            this.checkBoxCalculatorMetalSheet.Name = "checkBoxCalculatorMetalSheet";
+            this.checkBoxCalculatorMetalSheet.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorMetalSheet.TabIndex = 16;
+            this.checkBoxCalculatorMetalSheet.Text = "铁板";
+            this.checkBoxCalculatorMetalSheet.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.checkBoxCalculatorCloser);
+            this.groupBox2.Controls.Add(this.checkBoxCalculatorScreen);
+            this.groupBox2.Controls.Add(this.checkBoxCalculatorDoorInDoor);
+            this.groupBox2.Location = new System.Drawing.Point(585, 87);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(230, 48);
+            this.groupBox2.TabIndex = 38;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "防盗门";
+            // 
+            // checkBoxCalculatorCloser
+            // 
+            this.checkBoxCalculatorCloser.AutoSize = true;
+            this.checkBoxCalculatorCloser.Location = new System.Drawing.Point(19, 20);
+            this.checkBoxCalculatorCloser.Name = "checkBoxCalculatorCloser";
+            this.checkBoxCalculatorCloser.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCalculatorCloser.TabIndex = 20;
+            this.checkBoxCalculatorCloser.Text = "闭门器";
+            this.checkBoxCalculatorCloser.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorScreen
+            // 
+            this.checkBoxCalculatorScreen.AutoSize = true;
+            this.checkBoxCalculatorScreen.Location = new System.Drawing.Point(151, 20);
+            this.checkBoxCalculatorScreen.Name = "checkBoxCalculatorScreen";
+            this.checkBoxCalculatorScreen.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorScreen.TabIndex = 14;
+            this.checkBoxCalculatorScreen.Text = "纱窗";
+            this.checkBoxCalculatorScreen.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorDoorInDoor
+            // 
+            this.checkBoxCalculatorDoorInDoor.AutoSize = true;
+            this.checkBoxCalculatorDoorInDoor.Location = new System.Drawing.Point(85, 20);
+            this.checkBoxCalculatorDoorInDoor.Name = "checkBoxCalculatorDoorInDoor";
+            this.checkBoxCalculatorDoorInDoor.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCalculatorDoorInDoor.TabIndex = 19;
+            this.checkBoxCalculatorDoorInDoor.Text = "门中门";
+            this.checkBoxCalculatorDoorInDoor.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.checkBoxCalculatorHasLock);
+            this.groupBox1.Controls.Add(this.checkBoxCalculatorNormalLock);
+            this.groupBox1.Controls.Add(this.checkBoxCalculatorCodeLock);
+            this.groupBox1.Controls.Add(this.checkBoxCalculatorFingerPrintLock);
+            this.groupBox1.Location = new System.Drawing.Point(371, 107);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(211, 89);
+            this.groupBox1.TabIndex = 37;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "锁相关";
+            // 
+            // checkBoxCalculatorHasLock
+            // 
+            this.checkBoxCalculatorHasLock.AutoSize = true;
+            this.checkBoxCalculatorHasLock.Location = new System.Drawing.Point(19, 20);
+            this.checkBoxCalculatorHasLock.Name = "checkBoxCalculatorHasLock";
+            this.checkBoxCalculatorHasLock.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCalculatorHasLock.TabIndex = 36;
+            this.checkBoxCalculatorHasLock.Text = "有锁";
+            this.checkBoxCalculatorHasLock.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorNormalLock
+            // 
+            this.checkBoxCalculatorNormalLock.AutoSize = true;
+            this.checkBoxCalculatorNormalLock.Location = new System.Drawing.Point(19, 46);
+            this.checkBoxCalculatorNormalLock.Name = "checkBoxCalculatorNormalLock";
+            this.checkBoxCalculatorNormalLock.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCalculatorNormalLock.TabIndex = 21;
+            this.checkBoxCalculatorNormalLock.Text = "普通锁";
+            this.checkBoxCalculatorNormalLock.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorCodeLock
+            // 
+            this.checkBoxCalculatorCodeLock.AutoSize = true;
+            this.checkBoxCalculatorCodeLock.Location = new System.Drawing.Point(151, 46);
+            this.checkBoxCalculatorCodeLock.Name = "checkBoxCalculatorCodeLock";
+            this.checkBoxCalculatorCodeLock.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCalculatorCodeLock.TabIndex = 22;
+            this.checkBoxCalculatorCodeLock.Text = "机械锁";
+            this.checkBoxCalculatorCodeLock.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxCalculatorFingerPrintLock
+            // 
+            this.checkBoxCalculatorFingerPrintLock.AutoSize = true;
+            this.checkBoxCalculatorFingerPrintLock.Location = new System.Drawing.Point(85, 46);
+            this.checkBoxCalculatorFingerPrintLock.Name = "checkBoxCalculatorFingerPrintLock";
+            this.checkBoxCalculatorFingerPrintLock.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCalculatorFingerPrintLock.TabIndex = 23;
+            this.checkBoxCalculatorFingerPrintLock.Text = "指纹锁";
+            this.checkBoxCalculatorFingerPrintLock.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(132, 145);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(53, 12);
+            this.label12.TabIndex = 34;
+            this.label12.Text = "预计个数";
+            // 
+            // textBoxCalculatorPredictQtyOfDesign
+            // 
+            this.textBoxCalculatorPredictQtyOfDesign.Location = new System.Drawing.Point(190, 142);
+            this.textBoxCalculatorPredictQtyOfDesign.Name = "textBoxCalculatorPredictQtyOfDesign";
+            this.textBoxCalculatorPredictQtyOfDesign.ReadOnly = true;
+            this.textBoxCalculatorPredictQtyOfDesign.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorPredictQtyOfDesign.TabIndex = 35;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 145);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 32;
+            this.label11.Text = "花样单价";
+            // 
+            // textBoxCalculatorDesignUnitPrice
+            // 
+            this.textBoxCalculatorDesignUnitPrice.Location = new System.Drawing.Point(77, 142);
+            this.textBoxCalculatorDesignUnitPrice.Name = "textBoxCalculatorDesignUnitPrice";
+            this.textBoxCalculatorDesignUnitPrice.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorDesignUnitPrice.TabIndex = 33;
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(220, 90);
+            this.label8.Location = new System.Drawing.Point(244, 118);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(17, 12);
             this.label8.TabIndex = 30;
@@ -523,30 +627,30 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(220, 63);
+            this.label9.Location = new System.Drawing.Point(244, 91);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(17, 12);
             this.label9.TabIndex = 29;
             this.label9.Text = "尺";
             // 
-            // textBoxHeightDeepthFeet
+            // textBoxCalculatorHeightDeepthFeet
             // 
-            this.textBoxHeightDeepthFeet.Location = new System.Drawing.Point(166, 87);
-            this.textBoxHeightDeepthFeet.Name = "textBoxHeightDeepthFeet";
-            this.textBoxHeightDeepthFeet.Size = new System.Drawing.Size(48, 21);
-            this.textBoxHeightDeepthFeet.TabIndex = 28;
+            this.textBoxCalculatorHeightDeepthFeet.Location = new System.Drawing.Point(190, 115);
+            this.textBoxCalculatorHeightDeepthFeet.Name = "textBoxCalculatorHeightDeepthFeet";
+            this.textBoxCalculatorHeightDeepthFeet.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorHeightDeepthFeet.TabIndex = 28;
             // 
-            // textBoxLengthWidthFeet
+            // textBoxCalculatorLengthWidthFeet
             // 
-            this.textBoxLengthWidthFeet.Location = new System.Drawing.Point(166, 60);
-            this.textBoxLengthWidthFeet.Name = "textBoxLengthWidthFeet";
-            this.textBoxLengthWidthFeet.Size = new System.Drawing.Size(48, 21);
-            this.textBoxLengthWidthFeet.TabIndex = 27;
+            this.textBoxCalculatorLengthWidthFeet.Location = new System.Drawing.Point(190, 88);
+            this.textBoxCalculatorLengthWidthFeet.Name = "textBoxCalculatorLengthWidthFeet";
+            this.textBoxCalculatorLengthWidthFeet.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorLengthWidthFeet.TabIndex = 27;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(131, 90);
+            this.label7.Location = new System.Drawing.Point(132, 118);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 12);
             this.label7.TabIndex = 26;
@@ -555,28 +659,11 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(131, 63);
+            this.label6.Location = new System.Drawing.Point(132, 91);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(29, 12);
             this.label6.TabIndex = 25;
             this.label6.Text = "英寸";
-            // 
-            // textBoxPoleQty
-            // 
-            this.textBoxPoleQty.Location = new System.Drawing.Point(104, 41);
-            this.textBoxPoleQty.Name = "textBoxPoleQty";
-            this.textBoxPoleQty.Size = new System.Drawing.Size(48, 21);
-            this.textBoxPoleQty.TabIndex = 24;
-            // 
-            // checkBoxPole
-            // 
-            this.checkBoxPole.AutoSize = true;
-            this.checkBoxPole.Location = new System.Drawing.Point(15, 20);
-            this.checkBoxPole.Name = "checkBoxPole";
-            this.checkBoxPole.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxPole.TabIndex = 17;
-            this.checkBoxPole.Text = "大柱";
-            this.checkBoxPole.UseVisualStyleBackColor = true;
             // 
             // tabPageSetting
             // 
@@ -587,7 +674,7 @@
             this.tabPageSetting.Location = new System.Drawing.Point(4, 22);
             this.tabPageSetting.Name = "tabPageSetting";
             this.tabPageSetting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSetting.Size = new System.Drawing.Size(746, 405);
+            this.tabPageSetting.Size = new System.Drawing.Size(821, 405);
             this.tabPageSetting.TabIndex = 1;
             this.tabPageSetting.Text = "基础产品设置";
             this.tabPageSetting.UseVisualStyleBackColor = true;
@@ -808,132 +895,102 @@
             this.tabPageProducts.Controls.Add(this.groupBox8);
             this.tabPageProducts.Location = new System.Drawing.Point(4, 22);
             this.tabPageProducts.Name = "tabPageProducts";
-            this.tabPageProducts.Size = new System.Drawing.Size(746, 405);
+            this.tabPageProducts.Size = new System.Drawing.Size(821, 405);
             this.tabPageProducts.TabIndex = 2;
             this.tabPageProducts.Text = "自定义产品设置";
             this.tabPageProducts.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewCustomized
+            // groupBox14
             // 
-            this.dataGridViewCustomized.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCustomized.Location = new System.Drawing.Point(6, 189);
-            this.dataGridViewCustomized.Name = "dataGridViewCustomized";
-            this.dataGridViewCustomized.Size = new System.Drawing.Size(734, 185);
-            this.dataGridViewCustomized.TabIndex = 14;
+            this.groupBox14.Controls.Add(this.checkBoxCustomizedSliding);
+            this.groupBox14.Controls.Add(this.checkBoxCustomizedSwing);
+            this.groupBox14.Location = new System.Drawing.Point(480, 101);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(260, 82);
+            this.groupBox14.TabIndex = 49;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "栏杆门";
             // 
-            // buttonCustomizedAdd
+            // checkBoxCustomizedSliding
             // 
-            this.buttonCustomizedAdd.BackColor = System.Drawing.Color.Teal;
-            this.buttonCustomizedAdd.FlatAppearance.BorderSize = 0;
-            this.buttonCustomizedAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonCustomizedAdd.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttonCustomizedAdd.ForeColor = System.Drawing.SystemColors.Control;
-            this.buttonCustomizedAdd.Location = new System.Drawing.Point(145, 66);
-            this.buttonCustomizedAdd.Name = "buttonCustomizedAdd";
-            this.buttonCustomizedAdd.Size = new System.Drawing.Size(98, 40);
-            this.buttonCustomizedAdd.TabIndex = 4;
-            this.buttonCustomizedAdd.Text = "确认新增";
-            this.buttonCustomizedAdd.UseVisualStyleBackColor = false;
+            this.checkBoxCustomizedSliding.AutoSize = true;
+            this.checkBoxCustomizedSliding.Location = new System.Drawing.Point(85, 24);
+            this.checkBoxCustomizedSliding.Name = "checkBoxCustomizedSliding";
+            this.checkBoxCustomizedSliding.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCustomizedSliding.TabIndex = 22;
+            this.checkBoxCustomizedSliding.Text = "电推拉";
+            this.checkBoxCustomizedSliding.UseVisualStyleBackColor = true;
             // 
-            // groupBox8
+            // checkBoxCustomizedSwing
             // 
-            this.groupBox8.Controls.Add(this.comboBoxCustomizedName);
-            this.groupBox8.Controls.Add(this.comboBoxCustomizedProductType);
-            this.groupBox8.Controls.Add(this.label26);
-            this.groupBox8.Controls.Add(this.buttonCustomizedAdd);
-            this.groupBox8.Controls.Add(this.buttonCustomizedDelete);
-            this.groupBox8.Controls.Add(this.buttonCustomizedUpdate);
-            this.groupBox8.Controls.Add(this.label24);
-            this.groupBox8.Controls.Add(this.comboBoxCustomizedProductMaterial);
-            this.groupBox8.Controls.Add(this.label25);
-            this.groupBox8.Controls.Add(this.textBoxCustomizedProductName);
-            this.groupBox8.Location = new System.Drawing.Point(6, 3);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(251, 125);
-            this.groupBox8.TabIndex = 12;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "自定义产品";
+            this.checkBoxCustomizedSwing.AutoSize = true;
+            this.checkBoxCustomizedSwing.Location = new System.Drawing.Point(19, 24);
+            this.checkBoxCustomizedSwing.Name = "checkBoxCustomizedSwing";
+            this.checkBoxCustomizedSwing.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxCustomizedSwing.TabIndex = 21;
+            this.checkBoxCustomizedSwing.Text = "电双开";
+            this.checkBoxCustomizedSwing.UseVisualStyleBackColor = true;
             // 
-            // buttonCustomizedDelete
+            // groupBox13
             // 
-            this.buttonCustomizedDelete.BackColor = System.Drawing.Color.IndianRed;
-            this.buttonCustomizedDelete.FlatAppearance.BorderSize = 0;
-            this.buttonCustomizedDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonCustomizedDelete.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttonCustomizedDelete.ForeColor = System.Drawing.SystemColors.Control;
-            this.buttonCustomizedDelete.Location = new System.Drawing.Point(197, 11);
-            this.buttonCustomizedDelete.Name = "buttonCustomizedDelete";
-            this.buttonCustomizedDelete.Size = new System.Drawing.Size(46, 49);
-            this.buttonCustomizedDelete.TabIndex = 6;
-            this.buttonCustomizedDelete.Text = "删除";
-            this.buttonCustomizedDelete.UseVisualStyleBackColor = false;
+            this.groupBox13.Controls.Add(this.checkBoxCustomizedPole);
+            this.groupBox13.Controls.Add(this.label21);
+            this.groupBox13.Controls.Add(this.label22);
+            this.groupBox13.Controls.Add(this.textBoxCustomizedPoleUnitPrice);
+            this.groupBox13.Controls.Add(this.textBoxCustomizedPoleQty);
+            this.groupBox13.Location = new System.Drawing.Point(263, 101);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(211, 82);
+            this.groupBox13.TabIndex = 48;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "栏杆";
             // 
-            // buttonCustomizedUpdate
+            // checkBoxCustomizedPole
             // 
-            this.buttonCustomizedUpdate.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.buttonCustomizedUpdate.FlatAppearance.BorderSize = 0;
-            this.buttonCustomizedUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonCustomizedUpdate.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttonCustomizedUpdate.ForeColor = System.Drawing.SystemColors.Control;
-            this.buttonCustomizedUpdate.Location = new System.Drawing.Point(145, 11);
-            this.buttonCustomizedUpdate.Name = "buttonCustomizedUpdate";
-            this.buttonCustomizedUpdate.Size = new System.Drawing.Size(46, 49);
-            this.buttonCustomizedUpdate.TabIndex = 4;
-            this.buttonCustomizedUpdate.Text = "更新";
-            this.buttonCustomizedUpdate.UseVisualStyleBackColor = false;
+            this.checkBoxCustomizedPole.AutoSize = true;
+            this.checkBoxCustomizedPole.Location = new System.Drawing.Point(21, 20);
+            this.checkBoxCustomizedPole.Name = "checkBoxCustomizedPole";
+            this.checkBoxCustomizedPole.Size = new System.Drawing.Size(48, 16);
+            this.checkBoxCustomizedPole.TabIndex = 40;
+            this.checkBoxCustomizedPole.Text = "大柱";
+            this.checkBoxCustomizedPole.UseVisualStyleBackColor = true;
             // 
-            // label24
+            // label21
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(2, 82);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(59, 12);
-            this.label24.TabIndex = 2;
-            this.label24.Text = "编号/名称";
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(77, 21);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(29, 12);
+            this.label21.TabIndex = 47;
+            this.label21.Text = "单价";
             // 
-            // comboBoxCustomizedProductMaterial
+            // label22
             // 
-            this.comboBoxCustomizedProductMaterial.FormattingEnabled = true;
-            this.comboBoxCustomizedProductMaterial.Location = new System.Drawing.Point(67, 14);
-            this.comboBoxCustomizedProductMaterial.Name = "comboBoxCustomizedProductMaterial";
-            this.comboBoxCustomizedProductMaterial.Size = new System.Drawing.Size(59, 20);
-            this.comboBoxCustomizedProductMaterial.TabIndex = 0;
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(77, 44);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(29, 12);
+            this.label22.TabIndex = 45;
+            this.label22.Text = "数量";
             // 
-            // label25
+            // textBoxCustomizedPoleUnitPrice
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(8, 17);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(29, 12);
-            this.label25.TabIndex = 1;
-            this.label25.Text = "材料";
+            this.textBoxCustomizedPoleUnitPrice.Location = new System.Drawing.Point(112, 15);
+            this.textBoxCustomizedPoleUnitPrice.Name = "textBoxCustomizedPoleUnitPrice";
+            this.textBoxCustomizedPoleUnitPrice.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCustomizedPoleUnitPrice.TabIndex = 46;
             // 
-            // textBoxCustomizedProductName
+            // textBoxCustomizedPoleQty
             // 
-            this.textBoxCustomizedProductName.Location = new System.Drawing.Point(67, 91);
-            this.textBoxCustomizedProductName.Name = "textBoxCustomizedProductName";
-            this.textBoxCustomizedProductName.Size = new System.Drawing.Size(59, 21);
-            this.textBoxCustomizedProductName.TabIndex = 3;
-            // 
-            // comboBoxCustomizedProductType
-            // 
-            this.comboBoxCustomizedProductType.FormattingEnabled = true;
-            this.comboBoxCustomizedProductType.Location = new System.Drawing.Point(67, 40);
-            this.comboBoxCustomizedProductType.Name = "comboBoxCustomizedProductType";
-            this.comboBoxCustomizedProductType.Size = new System.Drawing.Size(59, 20);
-            this.comboBoxCustomizedProductType.TabIndex = 7;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(8, 43);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(53, 12);
-            this.label26.TabIndex = 8;
-            this.label26.Text = "产品类型";
+            this.textBoxCustomizedPoleQty.Location = new System.Drawing.Point(112, 41);
+            this.textBoxCustomizedPoleQty.Name = "textBoxCustomizedPoleQty";
+            this.textBoxCustomizedPoleQty.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCustomizedPoleQty.TabIndex = 44;
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.label23);
+            this.groupBox7.Controls.Add(this.textBoxCustomizedDesignPrice);
             this.groupBox7.Controls.Add(this.checkBoxCustomizedGold);
             this.groupBox7.Controls.Add(this.checkBoxCustomizedPowderCoating);
             this.groupBox7.Controls.Add(this.checkBoxCustomizedPlastic);
@@ -1113,153 +1170,32 @@
             this.checkBoxCustomizedFingerPrintLock.Text = "指纹锁";
             this.checkBoxCustomizedFingerPrintLock.UseVisualStyleBackColor = true;
             // 
-            // checkBoxCustomizedPole
+            // dataGridViewCustomized
             // 
-            this.checkBoxCustomizedPole.AutoSize = true;
-            this.checkBoxCustomizedPole.Location = new System.Drawing.Point(21, 20);
-            this.checkBoxCustomizedPole.Name = "checkBoxCustomizedPole";
-            this.checkBoxCustomizedPole.Size = new System.Drawing.Size(48, 16);
-            this.checkBoxCustomizedPole.TabIndex = 40;
-            this.checkBoxCustomizedPole.Text = "大柱";
-            this.checkBoxCustomizedPole.UseVisualStyleBackColor = true;
+            this.dataGridViewCustomized.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCustomized.Location = new System.Drawing.Point(6, 189);
+            this.dataGridViewCustomized.Name = "dataGridViewCustomized";
+            this.dataGridViewCustomized.Size = new System.Drawing.Size(802, 185);
+            this.dataGridViewCustomized.TabIndex = 14;
             // 
-            // textBoxPoleUnitPrice
+            // groupBox8
             // 
-            this.textBoxPoleUnitPrice.Location = new System.Drawing.Point(104, 15);
-            this.textBoxPoleUnitPrice.Name = "textBoxPoleUnitPrice";
-            this.textBoxPoleUnitPrice.Size = new System.Drawing.Size(48, 21);
-            this.textBoxPoleUnitPrice.TabIndex = 40;
-            // 
-            // groupBox11
-            // 
-            this.groupBox11.Controls.Add(this.label20);
-            this.groupBox11.Controls.Add(this.checkBoxPole);
-            this.groupBox11.Controls.Add(this.textBoxPoleUnitPrice);
-            this.groupBox11.Controls.Add(this.textBoxPoleQty);
-            this.groupBox11.Controls.Add(this.label10);
-            this.groupBox11.Location = new System.Drawing.Point(479, 9);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(230, 72);
-            this.groupBox11.TabIndex = 41;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "栏杆";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(69, 21);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(29, 12);
-            this.label20.TabIndex = 41;
-            this.label20.Text = "单价";
-            // 
-            // checkBoxAutoSwing
-            // 
-            this.checkBoxAutoSwing.AutoSize = true;
-            this.checkBoxAutoSwing.Location = new System.Drawing.Point(19, 24);
-            this.checkBoxAutoSwing.Name = "checkBoxAutoSwing";
-            this.checkBoxAutoSwing.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxAutoSwing.TabIndex = 21;
-            this.checkBoxAutoSwing.Text = "电双开";
-            this.checkBoxAutoSwing.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxAutoSliding
-            // 
-            this.checkBoxAutoSliding.AutoSize = true;
-            this.checkBoxAutoSliding.Location = new System.Drawing.Point(85, 24);
-            this.checkBoxAutoSliding.Name = "checkBoxAutoSliding";
-            this.checkBoxAutoSliding.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxAutoSliding.TabIndex = 22;
-            this.checkBoxAutoSliding.Text = "电推拉";
-            this.checkBoxAutoSliding.UseVisualStyleBackColor = true;
-            // 
-            // groupBox12
-            // 
-            this.groupBox12.Controls.Add(this.checkBoxAutoSliding);
-            this.groupBox12.Controls.Add(this.checkBoxAutoSwing);
-            this.groupBox12.Location = new System.Drawing.Point(479, 141);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(230, 55);
-            this.groupBox12.TabIndex = 42;
-            this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "栏杆门";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(77, 21);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(29, 12);
-            this.label21.TabIndex = 47;
-            this.label21.Text = "单价";
-            // 
-            // textBoxCustomizedPoleUnitPrice
-            // 
-            this.textBoxCustomizedPoleUnitPrice.Location = new System.Drawing.Point(112, 15);
-            this.textBoxCustomizedPoleUnitPrice.Name = "textBoxCustomizedPoleUnitPrice";
-            this.textBoxCustomizedPoleUnitPrice.Size = new System.Drawing.Size(48, 21);
-            this.textBoxCustomizedPoleUnitPrice.TabIndex = 46;
-            // 
-            // textBoxCustomizedPoleQty
-            // 
-            this.textBoxCustomizedPoleQty.Location = new System.Drawing.Point(112, 41);
-            this.textBoxCustomizedPoleQty.Name = "textBoxCustomizedPoleQty";
-            this.textBoxCustomizedPoleQty.Size = new System.Drawing.Size(48, 21);
-            this.textBoxCustomizedPoleQty.TabIndex = 44;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(77, 44);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(29, 12);
-            this.label22.TabIndex = 45;
-            this.label22.Text = "数量";
-            // 
-            // groupBox13
-            // 
-            this.groupBox13.Controls.Add(this.checkBoxCustomizedPole);
-            this.groupBox13.Controls.Add(this.label21);
-            this.groupBox13.Controls.Add(this.label22);
-            this.groupBox13.Controls.Add(this.textBoxCustomizedPoleUnitPrice);
-            this.groupBox13.Controls.Add(this.textBoxCustomizedPoleQty);
-            this.groupBox13.Location = new System.Drawing.Point(263, 101);
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(211, 69);
-            this.groupBox13.TabIndex = 48;
-            this.groupBox13.TabStop = false;
-            this.groupBox13.Text = "栏杆";
-            // 
-            // groupBox14
-            // 
-            this.groupBox14.Controls.Add(this.checkBoxCustomizedSliding);
-            this.groupBox14.Controls.Add(this.checkBoxCustomizedSwing);
-            this.groupBox14.Location = new System.Drawing.Point(480, 101);
-            this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(260, 69);
-            this.groupBox14.TabIndex = 49;
-            this.groupBox14.TabStop = false;
-            this.groupBox14.Text = "栏杆门";
-            // 
-            // checkBoxCustomizedSliding
-            // 
-            this.checkBoxCustomizedSliding.AutoSize = true;
-            this.checkBoxCustomizedSliding.Location = new System.Drawing.Point(85, 24);
-            this.checkBoxCustomizedSliding.Name = "checkBoxCustomizedSliding";
-            this.checkBoxCustomizedSliding.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxCustomizedSliding.TabIndex = 22;
-            this.checkBoxCustomizedSliding.Text = "电推拉";
-            this.checkBoxCustomizedSliding.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxCustomizedSwing
-            // 
-            this.checkBoxCustomizedSwing.AutoSize = true;
-            this.checkBoxCustomizedSwing.Location = new System.Drawing.Point(19, 24);
-            this.checkBoxCustomizedSwing.Name = "checkBoxCustomizedSwing";
-            this.checkBoxCustomizedSwing.Size = new System.Drawing.Size(60, 16);
-            this.checkBoxCustomizedSwing.TabIndex = 21;
-            this.checkBoxCustomizedSwing.Text = "电双开";
-            this.checkBoxCustomizedSwing.UseVisualStyleBackColor = true;
+            this.groupBox8.Controls.Add(this.comboBoxCustomizedName);
+            this.groupBox8.Controls.Add(this.comboBoxCustomizedProductType);
+            this.groupBox8.Controls.Add(this.label26);
+            this.groupBox8.Controls.Add(this.buttonCustomizedAdd);
+            this.groupBox8.Controls.Add(this.buttonCustomizedDelete);
+            this.groupBox8.Controls.Add(this.buttonCustomizedUpdate);
+            this.groupBox8.Controls.Add(this.label24);
+            this.groupBox8.Controls.Add(this.comboBoxCustomizedProductMaterial);
+            this.groupBox8.Controls.Add(this.label25);
+            this.groupBox8.Controls.Add(this.textBoxCustomizedProductName);
+            this.groupBox8.Location = new System.Drawing.Point(6, 3);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(251, 125);
+            this.groupBox8.TabIndex = 12;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "自定义产品";
             // 
             // comboBoxCustomizedName
             // 
@@ -1269,11 +1205,311 @@
             this.comboBoxCustomizedName.Size = new System.Drawing.Size(59, 20);
             this.comboBoxCustomizedName.TabIndex = 9;
             // 
+            // comboBoxCustomizedProductType
+            // 
+            this.comboBoxCustomizedProductType.FormattingEnabled = true;
+            this.comboBoxCustomizedProductType.Location = new System.Drawing.Point(67, 40);
+            this.comboBoxCustomizedProductType.Name = "comboBoxCustomizedProductType";
+            this.comboBoxCustomizedProductType.Size = new System.Drawing.Size(59, 20);
+            this.comboBoxCustomizedProductType.TabIndex = 7;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(8, 43);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(53, 12);
+            this.label26.TabIndex = 8;
+            this.label26.Text = "产品类型";
+            // 
+            // buttonCustomizedAdd
+            // 
+            this.buttonCustomizedAdd.BackColor = System.Drawing.Color.Teal;
+            this.buttonCustomizedAdd.FlatAppearance.BorderSize = 0;
+            this.buttonCustomizedAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCustomizedAdd.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buttonCustomizedAdd.ForeColor = System.Drawing.SystemColors.Control;
+            this.buttonCustomizedAdd.Location = new System.Drawing.Point(145, 66);
+            this.buttonCustomizedAdd.Name = "buttonCustomizedAdd";
+            this.buttonCustomizedAdd.Size = new System.Drawing.Size(98, 40);
+            this.buttonCustomizedAdd.TabIndex = 4;
+            this.buttonCustomizedAdd.Text = "确认新增";
+            this.buttonCustomizedAdd.UseVisualStyleBackColor = false;
+            // 
+            // buttonCustomizedDelete
+            // 
+            this.buttonCustomizedDelete.BackColor = System.Drawing.Color.IndianRed;
+            this.buttonCustomizedDelete.FlatAppearance.BorderSize = 0;
+            this.buttonCustomizedDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCustomizedDelete.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buttonCustomizedDelete.ForeColor = System.Drawing.SystemColors.Control;
+            this.buttonCustomizedDelete.Location = new System.Drawing.Point(197, 11);
+            this.buttonCustomizedDelete.Name = "buttonCustomizedDelete";
+            this.buttonCustomizedDelete.Size = new System.Drawing.Size(46, 49);
+            this.buttonCustomizedDelete.TabIndex = 6;
+            this.buttonCustomizedDelete.Text = "删除";
+            this.buttonCustomizedDelete.UseVisualStyleBackColor = false;
+            // 
+            // buttonCustomizedUpdate
+            // 
+            this.buttonCustomizedUpdate.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.buttonCustomizedUpdate.FlatAppearance.BorderSize = 0;
+            this.buttonCustomizedUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCustomizedUpdate.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buttonCustomizedUpdate.ForeColor = System.Drawing.SystemColors.Control;
+            this.buttonCustomizedUpdate.Location = new System.Drawing.Point(145, 11);
+            this.buttonCustomizedUpdate.Name = "buttonCustomizedUpdate";
+            this.buttonCustomizedUpdate.Size = new System.Drawing.Size(46, 49);
+            this.buttonCustomizedUpdate.TabIndex = 4;
+            this.buttonCustomizedUpdate.Text = "更新";
+            this.buttonCustomizedUpdate.UseVisualStyleBackColor = false;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(2, 82);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(59, 12);
+            this.label24.TabIndex = 2;
+            this.label24.Text = "编号/名称";
+            // 
+            // comboBoxCustomizedProductMaterial
+            // 
+            this.comboBoxCustomizedProductMaterial.FormattingEnabled = true;
+            this.comboBoxCustomizedProductMaterial.Location = new System.Drawing.Point(67, 14);
+            this.comboBoxCustomizedProductMaterial.Name = "comboBoxCustomizedProductMaterial";
+            this.comboBoxCustomizedProductMaterial.Size = new System.Drawing.Size(59, 20);
+            this.comboBoxCustomizedProductMaterial.TabIndex = 0;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(8, 17);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(29, 12);
+            this.label25.TabIndex = 1;
+            this.label25.Text = "材料";
+            // 
+            // textBoxCustomizedProductName
+            // 
+            this.textBoxCustomizedProductName.Location = new System.Drawing.Point(67, 91);
+            this.textBoxCustomizedProductName.Name = "textBoxCustomizedProductName";
+            this.textBoxCustomizedProductName.Size = new System.Drawing.Size(59, 21);
+            this.textBoxCustomizedProductName.TabIndex = 3;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(76, 65);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(53, 12);
+            this.label23.TabIndex = 34;
+            this.label23.Text = "花样单价";
+            // 
+            // textBoxCustomizedDesignPrice
+            // 
+            this.textBoxCustomizedDesignPrice.Location = new System.Drawing.Point(141, 62);
+            this.textBoxCustomizedDesignPrice.Name = "textBoxCustomizedDesignPrice";
+            this.textBoxCustomizedDesignPrice.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCustomizedDesignPrice.TabIndex = 35;
+            // 
+            // dataGridViewCalculator
+            // 
+            this.dataGridViewCalculator.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCalculator.Location = new System.Drawing.Point(3, 245);
+            this.dataGridViewCalculator.Name = "dataGridViewCalculator";
+            this.dataGridViewCalculator.Size = new System.Drawing.Size(812, 164);
+            this.dataGridViewCalculator.TabIndex = 43;
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.label30);
+            this.groupBox15.Controls.Add(this.textBoxCalculatorAllPrice);
+            this.groupBox15.Controls.Add(this.buttonDelete);
+            this.groupBox15.Controls.Add(this.buttonCalculatorUpdate);
+            this.groupBox15.Controls.Add(this.buttonCalculatorAdd);
+            this.groupBox15.Controls.Add(this.label29);
+            this.groupBox15.Controls.Add(this.textBoxCalculatorTotalPrice);
+            this.groupBox15.Controls.Add(this.label28);
+            this.groupBox15.Controls.Add(this.textBoxCalculatorQty);
+            this.groupBox15.Controls.Add(this.label27);
+            this.groupBox15.Controls.Add(this.textBoxCalculatorPrice);
+            this.groupBox15.Location = new System.Drawing.Point(6, 195);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(809, 44);
+            this.groupBox15.TabIndex = 44;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "计算结果";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(5, 20);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(53, 12);
+            this.label27.TabIndex = 36;
+            this.label27.Text = "单个价格";
+            // 
+            // textBoxCalculatorPrice
+            // 
+            this.textBoxCalculatorPrice.Location = new System.Drawing.Point(70, 17);
+            this.textBoxCalculatorPrice.Name = "textBoxCalculatorPrice";
+            this.textBoxCalculatorPrice.ReadOnly = true;
+            this.textBoxCalculatorPrice.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorPrice.TabIndex = 37;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(125, 20);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(29, 12);
+            this.label28.TabIndex = 38;
+            this.label28.Text = "数量";
+            // 
+            // textBoxCalculatorQty
+            // 
+            this.textBoxCalculatorQty.Location = new System.Drawing.Point(166, 17);
+            this.textBoxCalculatorQty.Name = "textBoxCalculatorQty";
+            this.textBoxCalculatorQty.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorQty.TabIndex = 39;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(220, 20);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(53, 12);
+            this.label29.TabIndex = 40;
+            this.label29.Text = "总共价格";
+            // 
+            // textBoxCalculatorTotalPrice
+            // 
+            this.textBoxCalculatorTotalPrice.Location = new System.Drawing.Point(285, 17);
+            this.textBoxCalculatorTotalPrice.Name = "textBoxCalculatorTotalPrice";
+            this.textBoxCalculatorTotalPrice.ReadOnly = true;
+            this.textBoxCalculatorTotalPrice.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorTotalPrice.TabIndex = 41;
+            // 
+            // buttonCalculatorAdd
+            // 
+            this.buttonCalculatorAdd.BackColor = System.Drawing.Color.YellowGreen;
+            this.buttonCalculatorAdd.FlatAppearance.BorderSize = 0;
+            this.buttonCalculatorAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCalculatorAdd.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonCalculatorAdd.Location = new System.Drawing.Point(339, 17);
+            this.buttonCalculatorAdd.Name = "buttonCalculatorAdd";
+            this.buttonCalculatorAdd.Size = new System.Drawing.Size(75, 23);
+            this.buttonCalculatorAdd.TabIndex = 42;
+            this.buttonCalculatorAdd.Text = "新增到列表";
+            this.buttonCalculatorAdd.UseVisualStyleBackColor = false;
+            // 
+            // buttonCalculatorUpdate
+            // 
+            this.buttonCalculatorUpdate.BackColor = System.Drawing.SystemColors.Highlight;
+            this.buttonCalculatorUpdate.FlatAppearance.BorderSize = 0;
+            this.buttonCalculatorUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCalculatorUpdate.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonCalculatorUpdate.Location = new System.Drawing.Point(420, 17);
+            this.buttonCalculatorUpdate.Name = "buttonCalculatorUpdate";
+            this.buttonCalculatorUpdate.Size = new System.Drawing.Size(75, 23);
+            this.buttonCalculatorUpdate.TabIndex = 43;
+            this.buttonCalculatorUpdate.Text = "更新选中项";
+            this.buttonCalculatorUpdate.UseVisualStyleBackColor = false;
+            // 
+            // buttonDelete
+            // 
+            this.buttonDelete.BackColor = System.Drawing.Color.Salmon;
+            this.buttonDelete.FlatAppearance.BorderSize = 0;
+            this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonDelete.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonDelete.Location = new System.Drawing.Point(501, 17);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(75, 23);
+            this.buttonDelete.TabIndex = 44;
+            this.buttonDelete.Text = "删除选中项";
+            this.buttonDelete.UseVisualStyleBackColor = false;
+            // 
+            // groupBox16
+            // 
+            this.groupBox16.Controls.Add(this.label32);
+            this.groupBox16.Controls.Add(this.label31);
+            this.groupBox16.Controls.Add(this.comboBoxCalculatorType);
+            this.groupBox16.Controls.Add(this.comboBoxCalculatorMaterial);
+            this.groupBox16.Controls.Add(this.comboBoxCalculatorName);
+            this.groupBox16.Controls.Add(this.label1);
+            this.groupBox16.Location = new System.Drawing.Point(9, 9);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(357, 43);
+            this.groupBox16.TabIndex = 47;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "选择产品";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(690, 20);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(53, 12);
+            this.label30.TabIndex = 45;
+            this.label30.Text = "列表总价";
+            // 
+            // textBoxCalculatorAllPrice
+            // 
+            this.textBoxCalculatorAllPrice.Location = new System.Drawing.Point(755, 17);
+            this.textBoxCalculatorAllPrice.Name = "textBoxCalculatorAllPrice";
+            this.textBoxCalculatorAllPrice.ReadOnly = true;
+            this.textBoxCalculatorAllPrice.Size = new System.Drawing.Size(48, 21);
+            this.textBoxCalculatorAllPrice.TabIndex = 46;
+            // 
+            // comboBoxCalculatorType
+            // 
+            this.comboBoxCalculatorType.FormattingEnabled = true;
+            this.comboBoxCalculatorType.Location = new System.Drawing.Point(157, 13);
+            this.comboBoxCalculatorType.Name = "comboBoxCalculatorType";
+            this.comboBoxCalculatorType.Size = new System.Drawing.Size(48, 20);
+            this.comboBoxCalculatorType.TabIndex = 9;
+            // 
+            // comboBoxCalculatorMaterial
+            // 
+            this.comboBoxCalculatorMaterial.FormattingEnabled = true;
+            this.comboBoxCalculatorMaterial.Location = new System.Drawing.Point(67, 13);
+            this.comboBoxCalculatorMaterial.Name = "comboBoxCalculatorMaterial";
+            this.comboBoxCalculatorMaterial.Size = new System.Drawing.Size(49, 20);
+            this.comboBoxCalculatorMaterial.TabIndex = 8;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(32, 17);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(29, 12);
+            this.label31.TabIndex = 10;
+            this.label31.Text = "材料";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(122, 17);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(29, 12);
+            this.label32.TabIndex = 11;
+            this.label32.Text = "类型";
+            // 
+            // tabPageSetUpUnitPrice
+            // 
+            this.tabPageSetUpUnitPrice.Location = new System.Drawing.Point(4, 22);
+            this.tabPageSetUpUnitPrice.Name = "tabPageSetUpUnitPrice";
+            this.tabPageSetUpUnitPrice.Size = new System.Drawing.Size(821, 405);
+            this.tabPageSetUpUnitPrice.TabIndex = 3;
+            this.tabPageSetUpUnitPrice.Text = "设置单价";
+            this.tabPageSetUpUnitPrice.UseVisualStyleBackColor = true;
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(778, 450);
+            this.ClientSize = new System.Drawing.Size(853, 450);
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -1283,6 +1519,10 @@
             this.tabControl.ResumeLayout(false);
             this.tabPageCalculate.ResumeLayout(false);
             this.tabPageCalculate.PerformLayout();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -1298,23 +1538,24 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPageProducts.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomized)).EndInit();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
-            this.groupBox12.ResumeLayout(false);
-            this.groupBox12.PerformLayout();
-            this.groupBox13.ResumeLayout(false);
-            this.groupBox13.PerformLayout();
-            this.groupBox14.ResumeLayout(false);
-            this.groupBox14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCustomized)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCalculator)).EndInit();
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
+            this.groupBox16.ResumeLayout(false);
+            this.groupBox16.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1322,45 +1563,45 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBoxProductName;
+        private System.Windows.Forms.ComboBox comboBoxCalculatorName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxLengthWidth;
-        private System.Windows.Forms.TextBox textBoxHeightDeepth;
+        private System.Windows.Forms.TextBox textBoxCalculatorLengthWidth;
+        private System.Windows.Forms.TextBox textBoxCalculatorHeightDeepth;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBoxSqft;
+        private System.Windows.Forms.TextBox textBoxCalculatorSqft;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBoxUnitPrice;
+        private System.Windows.Forms.TextBox textBoxCalculatorUnitPrice;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageCalculate;
         private System.Windows.Forms.TabPage tabPageSetting;
-        private System.Windows.Forms.CheckBox checkBoxPole;
-        private System.Windows.Forms.CheckBox checkBoxMetalSheet;
-        private System.Windows.Forms.CheckBox checkBoxPlastic;
-        private System.Windows.Forms.CheckBox checkBoxScreen;
-        private System.Windows.Forms.CheckBox checkBoxGlass;
-        private System.Windows.Forms.CheckBox checkBoxGold;
-        private System.Windows.Forms.CheckBox checkBoxBronze;
-        private System.Windows.Forms.CheckBox checkBoxPowderCoating;
-        private System.Windows.Forms.TextBox textBoxPoleQty;
-        private System.Windows.Forms.CheckBox checkBoxFingerPrintLock;
-        private System.Windows.Forms.CheckBox checkBoxCodeLock;
-        private System.Windows.Forms.CheckBox checkBoxNormalLock;
-        private System.Windows.Forms.CheckBox checkBoxCloser;
-        private System.Windows.Forms.CheckBox checkBoxDoorInDoor;
-        private System.Windows.Forms.CheckBox checkBoxCurve;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorPole;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorMetalSheet;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorPlastic;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorScreen;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorGlass;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorGold;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorBronze;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorPowderCoating;
+        private System.Windows.Forms.TextBox textBoxCalculatorPoleQty;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorFingerPrintLock;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorCodeLock;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorNormalLock;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorCloser;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorDoorInDoor;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorCurve;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBoxHeightDeepthFeet;
-        private System.Windows.Forms.TextBox textBoxLengthWidthFeet;
+        private System.Windows.Forms.TextBox textBoxCalculatorHeightDeepthFeet;
+        private System.Windows.Forms.TextBox textBoxCalculatorLengthWidthFeet;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBoxDesignUnitPrice;
+        private System.Windows.Forms.TextBox textBoxCalculatorDesignUnitPrice;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBoxPredictQtyOfDesign;
-        private System.Windows.Forms.CheckBox checkBoxHasLock;
+        private System.Windows.Forms.TextBox textBoxCalculatorPredictQtyOfDesign;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorHasLock;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -1416,9 +1657,9 @@
         private System.Windows.Forms.CheckBox checkBoxCustomizedPole;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBoxPoleUnitPrice;
-        private System.Windows.Forms.CheckBox checkBoxAutoSliding;
-        private System.Windows.Forms.CheckBox checkBoxAutoSwing;
+        private System.Windows.Forms.TextBox textBoxCalculatorPoleUnitPrice;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorAutoSliding;
+        private System.Windows.Forms.CheckBox checkBoxCalculatorAutoSwing;
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.CheckBox checkBoxCustomizedSliding;
@@ -1429,6 +1670,27 @@
         private System.Windows.Forms.TextBox textBoxCustomizedPoleUnitPrice;
         private System.Windows.Forms.TextBox textBoxCustomizedPoleQty;
         private System.Windows.Forms.ComboBox comboBoxCustomizedName;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TextBox textBoxCustomizedDesignPrice;
+        private System.Windows.Forms.DataGridView dataGridViewCalculator;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.Button buttonCalculatorAdd;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBoxCalculatorTotalPrice;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox textBoxCalculatorQty;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox textBoxCalculatorPrice;
+        private System.Windows.Forms.Button buttonCalculatorUpdate;
+        private System.Windows.Forms.Button buttonDelete;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TextBox textBoxCalculatorAllPrice;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.ComboBox comboBoxCalculatorType;
+        private System.Windows.Forms.ComboBox comboBoxCalculatorMaterial;
+        private System.Windows.Forms.TabPage tabPageSetUpUnitPrice;
     }
 }
 

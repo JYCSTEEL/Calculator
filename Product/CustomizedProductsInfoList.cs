@@ -41,7 +41,7 @@ namespace 计价器
         public static CustomizedProduct FindProductFirstOneByMaterialAndTypeAndName(string material, string type,string name)
         {
            
-            return CustomizedProductsList.Find(p => (p.Material == material && p.Type == type && p.Property.Name == name));
+            return CustomizedProductsList.Find(p => (p.Material == material && p.Type == type && p.Property.ProductName == name));
         }
 
         public static void AddProductList(List<CustomizedProduct> products)

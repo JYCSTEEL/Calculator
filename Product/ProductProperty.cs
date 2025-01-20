@@ -8,7 +8,7 @@ namespace 计价器
 {
     public class ProductProperty
     {
-        public string Name { get; set; }
+        public string ProductName { get; set; }
         public int WidthOrLength { get; set; }
         public int HeightOrDeepth { get; set; }
 

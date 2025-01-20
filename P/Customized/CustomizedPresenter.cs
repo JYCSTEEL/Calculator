@@ -25,7 +25,7 @@ namespace 计价器
             // 初始化逻辑（如果需要）
             BindEvents();
             InitializeProductInfo();
-            ConfigureDataGridView(CustomizedSetting.Instance.DATAVIEW);
+            InitializeData();
 
 
         }
@@ -43,20 +43,28 @@ namespace 计价器
             CustomizedSetting.Instance.BTN_ADD.Click += BTN_NEW_PRODUCT_TYPE_Click;
             CustomizedSetting.Instance.BTN_UPDATE.Click += BTN_UPDATE_UNIT_PRICE_Click;
             CustomizedSetting.Instance.BTN_DELETE.Click += BTN_DELETE_PRODUCT_TYPE_Click;
-            CustomizedSetting.Instance.MATERIAL.SelectedValueChanged += CustomizedRefresher.Instance.LoadData;
-            CustomizedSetting.Instance.TYPE.SelectedValueChanged += CustomizedRefresher.Instance.LoadData;
-            CustomizedSetting.Instance.CB_NAME.SelectedValueChanged += CustomizedRefresher.Instance.LoadData;
 
 
+           
 
         }
+    
         private void InitializeProductInfo()
         {
             DataTable dataTable = new DataTable();
             dataTable = DatabaseHelper.Instance.GetAllCustomizedProducts();
             CustomizedProductsInfoList.AddProductList(ConvertDataTableToCustomizedProductList(dataTable));
         }
+        private void InitializeData()
+        {
+            CustomizedSetting.Instance.MATERIAL.Items.Add("铁");
+            CustomizedSetting.Instance.MATERIAL.Items.Add("不锈钢");
 
+            // 默认选择第一项
+
+            CustomizedSetting.Instance.MATERIAL.SelectedIndex = 0;
+            CustomizedRefresher.Instance.LoadData();
+        }
         private bool IsProductExist(string material, string type, string name)
         {
             bool isProductExist = false;
@@ -79,7 +87,7 @@ namespace 计价器
                     Type = CustomizedSetting.Instance.TYPE.Text,
                     UnitPrice = ProductsInfoList.GetProductUnitPrice(CustomizedSetting.Instance.MATERIAL.Text, CustomizedSetting.Instance.TYPE.Text)
                 };
-            product.Property.Name = CustomizedSetting.Instance.TX_NAME.Name;
+            product.Property.ProductName = CustomizedSetting.Instance.TX_NAME.Text;
             product.Property.HasCloser = CustomizedSetting.Instance.HASLOCK.Checked;
             product.Property.HasDoorInDoor = CustomizedSetting.Instance.DOORINDOOR.Checked;
             product.Property.HasScreen = CustomizedSetting.Instance.SCREEN.Checked;
@@ -90,13 +98,28 @@ namespace 计价器
             product.Property.HasPlastic = CustomizedSetting.Instance.PLASTIC.Checked;
             product.Property.HasGlass = CustomizedSetting.Instance.GLASS.Checked;
             product.Property.HasCurved = CustomizedSetting.Instance.CURVED.Checked;
-            product.Property.PolePrice = SafeParseInt(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
-            product.Property.PoleQty = SafeParseInt(CustomizedSetting.Instance.POLE_QTY.Text, "大柱数量");
-
-            product.Property.CodeLock = CustomizedSetting.Instance.CODE_LOCK.Checked;
-
+            product.Property.HasPole = CustomizedSetting.Instance.POLE.Checked;
             product.Property.HasLock = CustomizedSetting.Instance.HASLOCK.Checked;
-            product.Property.FingerLock = CustomizedSetting.Instance.FINGER_LOCK.Checked;
+            product.Property.DesignPrice = SafeParseInt(CustomizedSetting.Instance.DESIGN_PRICE.Text, "设计价格");
+
+            if (product.Property.HasPole)
+            {
+                product.Property.PolePrice = SafeParseInt(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
+                product.Property.PoleQty = SafeParseInt(CustomizedSetting.Instance.POLE_QTY.Text, "大柱数量");
+
+            }
+          
+         
+          
+            if (product.Property.HasLock)
+            {
+                product.Property.FingerLock = CustomizedSetting.Instance.FINGER_LOCK.Checked;
+                product.Property.CodeLock = CustomizedSetting.Instance.CODE_LOCK.Checked;
+
+                product.Property.NormalLock = CustomizedSetting.Instance.NORMAL_LOCK.Checked;
+            }
+
+
             product.Property.HasAutoSwing = CustomizedSetting.Instance.AUTO_SWING.Checked;
 
 
@@ -114,7 +137,7 @@ namespace 计价器
                     Type = CustomizedSetting.Instance.TYPE.Text,
                     UnitPrice = ProductsInfoList.GetProductUnitPrice(CustomizedSetting.Instance.MATERIAL.Text, CustomizedSetting.Instance.TYPE.Text)
                 };
-            product.Property.Name = CustomizedSetting.Instance.TX_NAME.Name;
+            product.Property.ProductName = CustomizedSetting.Instance.TX_NAME.Text;
             product.Property.HasCloser = CustomizedSetting.Instance.HASLOCK.Checked;
             product.Property.HasDoorInDoor = CustomizedSetting.Instance.DOORINDOOR.Checked;
             product.Property.HasScreen = CustomizedSetting.Instance.SCREEN.Checked;
@@ -125,19 +148,39 @@ namespace 计价器
             product.Property.HasPlastic = CustomizedSetting.Instance.PLASTIC.Checked;
             product.Property.HasGlass = CustomizedSetting.Instance.GLASS.Checked;
             product.Property.HasCurved = CustomizedSetting.Instance.CURVED.Checked;
-            product.Property.PolePrice = SafeParseInt(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
-            product.Property.PoleQty = SafeParseInt(CustomizedSetting.Instance.POLE_QTY.Text, "大柱数量");
 
-            product.Property.CodeLock = CustomizedSetting.Instance.CODE_LOCK.Checked;
+            product.Property.HasPole = CustomizedSetting.Instance.POLE.Checked;
 
             product.Property.HasLock = CustomizedSetting.Instance.HASLOCK.Checked;
-            product.Property.FingerLock = CustomizedSetting.Instance.FINGER_LOCK.Checked;
+
+            product.Property.DesignPrice = SafeParseInt(CustomizedSetting.Instance.DESIGN_PRICE.Text, "设计价格");
+            if (product.Property.HasPole)
+            {
+                product.Property.PolePrice = SafeParseInt(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
+                product.Property.PoleQty = SafeParseInt(CustomizedSetting.Instance.POLE_QTY.Text, "大柱数量");
+
+            }
+
+
+
+            if (product.Property.HasLock)
+            {
+                product.Property.FingerLock = CustomizedSetting.Instance.FINGER_LOCK.Checked;
+                product.Property.CodeLock = CustomizedSetting.Instance.CODE_LOCK.Checked;
+
+                product.Property.NormalLock = CustomizedSetting.Instance.NORMAL_LOCK.Checked;
+            }
+
             product.Property.HasAutoSwing = CustomizedSetting.Instance.AUTO_SWING.Checked;
 
 
             product.Property.HasAutoSliding = CustomizedSetting.Instance.AUTO_SLIDING.Checked;
             CustomizedProductsInfoList.AddProduct(product);
             }
+
+
+
+
             private void DeleteCustomizedProductInfo()
             {
                 CustomizedProduct product = CustomizedProductsInfoList.FindProductFirstOneByMaterialAndTypeAndName(CustomizedSetting.Instance.MATERIAL.Text, CustomizedSetting.Instance.TYPE.Text, CustomizedSetting.Instance.CB_NAME.Text);
@@ -146,6 +189,11 @@ namespace 计价器
 
             private void BTN_NEW_PRODUCT_TYPE_Click(object sender, EventArgs e)
             {
+            if (IsProductExist(CustomizedSetting.Instance.MATERIAL.Text, CustomizedSetting.Instance.TYPE.Text, CustomizedSetting.Instance.TX_NAME.Text))
+            {
+                MessageBox.Show("产品-已存在！");
+                return;
+            };
             if (!IsStringNotNullOrEmpty(CustomizedSetting.Instance.MATERIAL.Text))
             {
                 MessageBox.Show("材料不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -164,48 +212,106 @@ namespace 计价器
 
                 return;
             }
-
-            if (IsProductExist(CustomizedSetting.Instance.TX_NAME.Text, CustomizedSetting.Instance.TYPE.Text,CustomizedSetting.Instance.TX_NAME.Text))
+            if (CustomizedSetting.Instance.POLE.Checked)
+            {
+                if (!IsIntOverZero(Convert.ToInt32(CustomizedSetting.Instance.POLE_PRICE.Text)))
                 {
-                    MessageBox.Show("产品-已存在！");
+                    MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
-                };
+                }
+                if (!IsIntOverZero(Convert.ToInt32(CustomizedSetting.Instance.POLE_QTY.Text)))
+                {
+                    MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            if (CustomizedSetting.Instance.HASLOCK.Checked)
+            {
+                if (!(CustomizedSetting.Instance.NORMAL_LOCK.Checked|| CustomizedSetting.Instance.FINGER_LOCK.Checked || CustomizedSetting.Instance.CODE_LOCK.Checked ))
+                {
+                    MessageBox.Show("必须选择是什么样的锁！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    return;
+                }
+            }
+
+
+        
                 AddCustomizedProductInfo();
                 // 调用数据库助手的插入方法
                 CustomizedProduct product = new CustomizedProduct();
             product = CustomizedProductsInfoList.FindProductFirstOneByMaterialAndTypeAndName(CustomizedSetting.Instance.MATERIAL.Text, CustomizedSetting.Instance.TYPE.Text, CustomizedSetting.Instance.TX_NAME.Text);
-                DatabaseHelper.Instance.InsertCustomizedProduct(product);
+          
+            DatabaseHelper.Instance.InsertCustomizedProduct(product);
                 MessageBox.Show("新建产品类型-成功！");
 
             }
 
             private void BTN_UPDATE_UNIT_PRICE_Click(object sender, EventArgs e)
             {
+            if (!IsProductExist(CustomizedSetting.Instance.MATERIAL.Text, CustomizedSetting.Instance.TYPE.Text, CustomizedSetting.Instance.CB_NAME.Text))
+            {
+                MessageBox.Show("产品-不存在！");
+                return;
+            };
 
-                if (!IsStringNotNullOrEmpty(CustomizedSetting.Instance.SelectedMaterial))
-                {
-                    MessageBox.Show("类型不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!IsStringNotNullOrEmpty(CustomizedSetting.Instance.MATERIAL.Text))
+            {
+                MessageBox.Show("材料不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                    return;
-                }
-                if (!IsIntOverZero(CustomizedSetting.Instance.SetUpBasicUnitPrice))
+                return;
+            }
+            if (!IsStringNotNullOrEmpty(CustomizedSetting.Instance.TYPE.Text))
+            {
+                MessageBox.Show("类型不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+            if (!IsStringNotNullOrEmpty(CustomizedSetting.Instance.TX_NAME.Text))
+            {
+                MessageBox.Show("名称不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            if (CustomizedSetting.Instance.POLE.Checked)
+            {
+                if (!IsIntOverZero(Convert.ToInt32(CustomizedSetting.Instance.POLE_PRICE.Text)))
                 {
                     MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-
-                if (!IsProductExist(CustomizedSetting.Instance.SelectedMaterial, CustomizedSetting.Instance.SelectedProductType))
+                if (!IsIntOverZero(Convert.ToInt32(CustomizedSetting.Instance.POLE_QTY.Text)))
                 {
-                    MessageBox.Show("产品类型-不存在！");
+                    MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
-                };
-                UpdateCustomizedProductInfo();
-                DatabaseHelper.Instance.UpdateProductPrice(
-                    CustomizedSetting.Instance.SelectedMaterial,
-                    CustomizedSetting.Instance.SelectedProductType,
-                    CustomizedSetting.Instance.SetUpBasicUnitPrice);
-                MessageBox.Show("更新产品类型-成功！");
+                }
+            }
+            if (CustomizedSetting.Instance.HASLOCK.Checked)
+            {
+                if (!(CustomizedSetting.Instance.NORMAL_LOCK.Checked || CustomizedSetting.Instance.FINGER_LOCK.Checked || CustomizedSetting.Instance.CODE_LOCK.Checked))
+                {
+                    MessageBox.Show("必须选择是什么样的锁！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    return;
+                }
+            }
+
+          
+            UpdateCustomizedProductInfo();
+            CustomizedProduct product = new CustomizedProduct();
+
+            product = CustomizedProductsInfoList.FindProductFirstOneByMaterialAndTypeAndName(
+                CustomizedSetting.Instance.MATERIAL.Text, 
+                CustomizedSetting.Instance.TYPE.Text, 
+                CustomizedSetting.Instance.TX_NAME.Text);
+
+            DatabaseHelper.Instance.UpdateCustomizedProduct(
+                CustomizedSetting.Instance.MATERIAL.Text, 
+                CustomizedSetting.Instance.TYPE.Text, 
+                CustomizedSetting.Instance.CB_NAME.Text,
+                product);
+            MessageBox.Show("更新产品-成功！");
 
             }
 
@@ -216,11 +322,11 @@ namespace 计价器
                     MessageBox.Show("产品-不存在！");
                     return;
                 };
-                DeleteCustomizedProductInfo();
+               
                 DatabaseHelper.Instance.DeleteCustomizedProduct(CustomizedSetting.Instance.MATERIAL.Text, CustomizedSetting.Instance.TYPE.Text, CustomizedSetting.Instance.CB_NAME.Text);
                 MessageBox.Show("删除产品-成功！");
-
-            }
+            DeleteCustomizedProductInfo();
+        }
             private bool IsStringNotNullOrEmpty(string type)
             {
 
@@ -254,7 +360,7 @@ namespace 计价器
                         UnitPrice = row["单价"] != DBNull.Value ? Convert.ToInt32(row["单价"]) : 0,
                         Property = new ProductProperty
                         {
-                            Name = row["名称"].ToString(),
+                            ProductName = row["名称"].ToString(),
                             WidthOrLength = row["长度或宽度"] != DBNull.Value ? Convert.ToInt32(row["长度或宽度"]) : 0,
                             HeightOrDeepth = row["高度或深度"] != DBNull.Value ? Convert.ToInt32(row["高度或深度"]) : 0,
                             WidthOrLengthFeet = row["长度或宽度英尺"] != DBNull.Value ? Convert.ToInt32(row["长度或宽度英尺"]) : 0,
@@ -290,46 +396,7 @@ namespace 计价器
                 return products;
             }
 
-            private void ConfigureDataGridView(DataGridView dataGridView)
-            {
-                // 1. 设置只能选择一行
-                dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dataGridView.MultiSelect = false; // 禁用多选
-
-                // 2. 设置列头颜色
-                dataGridView.EnableHeadersVisualStyles = false; // 禁用系统样式
-                dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue; // 背景色
-                dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // 前景色（文字颜色）
-                dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold); // 字体加粗
-
-                // 3. 禁止列头选中样式变化
-                dataGridView.DefaultCellStyle.SelectionBackColor = Color.LightGray;
-                dataGridView.DefaultCellStyle.SelectionForeColor = Color.Black;
-
-                // 4. 隐藏行头
-                dataGridView.RowHeadersVisible = false;
-
-                // 5. 设置列宽自适应
-                dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                // 6. 禁用用户调整列宽
-                foreach (DataGridViewColumn column in dataGridView.Columns)
-                {
-                    column.Resizable = DataGridViewTriState.False;
-                }
-
-                // 7. 禁用用户调整行高
-                dataGridView.AllowUserToResizeRows = false;
-
-                // 8. 禁止单元格编辑
-                dataGridView.ReadOnly = true;
-
-                // 9. 禁止用户通过点击修改内容
-                dataGridView.EditMode = DataGridViewEditMode.EditProgrammatically;
-
-                dataGridView.AllowUserToAddRows = false;
-
-            }
+       
 
         private int SafeParseInt(string input, string fieldName)
         {
@@ -345,5 +412,4 @@ namespace 计价器
         }
 
     }
-}
 }

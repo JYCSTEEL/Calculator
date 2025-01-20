@@ -28,6 +28,15 @@ namespace 计价器
                 return _instance;
             }
         }
+
+        public static string CountToString
+        {
+            get => BasicProductsList.Count.ToString();
+        }
+        public static int Count
+        {
+            get => BasicProductsList.Count;
+        }
         public static int GetProductUnitPrice(Product product)
         {
             return product.UnitPrice;
@@ -59,7 +68,7 @@ namespace 计价器
 
         public static Product FindProductFirstOneByMaterialAndType(string material, string type)
         {
-           
+            
             return BasicProductsList.Find(p => (p.Material == material && p.Type == type));
         }
 
@@ -87,7 +96,7 @@ namespace 计价器
         public static List<Product> GetAllProductsByMaterial(string material)
         {
             List<Product> products = new List<Product>();
-            foreach(Product product in products)
+            foreach(Product product in BasicProductsList)
             {
                 if (product.Material == material) products.Add(product);
             }

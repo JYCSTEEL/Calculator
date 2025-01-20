@@ -70,6 +70,8 @@
     <Compile Include="C\Controls.cs" />
     <Compile Include="C\Calculator.cs" />
     <Compile Include="DataBase\DatabaseHelper.cs" />
+    <Compile Include="DatagridviewMGR.cs" />
+    <Compile Include="EventPublisher.cs" />
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,12 +79,15 @@
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
     <Compile Include="Product\CustomizedProduct.cs" />
+    <Compile Include="Product\CalculatorProductsInfoList.cs" />
+    <Compile Include="Product\CalculatorProduct.cs" />
     <Compile Include="Product\Product.cs" />
     <Compile Include="Product\ProductProperty.cs" />
-    <Compile Include="Product\CustomizedProductList.cs" />
+    <Compile Include="Product\CustomizedProductsInfoList.cs" />
     <Compile Include="Product\ProductsInfoList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="P\Calculator\CalculatorRefresher.cs" />
     <Compile Include="P\Customized\CustomizedRefresher.cs" />
     <Compile Include="P\Basic\BasicRefresher.cs" />
     <Compile Include="P\Customized\CustomizedPresenter.cs" />

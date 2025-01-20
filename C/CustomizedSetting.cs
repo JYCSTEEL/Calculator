@@ -47,6 +47,10 @@ namespace 计价器
         public CheckBox AUTO_SWING { get => mainView.CP_AUTO_SWING; set => mainView.CP_AUTO_SWING = value; }
         public CheckBox AUTO_SLIDING { get => mainView.CP_AUTO_SLIDING; set => mainView.CP_AUTO_SLIDING = value; }
 
+        public CheckBox HASCLOSER { get => mainView.CP_CLOSER; set => mainView.CP_CLOSER = value; }
+
+
+        public TextBox DESIGN_PRICE { get => mainView.CP_DESIGN_PRICE; set => mainView.CP_DESIGN_PRICE = value; }
 
 
 

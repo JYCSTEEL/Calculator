@@ -5,16 +5,17 @@ using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace 计价器
 {
+   
     public class BasicPresenter
     {
-       
-
+   
         // 静态字段，存储单例实例
         private static readonly BasicPresenter _instance = new BasicPresenter(BasicSetUp.Instance, BasicRefresher.Instance);
 
@@ -25,7 +26,7 @@ namespace 计价器
             BindEvents();
             InitializeProductInfo();
 
-            ConfigureDataGridView(BasicSetUp.Instance.BasicProductView);
+            InitializeData();
 
          
         }
@@ -43,22 +44,27 @@ namespace 计价器
             BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += BTN_NEW_PRODUCT_TYPE_Click;
             BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += BTN_UPDATE_UNIT_PRICE_Click;
             BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BTN_DELETE_PRODUCT_TYPE_Click;
-            BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
-            BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += BasicRefresher.Instance.LoadData;
-            BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
-            BasicSetUp.Instance.RB_IS_IRON.CheckedChanged += BasicRefresher.Instance.LoadData;
-            BasicSetUp.Instance.RB_IS_STAINLESS.CheckedChanged += BasicRefresher.Instance.LoadData;
 
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.SelectedIndexChanged += BasicRefresher.Instance.RefreshUnitPrice;
 
         }
+
+      
+
         private void InitializeProductInfo()
         {
             DataTable dataTable = new DataTable();
             dataTable = DatabaseHelper.Instance.GetAllProducts();
             ProductsInfoList.AddProductList(ConvertToProducts(dataTable));
+      
         }
+        private void InitializeData()
+        {
+            BasicSetUp.Instance.RB_IS_IRON.Checked = true;
+            // 默认选择第一项
 
+            BasicRefresher.Instance.LoadData();
+
+        }
         private bool IsProductExist(string material, string type)
         {
             bool isProductExist = false;
@@ -78,10 +84,12 @@ namespace 计价器
                 Material = BasicSetUp.Instance.SelectedMaterial,
                 Type = BasicSetUp.Instance.NewProductType,
                 UnitPrice = BasicSetUp.Instance.NewProductUnitPrice,
-            };
 
+            };
+        
 
             ProductsInfoList.AddProduct(product);
+            EventPublisher.RaiseEvent();
         }
         private void UpdateProductInfo()
         {
@@ -93,11 +101,13 @@ namespace 计价器
                 UnitPrice = BasicSetUp.Instance.SetUpBasicUnitPrice,
             };
             ProductsInfoList.AddProduct(product);
+            EventPublisher.RaiseEvent();
         }
         private void DeleteProductInfo()
         {
             Product product = ProductsInfoList.FindProductFirstOneByMaterialAndType(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType);
             ProductsInfoList.RemoveProduct(product);
+            EventPublisher.RaiseEvent();
         }
 
         private void BTN_NEW_PRODUCT_TYPE_Click(object sender, EventArgs e)
@@ -204,12 +214,6 @@ namespace 计价器
 
                     Type = row["类型"].ToString(),
                     UnitPrice = Convert.ToInt32(row["单价"]),
-                    //Sqft = row["尺寸"] != DBNull.Value ? Convert.ToDecimal(row["尺寸"]) : 0,
-                    //Color = row["颜色"]?.ToString(),
-                    //Height = row["高度"] != DBNull.Value ? Convert.ToDecimal(row["高度"]) : 0,
-                    //Width = row["宽度"] != DBNull.Value ? Convert.ToDecimal(row["宽度"]) : 0,
-                    //Qty = row["数量"] != DBNull.Value ? Convert.ToInt32(row["数量"]) : 0,
-                    //TotalPrice = row["总价"] != DBNull.Value ? Convert.ToInt32(row["总价"]) : 0
                 };
                 products.Add(product);
             }
@@ -217,47 +221,6 @@ namespace 计价器
             return products;
         }
 
-
-        private void ConfigureDataGridView(DataGridView dataGridView)
-        {
-            // 1. 设置只能选择一行
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.MultiSelect = false; // 禁用多选
-
-            // 2. 设置列头颜色
-            dataGridView.EnableHeadersVisualStyles = false; // 禁用系统样式
-            dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue; // 背景色
-            dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // 前景色（文字颜色）
-            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView.Font, FontStyle.Bold); // 字体加粗
-
-            // 3. 禁止列头选中样式变化
-            dataGridView.DefaultCellStyle.SelectionBackColor = Color.LightGray;
-            dataGridView.DefaultCellStyle.SelectionForeColor = Color.Black;
-
-            // 4. 隐藏行头
-            dataGridView.RowHeadersVisible = false;
-
-            // 5. 设置列宽自适应
-            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            // 6. 禁用用户调整列宽
-            foreach (DataGridViewColumn column in dataGridView.Columns)
-            {
-                column.Resizable = DataGridViewTriState.False;
-            }
-
-            // 7. 禁用用户调整行高
-            dataGridView.AllowUserToResizeRows = false;
-
-            // 8. 禁止单元格编辑
-            dataGridView.ReadOnly = true;
-
-            // 9. 禁止用户通过点击修改内容
-            dataGridView.EditMode = DataGridViewEditMode.EditProgrammatically;
-
-            dataGridView.AllowUserToAddRows = false;
-         
-        }
 
 
     }
