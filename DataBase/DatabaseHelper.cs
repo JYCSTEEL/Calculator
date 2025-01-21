@@ -341,6 +341,8 @@ namespace 计价器
             }
         }
 
+   
+
         public DataTable GetCustomizedProductsByMaterial(string material)
         {
             using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
@@ -1315,6 +1317,9 @@ namespace 计价器
                 }
             }
         }
+
+
+
 
     }
 

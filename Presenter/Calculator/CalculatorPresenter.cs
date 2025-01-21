@@ -24,6 +24,7 @@ namespace 计价器
             InitializeProductInfo();
             InitializeCheckedListBox();
             InitializeData();
+         
         }
 
         private void InitializeProductInfo()
@@ -237,10 +238,11 @@ namespace 计价器
                 return;
             }
             CalculatorProduct selectedProduct =ViewMGR.GetSelectedCalculatorProduct(CalculatorSetting.Instance.DATAVIEW);
-
-            DatabaseHelper.Instance.DeleteCalculatorProduct(selectedProduct);
             DeleteCalculatorProductInfo(selectedProduct);
+            DatabaseHelper.Instance.DeleteCalculatorProduct(selectedProduct);
+        
             MessageBox.Show("删除"+selectedProduct.Property.ProductName+"-成功！");
+            UpdateAllTotalPriceText();
         }
 
         private void UPDATE_TO_LIST(object sender, EventArgs e)
@@ -288,15 +290,16 @@ namespace 计价器
 
             CalculatorProduct oldProduct = ViewMGR.GetSelectedCalculatorProduct(CalculatorSetting.Instance.DATAVIEW);
 
-            UpdateCalculatorProductInfo(oldProduct);
 
             // 调用数据库助手的插入方法
-            CalculatorProduct newProduct= CalculatorProductsInfoList.GetLastAddedProduct();
+            CalculatorProduct newProduct= GetCalculatorProductFromView();
 
+            UpdateCalculatorProductInfo(oldProduct, newProduct);//删除 CalculatorList里面的oldProduct，再Add oldProduct
 
             DatabaseHelper.Instance.UpdateCalculatorProduct(oldProduct,newProduct);
 
             MessageBox.Show("更新" + newProduct.Property.ProductName + "-成功！");
+            UpdateAllTotalPriceText();
         }
 
         private void ADD_TO_LIST(object sender, EventArgs e)
@@ -355,8 +358,14 @@ namespace 计价器
             DatabaseHelper.Instance.InsertCalculatorProduct(product);
 
             MessageBox.Show("新增" + product.Property.ProductName + "-成功！");
+            UpdateAllTotalPriceText();
         }
 
+        private void UpdateAllTotalPriceText()
+        {
+            decimal allprice = CalculateAllTotalPrice(CalculatorProductsInfoList.GetAllCalculatorProducts());
+            CalculatorSetting.Instance.ALL_TOTAL_PRICE.Text = allprice.ToString();
+        }
         private void InitializeData()
         {
             CalculatorSetting.Instance.CC_MATERIAL.Items.Add("铁");
@@ -367,6 +376,7 @@ namespace 计价器
             CalculatorSetting.Instance.CC_MATERIAL.SelectedIndex = 0;
             CalculatorRefresher.Instance.LoadData();
             CalculatorRefresher.Instance.ReFreshDataGridView();
+           CalculatorSetting.Instance.ALL_TOTAL_PRICE.Text = CalculateAllTotalPrice(CalculatorProductsInfoList.GetAllCalculatorProducts()).ToString();
 
         }
 
@@ -450,130 +460,15 @@ namespace 计价器
         private void AddCalculatorProductInfo()
         {
 
-            CalculatorProduct product = new CalculatorProduct()
-            {
-                Material = CalculatorSetting.Instance.CC_MATERIAL.Text,
-                Type = CalculatorSetting.Instance.CC_TYPE.Text,
-                UnitPrice = ProductsInfoList.GetProductUnitPrice(CalculatorSetting.Instance.CC_MATERIAL.Text, CalculatorSetting.Instance.CC_TYPE.Text),
+            CalculatorProduct newProduct = GetCalculatorProductFromView();
 
-                DesignQty = SafeParsedecimal(CalculatorSetting.Instance.DESIGN_QTY.Text, "设计数量"),
-
-
-            WidthOrLength = SafeParsedecimal(CalculatorSetting.Instance.WIDE_LENGTH.Text, "长度或宽度"),
-
-                HeightOrDeepth = SafeParsedecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
-                WidthOrLengthFeet = SafeParsedecimal(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
-                HeightOrDeepthFeet = SafeParsedecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
-
-                Sqft = SafeParsedecimal(CalculatorSetting.Instance.SQFT.Text, "平方英尺")
-            };
-            product.Property.ProductName = CalculatorSetting.Instance.PRODUCT_NAME.Text;
-            product.SinglePrice = SafeParsedecimal(CalculatorSetting.Instance.SINGLE_PRICE.Text, "单个产品价格");
-            product.Qty = SafeParsedecimal(CalculatorSetting.Instance.SINGLE_PRICE.Text, "产品数量");
-            product.TotalPrice = SafeParsedecimal(CalculatorSetting.Instance.SINGLE_PRICE.Text, "总共价格");
-            product.Property.DesignPrice = SafeParsedecimal(CalculatorSetting.Instance.DESIGN_PRICE.Text, "设计价格");
-
-
-            product.Property.HasCloser = CalculatorSetting.Instance.HASLOCK.Checked;
-            product.Property.HasDoorInDoor = CalculatorSetting.Instance.DOORINDOOR.Checked;
-            product.Property.HasScreen = CalculatorSetting.Instance.SCREEN.Checked;
-            product.Property.IsPowder = CalculatorSetting.Instance.POWDER.Checked;
-            product.Property.IsGold = CalculatorSetting.Instance.GOLD.Checked;
-            product.Property.IsBronze = CalculatorSetting.Instance.BRONZE.Checked;
-            product.Property.HasMetalSheet = CalculatorSetting.Instance.METALSHEET.Checked;
-            product.Property.HasPlastic = CalculatorSetting.Instance.PLASTIC.Checked;
-            product.Property.HasGlass = CalculatorSetting.Instance.GLASS.Checked;
-            product.Property.HasCurved = CalculatorSetting.Instance.CURVED.Checked;
-            product.Property.HasPole = CalculatorSetting.Instance.POLE.Checked;
-            product.Property.HasLock = CalculatorSetting.Instance.HASLOCK.Checked;
-
-            if (product.Property.HasPole)
-            {
-                product.Property.PolePrice = SafeParsedecimal(CalculatorSetting.Instance.POLE_PRICE.Text, "大柱单价");
-                product.Property.PoleQty = SafeParsedecimal(CalculatorSetting.Instance.POLE_QTY.Text, "大柱数量");
-
-            }
-
-
-
-            if (product.Property.HasLock)
-            {
-                product.Property.FingerLock = CalculatorSetting.Instance.FINGER_LOCK.Checked;
-                product.Property.CodeLock = CalculatorSetting.Instance.CODE_LOCK.Checked;
-
-                product.Property.NormalLock = CalculatorSetting.Instance.NORMAL_LOCK.Checked;
-            }
-    
-
-            product.Property.HasAutoSwing = CalculatorSetting.Instance.AUTO_SWING.Checked;
-
-
-            product.Property.HasAutoSliding = CalculatorSetting.Instance.AUTO_SLIDING.Checked;
-
-            CalculatorProductsInfoList.AddProduct(product);
+            CalculatorProductsInfoList.AddProduct(newProduct);
         }
-        private void UpdateCalculatorProductInfo(CalculatorProduct oldproduct)
+        private void UpdateCalculatorProductInfo(CalculatorProduct oldproduct,CalculatorProduct newProduct)
         {
             DeleteCalculatorProductInfo(oldproduct);
-            CalculatorProduct product = new CalculatorProduct()
-            {
-                Material = CalculatorSetting.Instance.CC_MATERIAL.Text,
-                Type = CalculatorSetting.Instance.CC_TYPE.Text,
-                UnitPrice = ProductsInfoList.GetProductUnitPrice(CalculatorSetting.Instance.CC_MATERIAL.Text, CalculatorSetting.Instance.CC_TYPE.Text),
-                DesignQty = SafeParsedecimal(CalculatorSetting.Instance.DESIGN_QTY.Text, "设计数量"),
-                  WidthOrLength = SafeParsedecimal(CalculatorSetting.Instance.WIDE_LENGTH.Text, "长度或宽度"),
 
-                HeightOrDeepth = SafeParsedecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
-                WidthOrLengthFeet = SafeParsedecimal(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
-                HeightOrDeepthFeet = SafeParsedecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
-
-                Sqft = SafeParsedecimal(CalculatorSetting.Instance.SQFT.Text, "平方英尺")
-            };
-            product.Property.ProductName = CalculatorSetting.Instance.PRODUCT_NAME.Text;
-            product.SinglePrice = SafeParsedecimal(CalculatorSetting.Instance.SINGLE_PRICE.Text, "单个产品价格");
-            product.Qty = SafeParsedecimal(CalculatorSetting.Instance.SINGLE_PRICE.Text, "产品数量");
-            product.TotalPrice = SafeParsedecimal(CalculatorSetting.Instance.SINGLE_PRICE.Text, "总共价格");
-
-            product.Property.DesignPrice = SafeParsedecimal(CalculatorSetting.Instance.DESIGN_PRICE.Text, "设计价格");
-
-            product.Property.HasCloser = CalculatorSetting.Instance.HASLOCK.Checked;
-            product.Property.HasDoorInDoor = CalculatorSetting.Instance.DOORINDOOR.Checked;
-            product.Property.HasScreen = CalculatorSetting.Instance.SCREEN.Checked;
-            product.Property.IsPowder = CalculatorSetting.Instance.POWDER.Checked;
-            product.Property.IsGold = CalculatorSetting.Instance.GOLD.Checked;
-            product.Property.IsBronze = CalculatorSetting.Instance.BRONZE.Checked;
-            product.Property.HasMetalSheet = CalculatorSetting.Instance.METALSHEET.Checked;
-            product.Property.HasPlastic = CalculatorSetting.Instance.PLASTIC.Checked;
-            product.Property.HasGlass = CalculatorSetting.Instance.GLASS.Checked;
-            product.Property.HasCurved = CalculatorSetting.Instance.CURVED.Checked;
-
-            product.Property.HasPole = CalculatorSetting.Instance.POLE.Checked;
-
-            product.Property.HasLock = CalculatorSetting.Instance.HASLOCK.Checked;
-            if (product.Property.HasPole)
-            {
-                product.Property.PolePrice = SafeParsedecimal(CalculatorSetting.Instance.POLE_PRICE.Text, "大柱单价");
-                product.Property.PoleQty = SafeParsedecimal(CalculatorSetting.Instance.POLE_QTY.Text, "大柱数量");
-
-            }
-
-
-
-            if (product.Property.HasLock)
-            {
-                product.Property.FingerLock = CalculatorSetting.Instance.FINGER_LOCK.Checked;
-                product.Property.CodeLock = CalculatorSetting.Instance.CODE_LOCK.Checked;
-
-                product.Property.NormalLock = CalculatorSetting.Instance.NORMAL_LOCK.Checked;
-            }
-
-            product.Property.HasAutoSwing = CalculatorSetting.Instance.AUTO_SWING.Checked;
-
-
-            product.Property.HasAutoSliding = CalculatorSetting.Instance.AUTO_SLIDING.Checked;
-
-
-            CalculatorProductsInfoList.AddProduct(product);
+            CalculatorProductsInfoList.AddProduct(newProduct);
         }
         private void DeleteCalculatorProductInfo(CalculatorProduct product)
         {
@@ -673,7 +568,7 @@ namespace 计价器
                 singlePrice += curvedPrice * product.Sqft;
             }
 
-            if (!product.Property.HasLock) {
+            if (product.Property.HasLock) {
                 if (product.Property.NormalLock)
                 {
                     singlePrice += normalLockPrice;
@@ -722,18 +617,81 @@ namespace 计价器
 
             return product;
         }
-        public decimal CalculateTotalPrice(List<CalculatorProduct> products)
+        public CalculatorProduct GetCalculatorProductFromView()
+        {
+
+           CalculatorProduct product = new CalculatorProduct()
+            {
+                Material = CalculatorSetting.Instance.CC_MATERIAL.Text,
+                Type = CalculatorSetting.Instance.CC_TYPE.Text,
+                UnitPrice = ProductsInfoList.GetProductUnitPrice(CalculatorSetting.Instance.CC_MATERIAL.Text, CalculatorSetting.Instance.CC_TYPE.Text),
+                DesignQty = SafeParsedecimal(CalculatorSetting.Instance.DESIGN_QTY.Text, "设计数量"),
+                WidthOrLength = SafeParsedecimal(CalculatorSetting.Instance.WIDE_LENGTH.Text, "长度或宽度"),
+
+                HeightOrDeepth = SafeParsedecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
+                WidthOrLengthFeet = SafeParsedecimal(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
+                HeightOrDeepthFeet = SafeParsedecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
+
+                Sqft = SafeParsedecimal(CalculatorSetting.Instance.SQFT.Text, "平方英尺")
+            };
+            product.Property.ProductName = CalculatorSetting.Instance.PRODUCT_NAME.Text;
+            product.SinglePrice = SafeParsedecimal(CalculatorSetting.Instance.SINGLE_PRICE.Text, "单个产品价格");
+            product.Qty = SafeParsedecimal(CalculatorSetting.Instance.PRODUCT_QTY.Text, "产品数量");
+            product.TotalPrice = SafeParsedecimal(CalculatorSetting.Instance.TOTAL_PRICE.Text, "总共价格");
+
+            product.Property.DesignPrice = SafeParsedecimal(CalculatorSetting.Instance.DESIGN_PRICE.Text, "设计价格");
+
+            product.Property.HasCloser = CalculatorSetting.Instance.HASLOCK.Checked;
+            product.Property.HasDoorInDoor = CalculatorSetting.Instance.DOORINDOOR.Checked;
+            product.Property.HasScreen = CalculatorSetting.Instance.SCREEN.Checked;
+            product.Property.IsPowder = CalculatorSetting.Instance.POWDER.Checked;
+            product.Property.IsGold = CalculatorSetting.Instance.GOLD.Checked;
+            product.Property.IsBronze = CalculatorSetting.Instance.BRONZE.Checked;
+            product.Property.HasMetalSheet = CalculatorSetting.Instance.METALSHEET.Checked;
+            product.Property.HasPlastic = CalculatorSetting.Instance.PLASTIC.Checked;
+            product.Property.HasGlass = CalculatorSetting.Instance.GLASS.Checked;
+            product.Property.HasCurved = CalculatorSetting.Instance.CURVED.Checked;
+
+            product.Property.HasPole = CalculatorSetting.Instance.POLE.Checked;
+
+            product.Property.HasLock = CalculatorSetting.Instance.HASLOCK.Checked;
+            if (product.Property.HasPole)
+            {
+                product.Property.PolePrice = SafeParsedecimal(CalculatorSetting.Instance.POLE_PRICE.Text, "大柱单价");
+                product.Property.PoleQty = SafeParsedecimal(CalculatorSetting.Instance.POLE_QTY.Text, "大柱数量");
+
+            }
+
+
+
+            if (product.Property.HasLock)
+            {
+                product.Property.FingerLock = CalculatorSetting.Instance.FINGER_LOCK.Checked;
+                product.Property.CodeLock = CalculatorSetting.Instance.CODE_LOCK.Checked;
+
+                product.Property.NormalLock = CalculatorSetting.Instance.NORMAL_LOCK.Checked;
+            }
+
+            product.Property.HasAutoSwing = CalculatorSetting.Instance.AUTO_SWING.Checked;
+
+
+            product.Property.HasAutoSliding = CalculatorSetting.Instance.AUTO_SLIDING.Checked;
+
+
+            return product;
+        }
+        public decimal CalculateAllTotalPrice(List<CalculatorProduct> products)
         {
             decimal totalPrice = 0;
 
             foreach (var product in products)
             {
-                totalPrice += product.UnitPrice * product.Sqft;
+                totalPrice += product.TotalPrice;
             }
 
             return totalPrice;
         }
-        public decimal CalculateTotalPrice(params CalculatorProduct[] products)
+        public decimal CalculateAllTotalPrice(params CalculatorProduct[] products)
         {
             decimal totalPrice = 0;
 

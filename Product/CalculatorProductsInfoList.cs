@@ -30,6 +30,11 @@ namespace 计价器
         }
 
 
+        public static List<CalculatorProduct> GetAllCalculatorProducts()
+        {
+            return CalculatorProductsList;
+        }
+
         public static CalculatorProduct GetLastAddedProduct( )
         {
             return lastAddedProduct;
