@@ -19,7 +19,7 @@ namespace 计价器
                 bool shouldShow = false;
                 foreach (string name in names)
                 {
-                    if (column.HeaderText.Contains(name))
+                    if (column.HeaderText==name)
                     {
                         shouldShow = true;
                         break; // 如果找到匹配项，停止内部循环
@@ -43,7 +43,7 @@ namespace 计价器
             }
 
             // 获取选中的行（第一行）
-            DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
+            DataGridViewRow selectedRow = dataGridView.CurrentRow;
 
             // 创建 CalculatorProduct 实例
             CalculatorProduct product = new CalculatorProduct
@@ -51,11 +51,18 @@ namespace 计价器
                 Material = selectedRow.Cells["材料"].Value.ToString(),
                 Type = selectedRow.Cells["类型"].Value.ToString(),
 
-                DesignQty = Convert.ToDecimal(selectedRow.Cells["花样数量"].Value),
                 UnitPrice = Convert.ToDecimal(selectedRow.Cells["单价"].Value),
+                DesignQty = Convert.ToDecimal(selectedRow.Cells["花样数量"].Value),
                 SinglePrice = Convert.ToDecimal(selectedRow.Cells["单个产品价格"].Value),
                 Qty = Convert.ToDecimal(selectedRow.Cells["产品数量"].Value),
                 TotalPrice = Convert.ToDecimal(selectedRow.Cells["总共价格"].Value),
+
+                WidthOrLength = Convert.ToDecimal(selectedRow.Cells["长度或宽度"].Value),
+                WidthOrLengthFeet = Convert.ToDecimal(selectedRow.Cells["长度或宽度英尺"].Value),
+                HeightOrDeepth = Convert.ToDecimal(selectedRow.Cells["高度或深度"].Value),
+                HeightOrDeepthFeet = Convert.ToDecimal(selectedRow.Cells["高度或深度英尺"].Value),
+                Sqft = Convert.ToDecimal(selectedRow.Cells["平方英尺"].Value),
+
                 Property = new ProductProperty
                 {
                     ProductName = selectedRow.Cells["名称"].Value.ToString(),
@@ -96,7 +103,7 @@ namespace 计价器
             }
 
             // 获取选中的行（第一行）
-            DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
+            DataGridViewRow selectedRow = dataGridView.CurrentRow;
 
             // 创建 CalculatorProduct 实例
             Product product = new Product
@@ -119,8 +126,7 @@ namespace 计价器
             }
 
             // 获取选中的行（第一行）
-            DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
-
+            DataGridViewRow selectedRow = dataGridView.CurrentRow;
             // 创建 CalculatorProduct 实例
             CustomizedProduct product = new CustomizedProduct
             {

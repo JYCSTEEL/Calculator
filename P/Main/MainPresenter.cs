@@ -27,9 +27,9 @@ namespace 计价器
             DatabaseHelper = DatabaseHelper.Instance;
             EventPublisher.OnProductListChangedEvent += CalculatorRefresher.Instance.LoadType;
             BindEvents();
-            ConfigureDataGridView(BasicSetUp.Instance.BasicProductView);
+            ConfigureDataGridView(BasicSetting.Instance.DATAVIEW);
             ConfigureDataGridView(CustomizedSetting.Instance.DATAVIEW);
-            ConfigureDataGridView(Calculator.Instance.DATAVIEW);
+            ConfigureDataGridView(CalculatorSetting.Instance.DATAVIEW);
 
 
         }
@@ -37,26 +37,32 @@ namespace 计价器
         public void BindEvents()
         {
 
-          //  BasicSetUp.Instance.BasicProductView.CellClick += BasicRefresher.Instance.LoadSelectedRow;
-            BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
-            BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += BasicRefresher.Instance.LoadData;
-            BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
+            BasicSetting.Instance.DATAVIEW.CellClick += BasicRefresher.Instance.LoadSelectedRow;
+            BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += BasicRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += BasicRefresher.Instance.ReFreshDataGridView;
+            BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += BasicRefresher.Instance.ReFreshDataGridView;
+            BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BasicRefresher.Instance.ReFreshDataGridView;
 
-            BasicSetUp.Instance.RB_IS_IRON.CheckedChanged += BasicRefresher.Instance.LoadData;
-            BasicSetUp.Instance.RB_IS_STAINLESS.CheckedChanged += BasicRefresher.Instance.LoadData;
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.SelectedIndexChanged += BasicRefresher.Instance.RefreshUnitPrice;
+            BasicSetting.Instance.RB_IS_IRON.CheckedChanged += BasicRefresher.Instance.LoadData;
+            BasicSetting.Instance.RB_IS_STAINLESS.CheckedChanged += BasicRefresher.Instance.LoadData;
+            BasicSetting.Instance.CB_PRODUCT_TYPE.SelectedIndexChanged += BasicRefresher.Instance.RefreshUnitPrice;
 
 
-            BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.KeyPress += TextBox_KeyPress;
-            BasicSetUp.Instance.TB_NEW_PRODUCT_UNIT_PRICE.KeyPress += TextBox_KeyPress;
+            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.KeyPress += TextBox_KeyPress;
+            BasicSetting.Instance.TB_NEW_PRODUCT_UNIT_PRICE.KeyPress += TextBox_KeyPress;
             ////不输入默认为0
             ///
-            BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Leave += TextBox_Leave;
-            BasicSetUp.Instance.TB_NEW_PRODUCT_UNIT_PRICE.Leave += TextBox_Leave;
+            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Leave += TextBox_Leave;
+            BasicSetting.Instance.TB_NEW_PRODUCT_UNIT_PRICE.Leave += TextBox_Leave;
 
-            BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
-            BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += CustomizedRefresher.Instance.LoadData;
-            BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += CustomizedRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
+
+
+            //
 
             CustomizedSetting.Instance.BTN_ADD.Click += CustomizedRefresher.Instance.LoadData;
             CustomizedSetting.Instance.BTN_UPDATE.Click += CustomizedRefresher.Instance.LoadData;
@@ -65,6 +71,9 @@ namespace 计价器
             CustomizedSetting.Instance.BTN_ADD.Click += CalculatorRefresher.Instance.LoadData;
             CustomizedSetting.Instance.BTN_UPDATE.Click += CalculatorRefresher.Instance.LoadData;
             CustomizedSetting.Instance.BTN_DELETE.Click += CalculatorRefresher.Instance.LoadData;
+            CustomizedSetting.Instance.BTN_ADD.Click += CustomizedRefresher.Instance.ReFreshDataGridView;
+            CustomizedSetting.Instance.BTN_UPDATE.Click += CustomizedRefresher.Instance.ReFreshDataGridView;
+            CustomizedSetting.Instance.BTN_DELETE.Click += CustomizedRefresher.Instance.ReFreshDataGridView;
 
 
             CustomizedSetting.Instance.MATERIAL.SelectedValueChanged += CustomizedRefresher.Instance.LoadType;
@@ -83,52 +92,54 @@ namespace 计价器
             CustomizedSetting.Instance.CheckListBoxCustomized.SelectedValueChanged += CustomizedRefresher.Instance.ReFreshDataGridView;
 
             CustomizedSetting.Instance.CP_SELECT_ALL.CheckedChanged += CustomizedSelectAllCheckedList;
+            CustomizedSetting.Instance.DATAVIEW.CellClick += CustomizedRefresher.Instance.LoadSelectedRow;
 
+            CalculatorSetting.Instance.CC_MATERIAL.SelectedValueChanged += CalculatorRefresher.Instance.LoadType;
+            CalculatorSetting.Instance.CC_TYPE.SelectedValueChanged += CalculatorRefresher.Instance.LoadName;
+            CalculatorSetting.Instance.PRODUCT_NAME.SelectedValueChanged += CalculatorRefresher.Instance.LoadProperty;
 
-            Calculator.Instance.CC_MATERIAL.SelectedValueChanged += CalculatorRefresher.Instance.LoadType;
-            Calculator.Instance.CC_TYPE.SelectedValueChanged += CalculatorRefresher.Instance.LoadName;
-            Calculator.Instance.PRODUCT_NAME.SelectedValueChanged += CalculatorRefresher.Instance.LoadProperty;
+            CalculatorSetting.Instance.BTN_ADD.Click += CalculatorRefresher.Instance.ReFreshDataGridView;
+            CalculatorSetting.Instance.BTN_UPDATE.Click += CalculatorRefresher.Instance.ReFreshDataGridView;
+            CalculatorSetting.Instance.BTN_DELETE.Click += CalculatorRefresher.Instance.ReFreshDataGridView;
 
-            Calculator.Instance.BTN_ADD.Click += CalculatorRefresher.Instance.ReFreshDataGridView;
-            Calculator.Instance.BTN_UPDATE.Click += CalculatorRefresher.Instance.ReFreshDataGridView;
-            Calculator.Instance.BTN_DELETE.Click += CalculatorRefresher.Instance.ReFreshDataGridView;
-
-            Calculator.Instance.WIDE_LENGTH.KeyPress += TextBox_KeyPress;
-            Calculator.Instance.WIDE_LENGTH_FEET.KeyPress += TextBox_KeyPress;
-            Calculator.Instance.HEIGHT_DEEPTH.KeyPress += TextBox_KeyPress;
-            Calculator.Instance.HEIGHT_DEEPTH_FEET.KeyPress += TextBox_KeyPress;
-            Calculator.Instance.DESIGN_PRICE.KeyPress += TextBox_KeyPress;
-            Calculator.Instance.POLE_QTY.KeyPress += TextBox_KeyPress;
-            Calculator.Instance.POLE_PRICE.KeyPress += TextBox_KeyPress;
-            Calculator.Instance.PRODUCT_QTY.KeyPress += TextBox_KeyPress;
+            CalculatorSetting.Instance.WIDE_LENGTH.KeyPress += TextBox_KeyPress;
+            CalculatorSetting.Instance.WIDE_LENGTH_FEET.KeyPress += TextBox_KeyPress;
+            CalculatorSetting.Instance.HEIGHT_DEEPTH.KeyPress += TextBox_KeyPress;
+            CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.KeyPress += TextBox_KeyPress;
+            CalculatorSetting.Instance.DESIGN_PRICE.KeyPress += TextBox_KeyPress;
+            CalculatorSetting.Instance.POLE_QTY.KeyPress += TextBox_KeyPress;
+            CalculatorSetting.Instance.POLE_PRICE.KeyPress += TextBox_KeyPress;
+            CalculatorSetting.Instance.PRODUCT_QTY.KeyPress += TextBox_KeyPress;
             ////不输入默认为0
 
-            Calculator.Instance.WIDE_LENGTH.Leave += TextBox_Leave;
-            Calculator.Instance.WIDE_LENGTH_FEET.Leave += TextBox_Leave;
-            Calculator.Instance.HEIGHT_DEEPTH.Leave += TextBox_Leave;
-            Calculator.Instance.HEIGHT_DEEPTH_FEET.Leave += TextBox_Leave;
-            Calculator.Instance.DESIGN_PRICE.Leave += TextBox_Leave;
-            Calculator.Instance.POLE_QTY.Leave += TextBox_Leave;
-            Calculator.Instance.POLE_PRICE.Leave += TextBox_Leave;
-            Calculator.Instance.PRODUCT_QTY.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.WIDE_LENGTH.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.WIDE_LENGTH_FEET.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.HEIGHT_DEEPTH.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.DESIGN_PRICE.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.POLE_QTY.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.POLE_PRICE.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.PRODUCT_QTY.Leave += TextBox_Leave;
 
-            Calculator.Instance.UNIT_PRICE.Leave += TextBox_Leave;
+            CalculatorSetting.Instance.UNIT_PRICE.Leave += TextBox_Leave;
 
-            Calculator.Instance.CheckListBoxCalculator.SelectedValueChanged += CalculatorRefresher.Instance.ReFreshDataGridView;
-            Calculator.Instance.CC_SELECT_ALL.CheckedChanged += CalculatorSelectAllCheckedList;
+            CalculatorSetting.Instance.CheckListBoxCalculator.SelectedValueChanged += CalculatorRefresher.Instance.ReFreshDataGridView;
+            CalculatorSetting.Instance.CC_SELECT_ALL.CheckedChanged += CalculatorSelectAllCheckedList;
+
+            CalculatorSetting.Instance.DATAVIEW.CellClick += CalculatorRefresher.Instance.LoadSelectedRow;
         }
 
         private void CalculatorSelectAllCheckedList(object sender, EventArgs e)
         {
-            if (Calculator.Instance.CC_SELECT_ALL.Checked)
+            if (CalculatorSetting.Instance.CC_SELECT_ALL.Checked)
             {
 
-                ViewMGR.SelectAllCheckedListBox(Calculator.Instance.CheckListBoxCalculator);
+                ViewMGR.SelectAllCheckedListBox(CalculatorSetting.Instance.CheckListBoxCalculator);
 
             }
             else
             {
-                ViewMGR.UnSelectAllCheckedListBox(Calculator.Instance.CheckListBoxCalculator);
+                ViewMGR.UnSelectAllCheckedListBox(CalculatorSetting.Instance.CheckListBoxCalculator);
             }
         }
 
@@ -167,27 +178,27 @@ namespace 计价器
 
         private void IniatializeNumberTextBox()
         {
-            BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = "0";
-            BasicSetUp.Instance.TB_NEW_PRODUCT_UNIT_PRICE.Text = "0";
+            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = "0";
+            BasicSetting.Instance.TB_NEW_PRODUCT_UNIT_PRICE.Text = "0";
             CustomizedSetting.Instance.DESIGN_PRICE.Text = "0";
             CustomizedSetting.Instance.POLE_PRICE.Text = "0";
             CustomizedSetting.Instance.POLE_QTY.Text = "0";
-            Calculator.Instance.WIDE_LENGTH.Text = "0";
-            Calculator.Instance.WIDE_LENGTH_FEET.Text = "0";
-            Calculator.Instance.HEIGHT_DEEPTH.Text = "0";
-            Calculator.Instance.HEIGHT_DEEPTH_FEET.Text = "0";
-            Calculator.Instance.DESIGN_PRICE.Text = "0";
-            Calculator.Instance.POLE_QTY.Text = "0";
-            Calculator.Instance.POLE_PRICE.Text = "0";
-            Calculator.Instance.PRODUCT_QTY.Text = "0";
+            CalculatorSetting.Instance.WIDE_LENGTH.Text = "0";
+            CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text = "0";
+            CalculatorSetting.Instance.HEIGHT_DEEPTH.Text = "0";
+            CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text = "0";
+            CalculatorSetting.Instance.DESIGN_PRICE.Text = "0";
+            CalculatorSetting.Instance.POLE_QTY.Text = "0";
+            CalculatorSetting.Instance.POLE_PRICE.Text = "0";
+            CalculatorSetting.Instance.PRODUCT_QTY.Text = "0";
 
 
-            Calculator.Instance.SQFT.Text = "0";
-            Calculator.Instance.DESIGN_QTY.Text = "0";
-            Calculator.Instance.SINGLE_PRICE.Text = "0";
-            Calculator.Instance.TOTAL_PRICE.Text = "0";
-            Calculator.Instance.ALL_TOTAL_PRICE.Text = "0";
-            Calculator.Instance.UNIT_PRICE.Text = "0";
+            CalculatorSetting.Instance.SQFT.Text = "0";
+            CalculatorSetting.Instance.DESIGN_QTY.Text = "0";
+            CalculatorSetting.Instance.SINGLE_PRICE.Text = "0";
+            CalculatorSetting.Instance.TOTAL_PRICE.Text = "0";
+            CalculatorSetting.Instance.ALL_TOTAL_PRICE.Text = "0";
+            CalculatorSetting.Instance.UNIT_PRICE.Text = "0";
         }
         private void ConfigureDataGridView(DataGridView dataGridView)
         {

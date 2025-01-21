@@ -66,9 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="C\CustomizedSetting.cs" />
-    <Compile Include="C\BasicSetUp.cs" />
+    <Compile Include="C\BasicSetting.cs" />
     <Compile Include="C\Controls.cs" />
-    <Compile Include="C\Calculator.cs" />
+    <Compile Include="C\CalculatorSetting.cs" />
     <Compile Include="DataBase\DatabaseHelper.cs" />
     <Compile Include="DatagridviewMGR.cs" />
     <Compile Include="EventPublisher.cs" />

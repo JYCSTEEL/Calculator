@@ -287,7 +287,7 @@
             // 
             // tabPageCalculate
             // 
-            this.tabPageCalculate.BackColor = System.Drawing.Color.SteelBlue;
+            this.tabPageCalculate.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.tabPageCalculate.Controls.Add(this.checkBoxSelectAllCalculatorList);
             this.tabPageCalculate.Controls.Add(this.label34);
             this.tabPageCalculate.Controls.Add(this.checkedListBoxCalculator);
@@ -646,9 +646,9 @@
             this.groupBox3.Controls.Add(this.checkBoxCalculatorGlass);
             this.groupBox3.Controls.Add(this.checkBoxCalculatorCurve);
             this.groupBox3.Controls.Add(this.checkBoxCalculatorMetalSheet);
-            this.groupBox3.Location = new System.Drawing.Point(528, 4);
+            this.groupBox3.Location = new System.Drawing.Point(522, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(211, 93);
+            this.groupBox3.Size = new System.Drawing.Size(217, 93);
             this.groupBox3.TabIndex = 39;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "通用";
@@ -771,9 +771,9 @@
             this.groupBox1.Controls.Add(this.checkBoxCalculatorNormalLock);
             this.groupBox1.Controls.Add(this.checkBoxCalculatorCodeLock);
             this.groupBox1.Controls.Add(this.checkBoxCalculatorFingerPrdecimalLock);
-            this.groupBox1.Location = new System.Drawing.Point(528, 102);
+            this.groupBox1.Location = new System.Drawing.Point(522, 102);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(211, 89);
+            this.groupBox1.Size = new System.Drawing.Size(217, 89);
             this.groupBox1.TabIndex = 37;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "锁相关";

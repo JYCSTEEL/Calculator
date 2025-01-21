@@ -10,10 +10,10 @@ namespace 计价器
     {
    
         // 静态字段，存储单例实例
-        private static readonly BasicPresenter _instance = new BasicPresenter(BasicSetUp.Instance, BasicRefresher.Instance);
+        private static readonly BasicPresenter _instance = new BasicPresenter(BasicSetting.Instance, BasicRefresher.Instance);
 
         // 私有构造函数，防止外部实例化
-        private BasicPresenter(BasicSetUp basicSetUp, BasicRefresher BasicRefresher)
+        private BasicPresenter(BasicSetting basicSetUp, BasicRefresher BasicRefresher)
         {
             // 初始化逻辑（如果需要）
             BindEvents();
@@ -34,9 +34,9 @@ namespace 计价器
         }
         public void BindEvents()
         {
-            BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += BTN_NEW_PRODUCT_TYPE_Click;
-            BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += BTN_UPDATE_UNIT_PRICE_Click;
-            BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BTN_DELETE_PRODUCT_TYPE_Click;
+            BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += BTN_NEW_PRODUCT_TYPE_Click;
+            BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += BTN_UPDATE_UNIT_PRICE_Click;
+            BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BTN_DELETE_PRODUCT_TYPE_Click;
 
 
         }
@@ -52,10 +52,11 @@ namespace 计价器
         }
         private void InitializeData()
         {
-            BasicSetUp.Instance.RB_IS_IRON.Checked = true;
+            BasicSetting.Instance.RB_IS_IRON.Checked = true;
             // 默认选择第一项
 
             BasicRefresher.Instance.LoadData();
+            BasicRefresher.Instance.ReFreshDataGridView();
 
         }
         private bool IsProductExist(string material, string type)
@@ -74,9 +75,9 @@ namespace 计价器
         {
             Product product = new Product()
             {
-                Material = BasicSetUp.Instance.SelectedMaterial,
-                Type = BasicSetUp.Instance.NewProductType,
-                UnitPrice = BasicSetUp.Instance.NewProductUnitPrice,
+                Material = BasicSetting.Instance.SelectedMaterial,
+                Type = BasicSetting.Instance.NewProductType,
+                UnitPrice = BasicSetting.Instance.NewProductUnitPrice,
 
             };
         
@@ -89,35 +90,35 @@ namespace 计价器
             DeleteProductInfo();
             Product product = new Product()
             {
-                Material = BasicSetUp.Instance.SelectedMaterial,
-                Type = BasicSetUp.Instance.SelectedProductType,
-                UnitPrice = BasicSetUp.Instance.SetUpBasicUnitPrice,
+                Material = BasicSetting.Instance.SelectedMaterial,
+                Type = BasicSetting.Instance.SelectedProductType,
+                UnitPrice = BasicSetting.Instance.SetUpBasicUnitPrice,
             };
             ProductsInfoList.AddProduct(product);
             EventPublisher.RaiseEvent();
         }
         private void DeleteProductInfo()
         {
-            Product product = ProductsInfoList.FindProductFirstOneByMaterialAndType(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType);
+            Product product = ProductsInfoList.FindProductFirstOneByMaterialAndType(BasicSetting.Instance.SelectedMaterial, BasicSetting.Instance.SelectedProductType);
             ProductsInfoList.RemoveProduct(product);
             EventPublisher.RaiseEvent();
         }
 
         private void BTN_NEW_PRODUCT_TYPE_Click(object sender, EventArgs e)
         {
-            if (!IsStringNotNullOrEmpty(BasicSetUp.Instance.NewProductType))
+            if (!IsStringNotNullOrEmpty(BasicSetting.Instance.NewProductType))
             {
                 MessageBox.Show("类型不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
-            if (!IsINTOverZero(BasicSetUp.Instance.NewProductUnitPrice))
+            if (!IsINTOverZero(BasicSetting.Instance.NewProductUnitPrice))
             {
                 MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (IsProductExist(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.NewProductType))
+            if (IsProductExist(BasicSetting.Instance.SelectedMaterial, BasicSetting.Instance.NewProductType))
             {
                 MessageBox.Show("产品类型-已存在！");
                 return;
@@ -125,9 +126,9 @@ namespace 计价器
             AddProductInfo();
             // 调用数据库助手的插入方法
             DatabaseHelper.Instance.InsertProduct(
-                BasicSetUp.Instance.SelectedMaterial,
-                BasicSetUp.Instance.NewProductType,
-                BasicSetUp.Instance.NewProductUnitPrice);
+                BasicSetting.Instance.SelectedMaterial,
+                BasicSetting.Instance.NewProductType,
+                BasicSetting.Instance.NewProductUnitPrice);
             MessageBox.Show("新建产品类型-成功！");
 
         }
@@ -135,42 +136,42 @@ namespace 计价器
         private void BTN_UPDATE_UNIT_PRICE_Click(object sender, EventArgs e)
         {
 
-            if (!IsStringNotNullOrEmpty(BasicSetUp.Instance.SelectedMaterial))
+            if (!IsStringNotNullOrEmpty(BasicSetting.Instance.SelectedMaterial))
             {
                 MessageBox.Show("类型不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
-            if (!IsINTOverZero(BasicSetUp.Instance.SetUpBasicUnitPrice))
+            if (!IsINTOverZero(BasicSetting.Instance.SetUpBasicUnitPrice))
             {
                 MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
 
-            if (!IsProductExist(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType))
+            if (!IsProductExist(BasicSetting.Instance.SelectedMaterial, BasicSetting.Instance.SelectedProductType))
             {
                 MessageBox.Show("产品类型-不存在！");
                 return;
             };
             UpdateProductInfo();
             DatabaseHelper.Instance.UpdateProductPrice(
-                BasicSetUp.Instance.SelectedMaterial,
-                BasicSetUp.Instance.SelectedProductType,
-                BasicSetUp.Instance.SetUpBasicUnitPrice);
+                BasicSetting.Instance.SelectedMaterial,
+                BasicSetting.Instance.SelectedProductType,
+                BasicSetting.Instance.SetUpBasicUnitPrice);
             MessageBox.Show("更新产品类型-成功！");
 
         }
 
         private void BTN_DELETE_PRODUCT_TYPE_Click(object sender, EventArgs e)
         {
-            if (!DatabaseHelper.Instance.RecordExists(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType))
+            if (!DatabaseHelper.Instance.RecordExists(BasicSetting.Instance.SelectedMaterial, BasicSetting.Instance.SelectedProductType))
             {
                 MessageBox.Show("产品类型-不存在！");
                 return;
             };
             DeleteProductInfo();
-            DatabaseHelper.Instance.DeleteProduct(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType);
+            DatabaseHelper.Instance.DeleteProduct(BasicSetting.Instance.SelectedMaterial, BasicSetting.Instance.SelectedProductType);
             MessageBox.Show("删除产品类型-成功！");
 
         }

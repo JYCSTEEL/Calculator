@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace 计价器
 {
-    public class BasicSetUp : Controls
+    public class BasicSetting : Controls
     {
         /// <summary>
         /// 基础设置控件属性
@@ -62,7 +62,7 @@ namespace 计价器
             }
         }
 
-        public DataGridView BasicProductView { get => mainView.MainProductView; set => mainView.MainProductView = value; }
+        public DataGridView DATAVIEW { get => mainView.MainProductView; set => mainView.MainProductView = value; }
         /// <summary>
         /// 基础设置按钮
         /// </summary>
@@ -89,16 +89,16 @@ namespace 计价器
         public TextBox TB_NEW_PRODUCT_UNIT_PRICE { get => mainView.TB_NEW_PRODUCT_UNIT_PRICE; set => mainView.TB_NEW_PRODUCT_UNIT_PRICE = value; }
 
 
-        private static readonly BasicSetUp _instance = new BasicSetUp();
+        private static readonly BasicSetting _instance = new BasicSetting();
 
         // 私有构造函数，防止外部实例化
-        private BasicSetUp()
+        private BasicSetting()
         {
             // 初始化逻辑（如果需要）
         }
 
         // 静态属性，用于获取单例实例
-        public static BasicSetUp Instance
+        public static BasicSetting Instance
         {
             get
             {

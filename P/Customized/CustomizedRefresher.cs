@@ -144,12 +144,10 @@ namespace 计价器
         {
             LoadComboBoxType();
 
-            ReFreshDataGridView();
         }
         public void LoadName(object sender, EventArgs e)
         {
             LoadComboBoxName();
-            ReFreshDataGridView();
         }
         public void LoadData(object sender, EventArgs e)
         {
@@ -158,7 +156,6 @@ namespace 计价器
             LoadComboBoxName();
 
             LoadProperty();
-            ReFreshDataGridView();
         }
 
 
@@ -167,20 +164,17 @@ namespace 计价器
         {
             LoadComboBoxType();
 
-            ReFreshDataGridView();
         }
         public void LoadName()
         {
             LoadComboBoxName();
 
-            ReFreshDataGridView();
         }
         public void LoadData()
         {
             LoadComboBoxType();
             LoadComboBoxName();
             LoadProperty();
-            ReFreshDataGridView();
         }
 
         public void ReFreshDataGridView()
@@ -194,12 +188,49 @@ namespace 计价器
 
             List<string> names = ViewMGR.GetCheckedNamesFromCheckedListBox(CustomizedSetting.Instance.CheckListBoxCustomized);
 
-
             ViewMGR.OnlyShowColumnsByNames(CustomizedSetting.Instance.DATAVIEW, names);
         }
         public void ReFreshDataGridView(object sender, EventArgs e)
         {
             ReFreshDataGridView();
+        }
+
+
+        public void LoadSelectedRow(object sender, DataGridViewCellEventArgs e)
+        {
+            CustomizedProduct product = ViewMGR.GetSelectedCustomizedProduct(CustomizedSetting.Instance.DATAVIEW);
+
+            CustomizedSetting.Instance.MATERIAL.Text = product.Material;
+            CustomizedSetting.Instance.TYPE.Text = product.Type;
+            CustomizedSetting.Instance.CB_NAME.Text = product.Property.ProductName;
+            CustomizedSetting.Instance.DESIGN_PRICE.Text = product.Property.DesignPrice.ToString();
+            CustomizedSetting.Instance.POLE_PRICE.Text = product.Property.PolePrice.ToString();
+            CustomizedSetting.Instance.POLE_QTY.Text = product.Property.PoleQty.ToString();
+
+
+            CustomizedSetting.Instance.HASCLOSER.Checked = product.Property.HasCloser;
+
+            CustomizedSetting.Instance.DOORINDOOR.Checked = product.Property.HasDoorInDoor;
+
+
+            CustomizedSetting.Instance.SCREEN.Checked = product.Property.HasScreen;
+            CustomizedSetting.Instance.POWDER.Checked = product.Property.IsPowder;
+            CustomizedSetting.Instance.GOLD.Checked = product.Property.IsGold;
+            CustomizedSetting.Instance.BRONZE.Checked = product.Property.IsBronze;
+            CustomizedSetting.Instance.METALSHEET.Checked = product.Property.HasMetalSheet;
+            CustomizedSetting.Instance.PLASTIC.Checked = product.Property.HasPlastic;
+            CustomizedSetting.Instance.GLASS.Checked = product.Property.HasGlass;
+
+            CustomizedSetting.Instance.CURVED.Checked = product.Property.HasCurved;
+            CustomizedSetting.Instance.POLE.Checked = product.Property.HasPole;
+            CustomizedSetting.Instance.HASLOCK.Checked = product.Property.HasLock;
+            CustomizedSetting.Instance.NORMAL_LOCK.Checked = product.Property.NormalLock;
+            CustomizedSetting.Instance.CODE_LOCK.Checked = product.Property.CodeLock;
+            CustomizedSetting.Instance.FINGER_LOCK.Checked = product.Property.FingerLock;
+
+            CustomizedSetting.Instance.AUTO_SWING.Checked = product.Property.HasAutoSwing;
+            CustomizedSetting.Instance.AUTO_SLIDING.Checked = product.Property.HasAutoSliding;
+
         }
     }
 }

@@ -28,7 +28,7 @@ namespace 计价器
 
             InitializeCheckedListBox();
             InitializeData();
-
+            
 
         }
 
@@ -73,6 +73,7 @@ namespace 计价器
 
             CustomizedSetting.Instance.MATERIAL.SelectedIndex = 0;
             CustomizedRefresher.Instance.LoadData();
+            CustomizedRefresher.Instance.ReFreshDataGridView();
         }
         private bool IsProductExist(string material, string type, string name)
         {

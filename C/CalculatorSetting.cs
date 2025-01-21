@@ -7,14 +7,14 @@ using System.Windows.Forms;
 
 namespace 计价器
 {
-    public class Calculator:Controls
+    public class CalculatorSetting:Controls
     {
         /// <summary>
         /// 基础设置控件属性
         /// </summary>
         /// 
 
-
+        
         public CheckBox CC_SELECT_ALL { get => mainView.SelectAllCalculator; set => mainView.SelectAllCalculator = value; }
         public ComboBox CC_MATERIAL { get => mainView.CC_MATERIAL; set => mainView.CC_MATERIAL = value; }
         public ComboBox CC_TYPE { get => mainView.CC_TYPE; set => mainView.CC_TYPE = value; }
@@ -80,19 +80,19 @@ namespace 计价器
 
 
         // 静态字段，存储单例实例
-        private static readonly Calculator _instance = new Calculator();
+        private static readonly CalculatorSetting _instance = new CalculatorSetting();
 
    
 
         // 私有构造函数，防止外部实例化
-        private Calculator()
+        private CalculatorSetting()
         {
             // 初始化逻辑（如果需要）
 
         }
 
         // 静态属性，用于获取单例实例
-        public static Calculator Instance
+        public static CalculatorSetting Instance
         {
             get
             {

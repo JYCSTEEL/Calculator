@@ -29,7 +29,7 @@ namespace 计价器
         {
 
          
-            string material = BasicSetUp.Instance.SelectedMaterial;
+            string material = BasicSetting.Instance.SelectedMaterial;
             List<Product> products = ProductsInfoList.GetAllProductsByMaterial(material);
            
             List<string> productTypes = new List<string> ();
@@ -42,26 +42,26 @@ namespace 计价器
            
 
             // 清空下拉框并加载新数据
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Clear();
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.AddRange(productTypes.ToArray());
+            BasicSetting.Instance.CB_PRODUCT_TYPE.Items.Clear();
+            BasicSetting.Instance.CB_PRODUCT_TYPE.Items.AddRange(productTypes.ToArray());
          
 
             // 默认选择第一项（如果有数据）
-            if (BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Count > 0)
+            if (BasicSetting.Instance.CB_PRODUCT_TYPE.Items.Count > 0)
             {
-                BasicSetUp.Instance.CB_PRODUCT_TYPE.SelectedIndex = 0;
+                BasicSetting.Instance.CB_PRODUCT_TYPE.SelectedIndex = 0;
             }
-            string type = BasicSetUp.Instance.SelectedProductType;
+            string type = BasicSetting.Instance.SelectedProductType;
             var product = ProductsInfoList.FindProductFirstOneByMaterialAndType(material, type);
             if(product != null)
             {
                 string price = product.UnitPrice.ToString();
-                BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
+                BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = price;
             }
             else
             {
                 string price = "0";
-                BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
+                BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = price;
             }
           
 
@@ -71,72 +71,62 @@ namespace 计价器
         public void LoadData(object sender, EventArgs e)
         {
             LoadComboBoxData();
-            ReFreshDataGridView();
         }
         public void LoadData()
         {
             LoadComboBoxData();
-            ReFreshDataGridView();
         }
         private void RefreshUnitPrice()
         {
-            string price = DatabaseHelper.Instance.GetUnitPrice(BasicSetUp.Instance.SelectedMaterial, BasicSetUp.Instance.SelectedProductType).ToString();
-            BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
+            string price = DatabaseHelper.Instance.GetUnitPrice(BasicSetting.Instance.SelectedMaterial, BasicSetting.Instance.SelectedProductType).ToString();
+            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = price;
 
         }
         public void RefreshUnitPrice(object sender, EventArgs e)
         {
             RefreshUnitPrice();
         }
-        private void ReFreshDataGridView()
+        public void ReFreshDataGridView()
         {
 
             BindingSource bindingSource = new BindingSource();
             bindingSource.DataSource = DatabaseHelper.Instance.GetAllProducts();
         
-            BasicSetUp.Instance.BasicProductView.DataSource = bindingSource;
+            BasicSetting.Instance.DATAVIEW.DataSource = bindingSource;
 
-          
-     
+
         }
+        public void ReFreshDataGridView(object sender, EventArgs e)
+        {
+
+            ReFreshDataGridView();
+
+
+        }
+
 
         public void LoadSelectedRow(object sender, DataGridViewCellEventArgs e)
         {
-          
-            string material = BasicSetUp.Instance.SelectedMaterial;
-            List<Product> products = ProductsInfoList.GetAllProductsByMaterial(material);
+            Product product = ViewMGR.GetSelectedProduct(BasicSetting.Instance.DATAVIEW);
 
-            List<string> productTypes = new List<string>();
 
-            foreach (var item in products)
+            switch (product.Material)
             {
-                productTypes.Add(item.Type);
 
+
+                case "铁":
+            BasicSetting.Instance.RB_IS_IRON.Checked = true;
+
+                    BasicSetting.Instance.RB_IS_STAINLESS.Checked = false;
+                    break;
+                case "不锈钢":
+                    BasicSetting.Instance.RB_IS_STAINLESS.Checked = true;
+                    BasicSetting.Instance.RB_IS_IRON.Checked = false;
+                    break;
             }
+            BasicSetting.Instance.CB_PRODUCT_TYPE.Text = product.Type;
+            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = product.UnitPrice.ToString();
 
-
-            // 清空下拉框并加载新数据
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Clear();
-            BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.AddRange(productTypes.ToArray());
-
-
-            // 默认选择第一项（如果有数据）
-            if (BasicSetUp.Instance.CB_PRODUCT_TYPE.Items.Count > 0)
-            {
-                BasicSetUp.Instance.CB_PRODUCT_TYPE.SelectedIndex = 0;
-            }
-            string type = BasicSetUp.Instance.SelectedProductType;
-            var product = ProductsInfoList.FindProductFirstOneByMaterialAndType(material, type);
-            if (product != null)
-            {
-                string price = product.UnitPrice.ToString();
-                BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
-            }
-            else
-            {
-                string price = "0";
-                BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Text = price;
-            }
 
         }
     }
