@@ -35,6 +35,8 @@ namespace 计价器
             EnsureProductsTableExists();
             EnsureCustomizedTableExists();
             EnsureCalculatorTableExists();
+
+            EnsureSetPriceTableExists();
         }
 
         // 检查是否存在表“产品表”，如果不存在则创建
@@ -171,6 +173,89 @@ namespace 计价器
                             createCommand.ExecuteNonQuery();
                         }
                     }
+                }
+            }
+        }
+        public void EnsureSetPriceTableExists()
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                // 检查表是否存在
+                string checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='设置单价表';";
+                using (var command = new SQLiteCommand(checkTableQuery, connection))
+                {
+                    var result = command.ExecuteScalar();
+
+                    // 如果表不存在，则创建
+                    if (result == null)
+                    {
+                        string createTableQuery = @"
+                CREATE TABLE 设置单价表 (
+                    烤漆 REAL,
+                    金色 REAL,
+                    古铜色 REAL,
+                    铁板 REAL,
+                    胶板 REAL,
+                    玻璃 REAL,
+                    弧形 REAL,
+                    普通锁 REAL,
+                    指纹锁 REAL,
+                    密码锁 REAL,
+                    闭门器 REAL,
+                    门中门 REAL,
+                    纱窗 REAL,
+                    电动双开 REAL,
+                    电动推拉 REAL
+                );";
+                        using (var createCommand = new SQLiteCommand(createTableQuery, connection))
+                        {
+                            createCommand.ExecuteNonQuery();
+                        }
+                        InsertDefaultValuesIntoSetPriceTable();
+                    }
+                }
+            }
+        }
+
+        public void InsertDefaultValuesIntoSetPriceTable()
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                // 构造插入语句
+                string insertQuery = @"
+        INSERT INTO 设置单价表 (
+            烤漆, 金色, 古铜色, 铁板, 胶板, 玻璃, 弧形, 普通锁, 指纹锁, 密码锁,闭门器,
+            门中门, 纱窗, 电动双开, 电动推拉
+        ) VALUES (
+            @Powder, @Gold, @Bronze, @MetalSheet, @Plastic, @Glass, @Curved, @NormalLock,
+            @FingerLock, @CodeLock, @Closer, @DoorInDoor, @Screen, @AutoSwing, @AutoSliding
+        );";
+
+                using (var command = new SQLiteCommand(insertQuery, connection))
+                {
+                    // 设置所有参数为 0
+                    command.Parameters.AddWithValue("@Powder", 0);
+                    command.Parameters.AddWithValue("@Gold", 0);
+                    command.Parameters.AddWithValue("@Bronze", 0);
+                    command.Parameters.AddWithValue("@MetalSheet", 0);
+                    command.Parameters.AddWithValue("@Plastic", 0);
+                    command.Parameters.AddWithValue("@Glass", 0);
+                    command.Parameters.AddWithValue("@Curved", 0);
+                    command.Parameters.AddWithValue("@NormalLock", 0);
+                    command.Parameters.AddWithValue("@FingerLock", 0);
+                    command.Parameters.AddWithValue("@CodeLock", 0);
+
+                    command.Parameters.AddWithValue("@Closer", 0);
+                    command.Parameters.AddWithValue("@DoorInDoor", 0);
+                    command.Parameters.AddWithValue("@Screen", 0);
+                    command.Parameters.AddWithValue("@AutoSwing", 0);
+                    command.Parameters.AddWithValue("@AutoSliding", 0);
+
+                    command.ExecuteNonQuery(); // 执行插入操作
                 }
             }
         }
@@ -1125,7 +1210,111 @@ namespace 计价器
 
             return columnNames;
         }
+        public string GetSingleValueAsString(string tableName, string columnName)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
 
+                // 构造查询语句
+                string query = $"SELECT {columnName} FROM {tableName} LIMIT 1;";
+
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    var result = command.ExecuteScalar();
+                    return result != null ? result.ToString() : string.Empty; // 如果为空，返回空字符串
+                }
+            }
+        }
+        public void UpdateSingleValue(string tableName, string columnName, string newValue)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                // 构造更新语句
+                string updateQuery = $"UPDATE {tableName} SET {columnName} = @NewValue;";
+
+                using (var command = new SQLiteCommand(updateQuery, connection))
+                {
+                    // 设置参数
+                    command.Parameters.AddWithValue("@NewValue", newValue);
+                    command.ExecuteNonQuery(); // 执行更新操作
+                }
+            }
+        }
+
+        public void InsertSingleValue(string tableName, string columnName, string value)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                // 构造插入语句
+                string insertQuery = $"INSERT INTO {tableName} ({columnName}) VALUES (@Value);";
+
+                using (var command = new SQLiteCommand(insertQuery, connection))
+                {
+                    // 设置参数
+                    command.Parameters.AddWithValue("@Value", value);
+                    command.ExecuteNonQuery(); // 执行插入操作
+                }
+            }
+        }
+        public void UpdateSetPriceTable(
+    decimal powder, decimal gold, decimal bronze, decimal metalSheet, decimal plastic, decimal glass,
+    decimal curved, decimal normalLock, decimal fingerLock, decimal codeLock,decimal closer,
+    decimal doorInDoor, decimal screen, decimal autoSwing, decimal autoSliding)
+        {
+            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            {
+                connection.Open();
+
+                // 构造更新语句
+                string updateQuery = @"
+        UPDATE 设置单价表
+        SET 
+            烤漆 = @Powder,
+            金色 = @Gold,
+            古铜色 = @Bronze,
+            铁板 = @MetalSheet,
+            胶板 = @Plastic,
+            玻璃 = @Glass,
+            弧形 = @Curved,
+            普通锁 = @NormalLock,
+            指纹锁 = @FingerLock,
+            密码锁 = @CodeLock,
+            闭门器 = @Closer,
+
+            门中门 = @DoorInDoor,
+            纱窗 = @Screen,
+            电动双开 = @AutoSwing,
+            电动推拉 = @AutoSliding;";
+
+                using (var command = new SQLiteCommand(updateQuery, connection))
+                {
+                    // 设置所有参数的值
+                    command.Parameters.AddWithValue("@Powder", powder);
+                    command.Parameters.AddWithValue("@Gold", gold);
+                    command.Parameters.AddWithValue("@Bronze", bronze);
+                    command.Parameters.AddWithValue("@MetalSheet", metalSheet);
+                    command.Parameters.AddWithValue("@Plastic", plastic);
+                    command.Parameters.AddWithValue("@Glass", glass);
+                    command.Parameters.AddWithValue("@Curved", curved);
+                    command.Parameters.AddWithValue("@NormalLock", normalLock);
+                    command.Parameters.AddWithValue("@FingerLock", fingerLock);
+                    command.Parameters.AddWithValue("@CodeLock", codeLock);
+
+                    command.Parameters.AddWithValue("@Closer", closer);
+                    command.Parameters.AddWithValue("@DoorInDoor", doorInDoor);
+                    command.Parameters.AddWithValue("@Screen", screen);
+                    command.Parameters.AddWithValue("@AutoSwing", autoSwing);
+                    command.Parameters.AddWithValue("@AutoSliding", autoSliding);
+
+                    command.ExecuteNonQuery(); // 执行更新操作
+                }
+            }
+        }
 
     }
 

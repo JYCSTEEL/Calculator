@@ -63,7 +63,27 @@ namespace 计价器
 
         private void WIDE_LENGTH_KeyPress(object sender, KeyEventArgs e)
         {
-            decimal size = Convert.ToDecimal(CalculatorSetting.Instance.WIDE_LENGTH.Text);
+
+            decimal size = 0;
+
+            if (string.IsNullOrWhiteSpace(CalculatorSetting.Instance.WIDE_LENGTH.Text))
+            {
+                size = 0; // 设置默认值为 0
+            }
+            else
+            {
+                // 尝试转换，如果失败捕获异常
+                try
+                {
+                    size = Convert.ToDecimal(CalculatorSetting.Instance.WIDE_LENGTH.Text);
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("请输入有效的数字！", "无效输入", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    size = 0; // 或者根据需求设置其他默认值
+                }
+            }
+
             CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text = (size / 12).ToString("F2");
         }
 
@@ -74,56 +94,140 @@ namespace 计价器
 
         private void CalculateSqft(object sender, KeyEventArgs e)
         {
-            decimal sizeA = Convert.ToDecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text);
+            decimal sizeA = string.IsNullOrWhiteSpace(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text)
+                            ? 0
+                            : decimal.TryParse(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text, out var resultA) ? resultA : 0;
 
-            decimal sizeB = Convert.ToDecimal(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text);
+            decimal sizeB = string.IsNullOrWhiteSpace(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text)
+                            ? 0
+                            : decimal.TryParse(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text, out var resultB) ? resultB : 0;
+
             CalculatorSetting.Instance.SQFT.Text = (sizeA * sizeB).ToString("F2");
         }
 
         private void HEIGHT_DEEPTH_FEET_KeyPress(object sender, KeyEventArgs e)
         {
-            decimal size = Convert.ToDecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text);
+            decimal size = string.IsNullOrWhiteSpace(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text)
+                           ? 0
+                           : decimal.TryParse(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text, out var result) ? result : 0;
+
             CalculatorSetting.Instance.HEIGHT_DEEPTH.Text = (size * 12).ToString("F2");
         }
 
         private void HEIGHT_DEEPTH_KeyPress(object sender, KeyEventArgs e)
         {
-            decimal size = Convert.ToDecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH.Text);
+            decimal size = string.IsNullOrWhiteSpace(CalculatorSetting.Instance.HEIGHT_DEEPTH.Text)
+                           ? 0
+                           : decimal.TryParse(CalculatorSetting.Instance.HEIGHT_DEEPTH.Text, out var result) ? result : 0;
+
             CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text = (size / 12).ToString("F2");
         }
 
-        private void WIDE_LENGTH_FEET_KeyPress(object sender, KeyEventArgs e)   
+        private void WIDE_LENGTH_FEET_KeyPress(object sender, KeyEventArgs e)
         {
-            decimal size = Convert.ToDecimal(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text);
+            decimal size = string.IsNullOrWhiteSpace(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text)
+                           ? 0
+                           : decimal.TryParse(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text, out var result) ? result : 0;
+
             CalculatorSetting.Instance.WIDE_LENGTH.Text = (size * 12).ToString("F2");
         }
 
-   
 
-        private void CALCULATE_PRICE(object sender, EventArgs e)
+
+        private CalculatorProduct ConvertViewToCalculatorProduct
         {
-            decimal price=
-                (Convert.ToDecimal(CalculatorSetting.Instance.UNIT_PRICE.Text) *
-                 Convert.ToDecimal(CalculatorSetting.Instance.SQFT.Text));
-
-            if (CalculatorSetting.Instance.POLE.Checked)
+            get
             {
-                price += (Convert.ToDecimal(CalculatorSetting.Instance.POLE_PRICE.Text) *
-                 Convert.ToDecimal(CalculatorSetting.Instance.POLE_QTY.Text));
-            }
-            //if (CalculatorSetting.Instance.HASLOCK.Checked)
-            //{
-            //    price += (Convert.ToDecimal(CalculatorSetting.Instance.POLE_PRICE.Text) *
-            //     Convert.ToDecimal(CalculatorSetting.Instance.POLE_QTY.Text));
-            //}
+                CalculatorProduct product = new CalculatorProduct
+                {
+                    TotalPrice = Convert.ToDecimal(CalculatorSetting.Instance.TOTAL_PRICE.Text),
+                    SinglePrice = Convert.ToDecimal(CalculatorSetting.Instance.SINGLE_PRICE.Text),
+                    Qty = Convert.ToDecimal(CalculatorSetting.Instance.PRODUCT_QTY.Text),
+                    Material = CalculatorSetting.Instance.CC_MATERIAL.Text,
+                    Type = CalculatorSetting.Instance.CC_TYPE.Text,
+                    Sqft = Convert.ToDecimal(CalculatorSetting.Instance.SQFT.Text),
+                    WidthOrLength = Convert.ToDecimal(CalculatorSetting.Instance.WIDE_LENGTH.Text),
+                    WidthOrLengthFeet = Convert.ToDecimal(CalculatorSetting.Instance.WIDE_LENGTH_FEET.Text),
+                    HeightOrDeepth = Convert.ToDecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH.Text),
+                    HeightOrDeepthFeet = Convert.ToDecimal(CalculatorSetting.Instance.HEIGHT_DEEPTH_FEET.Text),
+                    DesignQty = Convert.ToDecimal(CalculatorSetting.Instance.DESIGN_QTY.Text),
+                      UnitPrice = Convert.ToDecimal(CalculatorSetting.Instance.UNIT_PRICE.Text)
 
-            CalculatorSetting.Instance.SINGLE_PRICE.Text= price.ToString();
+
+                };
+                product.Property.ProductName = CalculatorSetting.Instance.PRODUCT_NAME.Text;
+                product.Property.DesignPrice = Convert.ToDecimal(CalculatorSetting.Instance.DESIGN_PRICE.Text);
+                product.Property.IsPowder = CalculatorSetting.Instance.POWDER.Checked;
+                product.Property.IsGold = CalculatorSetting.Instance.GOLD.Checked;
+                product.Property.IsBronze = CalculatorSetting.Instance.BRONZE.Checked;
+                product.Property.HasMetalSheet = CalculatorSetting.Instance.METALSHEET.Checked;
+                product.Property.HasScreen = CalculatorSetting.Instance.SCREEN.Checked;
+                product.Property.HasDoorInDoor = CalculatorSetting.Instance.DOORINDOOR.Checked;
+                product.Property.HasAutoSliding = CalculatorSetting.Instance.AUTO_SLIDING.Checked;
+                product.Property.HasAutoSwing = CalculatorSetting.Instance.AUTO_SWING.Checked;
+                product.Property.HasCloser = CalculatorSetting.Instance.HASCLOSER.Checked;
+                product.Property.HasCurved = CalculatorSetting.Instance.CURVED.Checked;
+                product.Property.HasGlass = CalculatorSetting.Instance.GLASS.Checked;
+                product.Property.HasLock = CalculatorSetting.Instance.HASLOCK.Checked;
+                product.Property.HasPole = CalculatorSetting.Instance.POLE.Checked;
+                product.Property.HasPlastic = CalculatorSetting.Instance.PLASTIC.Checked;
+                product.Property.NormalLock = CalculatorSetting.Instance.NORMAL_LOCK.Checked;
+                product.Property.CodeLock = CalculatorSetting.Instance.CODE_LOCK.Checked;
+                product.Property.FingerLock = CalculatorSetting.Instance.FINGER_LOCK.Checked;
+                product.Property.PolePrice = Convert.ToDecimal(CalculatorSetting.Instance.POLE_PRICE.Text);
+                product.Property.PoleQty = Convert.ToDecimal(CalculatorSetting.Instance.POLE_QTY.Text);
+
+                return product;
+
+            }
         }
 
         private void InitializeCheckedListBox()
         {
             ViewMGR.IniatialAndSelectAllCheckedListBox("计价表", CalculatorSetting.Instance.CheckListBoxCalculator);
             CalculatorSetting.Instance.CC_SELECT_ALL.Checked = true;
+        }
+
+        private void CALCULATE_PRICE(object sender, EventArgs e)
+        {
+            if (!IsStringNotNullOrEmpty(CalculatorSetting.Instance.CC_TYPE.Text))
+            {
+                MessageBox.Show("类型不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+            if (!IsStringNotNullOrEmpty(CalculatorSetting.Instance.PRODUCT_NAME.Text))
+            {
+                MessageBox.Show("名称不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            if (CalculatorSetting.Instance.POLE.Checked)
+            {
+                if (!IsINTOverZero(Convert.ToDecimal(CalculatorSetting.Instance.POLE_PRICE.Text)))
+                {
+                    MessageBox.Show("柱子单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (!IsINTOverZero(Convert.ToDecimal(CalculatorSetting.Instance.POLE_QTY.Text)))
+                {
+                    MessageBox.Show("柱子数量必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            if (CalculatorSetting.Instance.HASLOCK.Checked)
+            {
+                if (!(CalculatorSetting.Instance.NORMAL_LOCK.Checked || CalculatorSetting.Instance.FINGER_LOCK.Checked || CalculatorSetting.Instance.CODE_LOCK.Checked))
+                {
+                    MessageBox.Show("必须选择是什么样的锁！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                    return;
+                }
+            }
+            CalculatorProduct product = ConvertViewToCalculatorProduct;
+           CalculateTotalPriceShowToView(product);
+
         }
         private void DELETE_FROM_LIST(object sender, EventArgs e)
         {
@@ -163,12 +267,12 @@ namespace 计价器
             {
                 if (!IsINTOverZero(Convert.ToDecimal(CalculatorSetting.Instance.POLE_PRICE.Text)))
                 {
-                    MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("柱子单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (!IsINTOverZero(Convert.ToDecimal(CalculatorSetting.Instance.POLE_QTY.Text)))
                 {
-                    MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("柱子数量必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
@@ -490,14 +594,133 @@ namespace 计价器
         }
      
         //示例方法：计算产品价格
-        public decimal CalculateTotalPrice(CalculatorProduct product)
+        public CalculatorProduct CalculateTotalPriceShowToView(CalculatorProduct product)
         {
-            decimal price = 0;
+            decimal singlePrice = product.UnitPrice * product.Sqft;
 
-            price = product.UnitPrice * product.Sqft;
+            if (product.Property.HasPole)
+            {
+                decimal polePrice = product.Property.PolePrice;
 
-            return price;
+                decimal poleQty = product.Property.PoleQty;
 
+                singlePrice += polePrice * poleQty;
+
+            }
+          
+                decimal designPrice = product.Property.DesignPrice;
+            decimal designQty = product.DesignQty;
+
+
+            singlePrice += designPrice * designQty;
+
+         
+
+            // 从数据库中获取单价表的所有值，减少重复查询
+            decimal powderPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "烤漆"));
+            decimal goldPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "金色"));
+            decimal bronzePrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "古铜色"));
+            decimal metalSheetPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "铁板"));
+            decimal plasticPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "胶板"));
+            decimal glassPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "玻璃"));
+            decimal curvedPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "弧形"));
+            decimal normalLockPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "普通锁"));
+            decimal fingerLockPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "指纹锁"));
+            decimal codeLockPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "密码锁"));
+            decimal closer = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "闭门器"));
+
+            decimal doorInDoorPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "门中门"));
+            decimal screenPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "纱窗"));
+            decimal autoSwingPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "电动双开"));
+            decimal autoSlidingPrice = Convert.ToDecimal(DatabaseHelper.Instance.GetSingleValueAsString("设置单价表", "电动推拉"));
+        
+
+
+
+            // 根据属性逐一计算价格
+            if (product.Property.IsPowder)
+            {
+                singlePrice += powderPrice * product.Sqft;
+            }
+
+            if (product.Property.IsGold)
+            {
+                singlePrice += goldPrice * product.Sqft;
+            }
+
+            if (product.Property.IsBronze)
+            {
+                singlePrice += bronzePrice * product.Sqft;
+            }
+
+            if (product.Property.HasMetalSheet)
+            {
+                singlePrice += metalSheetPrice * product.Sqft;
+            }
+
+            if (product.Property.HasPlastic)
+            {
+                singlePrice += plasticPrice * product.Sqft;
+            }
+
+            if (product.Property.HasGlass)
+            {
+                singlePrice += glassPrice * product.Sqft;
+            }
+
+            if (product.Property.HasCurved)
+            {
+                singlePrice += curvedPrice * product.Sqft;
+            }
+
+            if (!product.Property.HasLock) {
+                if (product.Property.NormalLock)
+                {
+                    singlePrice += normalLockPrice;
+                }
+
+                if (product.Property.FingerLock)
+                {
+                    singlePrice += fingerLockPrice;
+                }
+
+                if (product.Property.CodeLock)
+                {
+                    singlePrice += codeLockPrice;
+                }
+            }
+
+           
+            if (product.Property.HasCloser)
+            {
+                singlePrice += closer;
+            }
+            if (product.Property.HasDoorInDoor)
+            {
+                singlePrice += doorInDoorPrice * product.Sqft;
+            }
+
+            if (product.Property.HasScreen)
+            {
+                singlePrice += screenPrice * product.Sqft;
+            }
+
+            if (product.Property.HasAutoSwing)
+            {
+                singlePrice += autoSwingPrice;
+            }
+
+            if (product.Property.HasAutoSliding)
+            {
+                singlePrice += autoSlidingPrice;
+            }
+            product.SinglePrice = singlePrice;
+            product.TotalPrice = product.SinglePrice * product.Qty;
+
+            CalculatorSetting.Instance.SINGLE_PRICE.Text = product.SinglePrice.ToString();
+            CalculatorSetting.Instance.TOTAL_PRICE.Text = product.TotalPrice.ToString();
+
+            return product;
         }
         public decimal CalculateTotalPrice(List<CalculatorProduct> products)
         {

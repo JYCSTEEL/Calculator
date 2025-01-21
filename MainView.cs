@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace 计价器
@@ -211,6 +204,35 @@ namespace 计价器
         public TextBox CC_TOTAL_PRICE { get => textBoxCalculatorTotalPrice; set => textBoxCalculatorTotalPrice = value; }
 
         public Button CC_BTN_CALCULATE { get => buttonCalculatorCalculate; set => buttonCalculatorCalculate = value; }
+
+
+        /// <summary>
+        /// 设置价格控件
+        /// </summary>
+        /// 
+
+        public TextBox SP_POWDER { get => textBoxSetPricePowder; set => textBoxSetPricePowder = value; }
+        public TextBox SP_GOLD { get => textBoxSetPriceGold; set => textBoxSetPriceGold = value; }
+        public TextBox SP_BRONZE { get => textBoxSetPriceBronze; set => textBoxSetPriceBronze = value; }
+        public TextBox SP_METAL_SHEET { get => textBoxSetPriceMetalSheet; set => textBoxSetPriceMetalSheet = value; }
+        public TextBox SP_PLASITC { get => textBoxSetPricePlastic; set => textBoxSetPricePlastic = value; }
+        public TextBox SP_GALSS { get => textBoxSetPriceGlass; set => textBoxSetPriceGlass = value; }
+        public TextBox SP_CURVE { get => textBoxSetPriceCurve; set => textBoxSetPriceCurve = value; }
+        public TextBox SP_SWING { get => textBoxSetPriceSwing; set => textBoxSetPriceSwing = value; }
+
+        public TextBox SP_SLIDING { get => textBoxSetPriceSliding; set => textBoxSetPriceSliding = value; }
+        public TextBox SP_DOORINDOOR { get => textBoxDoorInDoor; set => textBoxDoorInDoor = value; }
+        public TextBox SP_SCREEN { get => textBoxSetPriceScreen; set => textBoxSetPriceScreen = value; }
+        public TextBox SP_NORMAL_LOCK { get => textBoxSetPriceNormalLock; set => textBoxSetPriceNormalLock = value; }
+        public TextBox SP_FINGER_PRINT_LOCK { get => textBoxSetPriceFinger; set => textBoxSetPriceFinger = value; }
+        public TextBox SP_CODE_LOCK{ get => textBoxSetPriceCodeLock; set => textBoxSetPriceCodeLock = value; }
+
+        public TextBox SP_CLOSER { get => textBoxSetPriceCloser; set => textBoxSetPriceCloser = value; }
+
+
+        public Button SP_BTN_UPDATE { get => buttonSetPriceUpdate; set => buttonSetPriceUpdate = value; }
+
+        public Button SP_BTN_LOAD { get => buttonSetPriceLoad; set => buttonSetPriceLoad = value; }
 
         // 静态字段，存储单例实例
         private static readonly MainView _instance = new MainView();

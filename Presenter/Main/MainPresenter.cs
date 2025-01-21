@@ -16,15 +16,18 @@ namespace 计价器
         private BasicPresenter BasicSetUpPresenter;
         private CustomizedPresenter CustomizedPresenter;
         private CalculatorPresenter CalculatorPresenter;
+        private SetPricePresenter SetPricePresenter;
         private DatabaseHelper DatabaseHelper;
 
         public MainPresenter(MainView mainView)
         {
             IniatializeNumberTextBox();
+
+            DatabaseHelper = DatabaseHelper.Instance;
             BasicSetUpPresenter = BasicPresenter.Instance;
             CustomizedPresenter = CustomizedPresenter.Instance;
             CalculatorPresenter = CalculatorPresenter.Instance;
-            DatabaseHelper = DatabaseHelper.Instance;
+            SetPricePresenter = SetPricePresenter.Instance;
             EventPublisher.OnProductListChangedEvent += CalculatorRefresher.Instance.LoadType;
             BindEvents();
             ConfigureDataGridView(BasicSetting.Instance.DATAVIEW);

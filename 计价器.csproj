@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="C\SetPriceSetting.cs" />
     <Compile Include="C\CustomizedSetting.cs" />
     <Compile Include="C\BasicSetting.cs" />
     <Compile Include="C\Controls.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Presenter\SetPrice\SetPricePresenter.cs" />
     <Compile Include="Product\CustomizedProduct.cs" />
     <Compile Include="Product\CalculatorProductsInfoList.cs" />
     <Compile Include="Product\CalculatorProduct.cs" />
@@ -87,13 +89,13 @@
     <Compile Include="Product\ProductsInfoList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="P\Calculator\CalculatorRefresher.cs" />
-    <Compile Include="P\Customized\CustomizedRefresher.cs" />
-    <Compile Include="P\Basic\BasicRefresher.cs" />
-    <Compile Include="P\Customized\CustomizedPresenter.cs" />
-    <Compile Include="P\Basic\BasicPresenter.cs" />
-    <Compile Include="P\Calculator\CalculatorPresenter.cs" />
-    <Compile Include="P\Main\MainPresenter.cs" />
+    <Compile Include="Presenter\Calculator\CalculatorRefresher.cs" />
+    <Compile Include="Presenter\Customized\CustomizedRefresher.cs" />
+    <Compile Include="Presenter\Basic\BasicRefresher.cs" />
+    <Compile Include="Presenter\Customized\CustomizedPresenter.cs" />
+    <Compile Include="Presenter\Basic\BasicPresenter.cs" />
+    <Compile Include="Presenter\Calculator\CalculatorPresenter.cs" />
+    <Compile Include="Presenter\Main\MainPresenter.cs" />
     <EmbeddedResource Include="MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
