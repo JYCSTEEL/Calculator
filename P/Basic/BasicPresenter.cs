@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace 计价器
@@ -118,7 +111,7 @@ namespace 计价器
 
                 return;
             }
-            if (!IsIntOverZero(BasicSetUp.Instance.NewProductUnitPrice))
+            if (!IsINTOverZero(BasicSetUp.Instance.NewProductUnitPrice))
             {
                 MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -148,7 +141,7 @@ namespace 计价器
 
                 return;
             }
-            if (!IsIntOverZero(BasicSetUp.Instance.SetUpBasicUnitPrice))
+            if (!IsINTOverZero(BasicSetUp.Instance.SetUpBasicUnitPrice))
             {
                 MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -192,7 +185,7 @@ namespace 计价器
             return true;
 
         }
-        private bool IsIntOverZero(int unitPriceInput)
+        private bool IsINTOverZero(decimal unitPriceInput)
         {
             if (unitPriceInput <= 0)
             {
@@ -213,7 +206,7 @@ namespace 计价器
                     Material = row["材料"].ToString(),
 
                     Type = row["类型"].ToString(),
-                    UnitPrice = Convert.ToInt32(row["单价"]),
+                    UnitPrice = Convert.ToDecimal(row["单价"]),
                 };
                 products.Add(product);
             }

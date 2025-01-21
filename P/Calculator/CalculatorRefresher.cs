@@ -79,11 +79,14 @@ namespace 计价器
         
 
         }
+    
 
         public void LoadProperty(object sender, EventArgs e)
         {
             CustomizedProduct product = CustomizedProductsInfoList.FindProductFirstOneByMaterialAndTypeAndName(Calculator.Instance.CC_MATERIAL.Text, Calculator.Instance.CC_TYPE.Text, Calculator.Instance.PRODUCT_NAME.Text);
-    
+
+            Calculator.Instance.UNIT_PRICE.Text = product.UnitPrice.ToString();
+
             Calculator.Instance.HASCLOSER.Checked = product.Property.HasCloser;
             Calculator.Instance.DOORINDOOR.Checked = product.Property.HasDoorInDoor;
             Calculator.Instance.SCREEN.Checked = product.Property.HasScreen;
@@ -113,6 +116,8 @@ namespace 计价器
         {
             CustomizedProduct product = CustomizedProductsInfoList.FindProductFirstOneByMaterialAndTypeAndName(Calculator.Instance.CC_MATERIAL.Text, Calculator.Instance.CC_TYPE.Text, Calculator.Instance.PRODUCT_NAME.Text);
             if (product == null) return;
+            Calculator.Instance.UNIT_PRICE.Text = product.UnitPrice.ToString();
+
             Calculator.Instance.HASCLOSER.Checked = product.Property.HasCloser;
             Calculator.Instance.DOORINDOOR.Checked = product.Property.HasDoorInDoor;
             Calculator.Instance.SCREEN.Checked = product.Property.HasScreen;

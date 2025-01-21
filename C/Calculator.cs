@@ -47,7 +47,7 @@ namespace 计价器
         public TextBox POLE_QTY { get => mainView.CC_POLE_QTY; set => mainView.CC_POLE_QTY = value; }
         public CheckBox HASLOCK { get => mainView.CC_HASLOCK; set => mainView.CC_HASLOCK = value; }
         public CheckBox NORMAL_LOCK { get => mainView.CC_NORMAL_LOCK; set => mainView.CC_NORMAL_LOCK = value; }
-        public CheckBox FINGER_LOCK { get => mainView.CC_FINGER_PRINT; set => mainView.CC_FINGER_PRINT = value; }
+        public CheckBox FINGER_LOCK { get => mainView.CC_FINGER_PRdecimal; set => mainView.CC_FINGER_PRdecimal = value; }
         public CheckBox CODE_LOCK { get => mainView.CC_CODE_LOCK; set => mainView.CC_CODE_LOCK = value; }
 
         public CheckBox AUTO_SWING { get => mainView.CC_AUTO_SWING; set => mainView.CC_AUTO_SWING = value; }

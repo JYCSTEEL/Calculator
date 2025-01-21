@@ -9,19 +9,19 @@ namespace 计价器
     // 抽象类表示产品的共性
     public  class CalculatorProduct: CustomizedProduct
     {
-        public int SinglePrice { get; set; }
-        public int Qty { get; set; }
-        public int TotalPrice { get; set; }
+        public decimal SinglePrice { get; set; }
+        public decimal Qty { get; set; }
+        public decimal TotalPrice { get; set; }
 
-        public int DesignQty { get; set; }
+        public decimal DesignQty { get; set; }
 
-        public int WidthOrLength { get; set; }
-        public int HeightOrDeepth { get; set; }
+        public decimal WidthOrLength { get; set; }
+        public decimal HeightOrDeepth { get; set; }
 
-        public int WidthOrLengthFeet { get; set; }
-        public int HeightOrDeepthFeet { get; set; }
+        public decimal WidthOrLengthFeet { get; set; }
+        public decimal HeightOrDeepthFeet { get; set; }
 
-        public int Sqft { get; set; }
+        public decimal Sqft { get; set; }
         public CalculatorProduct() { 
 
 

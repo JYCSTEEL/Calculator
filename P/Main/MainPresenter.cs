@@ -54,6 +54,10 @@ namespace 计价器
             BasicSetUp.Instance.TB_BASIC_UNIT_PRICE.Leave += TextBox_Leave;
             BasicSetUp.Instance.TB_NEW_PRODUCT_UNIT_PRICE.Leave += TextBox_Leave;
 
+            BasicSetUp.Instance.BTN_NEW_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
+            BasicSetUp.Instance.BTN_UPDATE_UNIT_PRICE.Click += CustomizedRefresher.Instance.LoadData;
+            BasicSetUp.Instance.BTN_DELETE_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
+
             CustomizedSetting.Instance.BTN_ADD.Click += CustomizedRefresher.Instance.LoadData;
             CustomizedSetting.Instance.BTN_UPDATE.Click += CustomizedRefresher.Instance.LoadData;
             CustomizedSetting.Instance.BTN_DELETE.Click += CustomizedRefresher.Instance.LoadData;
@@ -227,6 +231,7 @@ namespace 计价器
             dataGridView.AllowUserToAddRows = false;
 
         }
+    
     
     }
 }

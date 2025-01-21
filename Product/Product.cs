@@ -11,7 +11,7 @@ namespace 计价器
     {
         public string Material { get; set; }
         public string Type { get; set; } // 产品名称
-        public int UnitPrice { get; set; } // 单价
+        public decimal UnitPrice { get; set; } // 单价
 
         public Product() { 
 

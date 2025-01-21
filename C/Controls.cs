@@ -15,18 +15,11 @@ namespace 计价器
             mainView = MainView.Instance;
             Iniatialize();
         }
-        public  void Enalble(Control control)
-        {
-            control.Enabled = true ;
-        }
-        public  void Disalble(Control control)
-        {
-            control.Enabled = false;
-        }
+   
 
         private void Iniatialize()
         {
-            List<ComboBox> controls = GetAllComboBoxes( mainView.MaintabControl);
+            List<ComboBox> controls = GetAllComboBoxes( mainView.MadecimalabControl);
             IniatializeComboBox(controls);
         }
 

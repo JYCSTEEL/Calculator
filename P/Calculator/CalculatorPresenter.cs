@@ -139,12 +139,12 @@ namespace 计价器
 
             if (Calculator.Instance.POLE.Checked)
             {
-                if (!IsIntOverZero(Convert.ToInt32(Calculator.Instance.POLE_PRICE.Text)))
+                if (!IsINTOverZero(Convert.ToDecimal(Calculator.Instance.POLE_PRICE.Text)))
                 {
                     MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (!IsIntOverZero(Convert.ToInt32(Calculator.Instance.POLE_QTY.Text)))
+                if (!IsINTOverZero(Convert.ToDecimal(Calculator.Instance.POLE_QTY.Text)))
                 {
                     MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -191,12 +191,12 @@ namespace 计价器
        
             if (Calculator.Instance.POLE.Checked)
             {
-                if (!IsIntOverZero(Convert.ToInt32(Calculator.Instance.POLE_PRICE.Text)))
+                if (!IsINTOverZero(Convert.ToDecimal(Calculator.Instance.POLE_PRICE.Text)))
                 {
                     MessageBox.Show("柱子单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (!IsIntOverZero(Convert.ToInt32(Calculator.Instance.POLE_QTY.Text)))
+                if (!IsINTOverZero(Convert.ToDecimal(Calculator.Instance.POLE_QTY.Text)))
                 {
                     MessageBox.Show("柱子数量必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -253,7 +253,7 @@ namespace 计价器
             return true;
 
         }
-        private bool IsIntOverZero(int unitPriceInput)
+        private bool IsINTOverZero(decimal unitPriceInput)
         {
             if (unitPriceInput <= 0)
             {
@@ -272,24 +272,24 @@ namespace 计价器
                 {
                     Material = row["材料"].ToString(),
                     Type = row["类型"].ToString(),
-                    UnitPrice = row["单价"] != DBNull.Value ? Convert.ToInt32(row["单价"]) : 0,
+                    UnitPrice = row["单价"] != DBNull.Value ? Convert.ToDecimal(row["单价"]) : 0,
 
-                    WidthOrLength = row["长度或宽度"] != DBNull.Value ? Convert.ToInt32(row["长度或宽度"]) : 0,
-                    HeightOrDeepth = row["高度或深度"] != DBNull.Value ? Convert.ToInt32(row["高度或深度"]) : 0,
-                    WidthOrLengthFeet = row["长度或宽度英尺"] != DBNull.Value ? Convert.ToInt32(row["长度或宽度英尺"]) : 0,
-                    HeightOrDeepthFeet = row["高度或深度英尺"] != DBNull.Value ? Convert.ToInt32(row["高度或深度英尺"]) : 0,
-                    Sqft = row["平方英尺"] != DBNull.Value ? Convert.ToInt32(row["平方英尺"]) : 0,
-                    SinglePrice = row["单个产品价格"] != DBNull.Value ? Convert.ToInt32(row["单个产品价格"]) : 0,
-                    Qty = row["产品数量"] != DBNull.Value ? Convert.ToInt32(row["产品数量"]) : 0,
-                    TotalPrice = row["总共价格"] != DBNull.Value ? Convert.ToInt32(row["总共价格"]) : 0,
+                    WidthOrLength = row["长度或宽度"] != DBNull.Value ? Convert.ToDecimal(row["长度或宽度"]) : 0,
+                    HeightOrDeepth = row["高度或深度"] != DBNull.Value ? Convert.ToDecimal(row["高度或深度"]) : 0,
+                    WidthOrLengthFeet = row["长度或宽度英尺"] != DBNull.Value ? Convert.ToDecimal(row["长度或宽度英尺"]) : 0,
+                    HeightOrDeepthFeet = row["高度或深度英尺"] != DBNull.Value ? Convert.ToDecimal(row["高度或深度英尺"]) : 0,
+                    Sqft = row["平方英尺"] != DBNull.Value ? Convert.ToDecimal(row["平方英尺"]) : 0,
+                    SinglePrice = row["单个产品价格"] != DBNull.Value ? Convert.ToDecimal(row["单个产品价格"]) : 0,
+                    Qty = row["产品数量"] != DBNull.Value ? Convert.ToDecimal(row["产品数量"]) : 0,
+                    TotalPrice = row["总共价格"] != DBNull.Value ? Convert.ToDecimal(row["总共价格"]) : 0,
 
-                    DesignQty = row["花样数量"] != DBNull.Value ? Convert.ToInt32(row["花样数量"]) : 0,
+                    DesignQty = row["花样数量"] != DBNull.Value ? Convert.ToDecimal(row["花样数量"]) : 0,
 
                     Property = new ProductProperty
                     {
                         ProductName = row["名称"].ToString(),
 
-                        DesignPrice = row["花样价格"] != DBNull.Value ? Convert.ToInt32(row["花样价格"]) : 0,
+                        DesignPrice = row["花样价格"] != DBNull.Value ? Convert.ToDecimal(row["花样价格"]) : 0,
                         IsPowder = row["烤漆"] != DBNull.Value && Convert.ToBoolean(row["烤漆"]),
                         IsGold = row["金色"] != DBNull.Value && Convert.ToBoolean(row["金色"]),
                         IsBronze = row["古铜色"] != DBNull.Value && Convert.ToBoolean(row["古铜色"]),
@@ -307,8 +307,8 @@ namespace 计价器
                         HasScreen = row["纱窗"] != DBNull.Value && Convert.ToBoolean(row["纱窗"]),
                         HasAutoSwing = row["电动双开"] != DBNull.Value && Convert.ToBoolean(row["电动双开"]),
                         HasAutoSliding = row["电动推拉"] != DBNull.Value && Convert.ToBoolean(row["电动推拉"]),
-                        PolePrice = row["柱子价格"] != DBNull.Value ? Convert.ToInt32(row["柱子价格"]) : 0,
-                        PoleQty = row["柱子数量"] != DBNull.Value ? Convert.ToInt32(row["柱子数量"]) : 0,
+                        PolePrice = row["柱子价格"] != DBNull.Value ? Convert.ToDecimal(row["柱子价格"]) : 0,
+                        PoleQty = row["柱子数量"] != DBNull.Value ? Convert.ToDecimal(row["柱子数量"]) : 0,
                     }
                 };
 
@@ -327,22 +327,22 @@ namespace 计价器
                 Type = Calculator.Instance.CC_TYPE.Text,
                 UnitPrice = ProductsInfoList.GetProductUnitPrice(Calculator.Instance.CC_MATERIAL.Text, Calculator.Instance.CC_TYPE.Text),
 
-                DesignQty = SafeParseInt(Calculator.Instance.DESIGN_QTY.Text, "设计数量"),
+                DesignQty = SafeParsedecimal(Calculator.Instance.DESIGN_QTY.Text, "设计数量"),
 
 
-            WidthOrLength = SafeParseInt(Calculator.Instance.WIDE_LENGTH.Text, "长度或宽度"),
+            WidthOrLength = SafeParsedecimal(Calculator.Instance.WIDE_LENGTH.Text, "长度或宽度"),
 
-                HeightOrDeepth = SafeParseInt(Calculator.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
-                WidthOrLengthFeet = SafeParseInt(Calculator.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
-                HeightOrDeepthFeet = SafeParseInt(Calculator.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
+                HeightOrDeepth = SafeParsedecimal(Calculator.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
+                WidthOrLengthFeet = SafeParsedecimal(Calculator.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
+                HeightOrDeepthFeet = SafeParsedecimal(Calculator.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
 
-                Sqft = SafeParseInt(Calculator.Instance.SQFT.Text, "平方英尺")
+                Sqft = SafeParsedecimal(Calculator.Instance.SQFT.Text, "平方英尺")
             };
             product.Property.ProductName = Calculator.Instance.PRODUCT_NAME.Text;
-            product.SinglePrice = SafeParseInt(Calculator.Instance.SINGLE_PRICE.Text, "单个产品价格");
-            product.Qty = SafeParseInt(Calculator.Instance.SINGLE_PRICE.Text, "产品数量");
-            product.TotalPrice = SafeParseInt(Calculator.Instance.SINGLE_PRICE.Text, "总共价格");
-            product.Property.DesignPrice = SafeParseInt(Calculator.Instance.DESIGN_PRICE.Text, "设计价格");
+            product.SinglePrice = SafeParsedecimal(Calculator.Instance.SINGLE_PRICE.Text, "单个产品价格");
+            product.Qty = SafeParsedecimal(Calculator.Instance.SINGLE_PRICE.Text, "产品数量");
+            product.TotalPrice = SafeParsedecimal(Calculator.Instance.SINGLE_PRICE.Text, "总共价格");
+            product.Property.DesignPrice = SafeParsedecimal(Calculator.Instance.DESIGN_PRICE.Text, "设计价格");
 
 
             product.Property.HasCloser = Calculator.Instance.HASLOCK.Checked;
@@ -360,8 +360,8 @@ namespace 计价器
 
             if (product.Property.HasPole)
             {
-                product.Property.PolePrice = SafeParseInt(Calculator.Instance.POLE_PRICE.Text, "大柱单价");
-                product.Property.PoleQty = SafeParseInt(Calculator.Instance.POLE_QTY.Text, "大柱数量");
+                product.Property.PolePrice = SafeParsedecimal(Calculator.Instance.POLE_PRICE.Text, "大柱单价");
+                product.Property.PoleQty = SafeParsedecimal(Calculator.Instance.POLE_QTY.Text, "大柱数量");
 
             }
 
@@ -374,7 +374,7 @@ namespace 计价器
 
                 product.Property.NormalLock = Calculator.Instance.NORMAL_LOCK.Checked;
             }
-
+    
 
             product.Property.HasAutoSwing = Calculator.Instance.AUTO_SWING.Checked;
 
@@ -391,21 +391,21 @@ namespace 计价器
                 Material = Calculator.Instance.CC_MATERIAL.Text,
                 Type = Calculator.Instance.CC_TYPE.Text,
                 UnitPrice = ProductsInfoList.GetProductUnitPrice(Calculator.Instance.CC_MATERIAL.Text, Calculator.Instance.CC_TYPE.Text),
-                DesignQty = SafeParseInt(Calculator.Instance.DESIGN_QTY.Text, "设计数量"),
-                  WidthOrLength = SafeParseInt(Calculator.Instance.WIDE_LENGTH.Text, "长度或宽度"),
+                DesignQty = SafeParsedecimal(Calculator.Instance.DESIGN_QTY.Text, "设计数量"),
+                  WidthOrLength = SafeParsedecimal(Calculator.Instance.WIDE_LENGTH.Text, "长度或宽度"),
 
-                HeightOrDeepth = SafeParseInt(Calculator.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
-                WidthOrLengthFeet = SafeParseInt(Calculator.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
-                HeightOrDeepthFeet = SafeParseInt(Calculator.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
+                HeightOrDeepth = SafeParsedecimal(Calculator.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
+                WidthOrLengthFeet = SafeParsedecimal(Calculator.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
+                HeightOrDeepthFeet = SafeParsedecimal(Calculator.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
 
-                Sqft = SafeParseInt(Calculator.Instance.SQFT.Text, "平方英尺")
+                Sqft = SafeParsedecimal(Calculator.Instance.SQFT.Text, "平方英尺")
             };
             product.Property.ProductName = Calculator.Instance.PRODUCT_NAME.Text;
-            product.SinglePrice = SafeParseInt(Calculator.Instance.SINGLE_PRICE.Text, "单个产品价格");
-            product.Qty = SafeParseInt(Calculator.Instance.SINGLE_PRICE.Text, "产品数量");
-            product.TotalPrice = SafeParseInt(Calculator.Instance.SINGLE_PRICE.Text, "总共价格");
+            product.SinglePrice = SafeParsedecimal(Calculator.Instance.SINGLE_PRICE.Text, "单个产品价格");
+            product.Qty = SafeParsedecimal(Calculator.Instance.SINGLE_PRICE.Text, "产品数量");
+            product.TotalPrice = SafeParsedecimal(Calculator.Instance.SINGLE_PRICE.Text, "总共价格");
 
-            product.Property.DesignPrice = SafeParseInt(Calculator.Instance.DESIGN_PRICE.Text, "设计价格");
+            product.Property.DesignPrice = SafeParsedecimal(Calculator.Instance.DESIGN_PRICE.Text, "设计价格");
 
             product.Property.HasCloser = Calculator.Instance.HASLOCK.Checked;
             product.Property.HasDoorInDoor = Calculator.Instance.DOORINDOOR.Checked;
@@ -423,8 +423,8 @@ namespace 计价器
             product.Property.HasLock = Calculator.Instance.HASLOCK.Checked;
             if (product.Property.HasPole)
             {
-                product.Property.PolePrice = SafeParseInt(Calculator.Instance.POLE_PRICE.Text, "大柱单价");
-                product.Property.PoleQty = SafeParseInt(Calculator.Instance.POLE_QTY.Text, "大柱数量");
+                product.Property.PolePrice = SafeParsedecimal(Calculator.Instance.POLE_PRICE.Text, "大柱单价");
+                product.Property.PoleQty = SafeParsedecimal(Calculator.Instance.POLE_QTY.Text, "大柱数量");
 
             }
 
@@ -451,9 +451,9 @@ namespace 计价器
             CalculatorProductsInfoList.RemoveProduct(product);
         }
 
-        private int SafeParseInt(string input, string fieldName)
+        private decimal SafeParsedecimal(string input, string fieldName)
         {
-            if (int.TryParse(input, out int result))
+            if (decimal.TryParse(input, out decimal result))
             {
                 return result;
             }
@@ -480,22 +480,22 @@ namespace 计价器
             {
                 Material = selectedRow.Cells["材料"].Value.ToString(),
                 Type = selectedRow.Cells["类型"].Value.ToString(),
-                UnitPrice = Convert.ToInt32(selectedRow.Cells["单价"].Value),
-                SinglePrice = Convert.ToInt32(selectedRow.Cells["单个产品价格"].Value),
-                Qty = Convert.ToInt32(selectedRow.Cells["产品数量"].Value),
-                TotalPrice = Convert.ToInt32(selectedRow.Cells["总共价格"].Value),
-                DesignQty = SafeParseInt(Calculator.Instance.DESIGN_QTY.Text, "花样数量"),
-                WidthOrLength = SafeParseInt(Calculator.Instance.WIDE_LENGTH.Text, "长度或宽度"),
+                UnitPrice = Convert.ToDecimal(selectedRow.Cells["单价"].Value),
+                SinglePrice = Convert.ToDecimal(selectedRow.Cells["单个产品价格"].Value),
+                Qty = Convert.ToDecimal(selectedRow.Cells["产品数量"].Value),
+                TotalPrice = Convert.ToDecimal(selectedRow.Cells["总共价格"].Value),
+                DesignQty = SafeParsedecimal(Calculator.Instance.DESIGN_QTY.Text, "花样数量"),
+                WidthOrLength = SafeParsedecimal(Calculator.Instance.WIDE_LENGTH.Text, "长度或宽度"),
 
-                HeightOrDeepth = SafeParseInt(Calculator.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
-                WidthOrLengthFeet = SafeParseInt(Calculator.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
-                HeightOrDeepthFeet = SafeParseInt(Calculator.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
+                HeightOrDeepth = SafeParsedecimal(Calculator.Instance.HEIGHT_DEEPTH.Text, "高度或深度"),
+                WidthOrLengthFeet = SafeParsedecimal(Calculator.Instance.WIDE_LENGTH_FEET.Text, "长度或宽度英尺"),
+                HeightOrDeepthFeet = SafeParsedecimal(Calculator.Instance.HEIGHT_DEEPTH_FEET.Text, "高度或深度英尺"),
 
-                Sqft = SafeParseInt(Calculator.Instance.SQFT.Text, "平方英尺"),
+                Sqft = SafeParsedecimal(Calculator.Instance.SQFT.Text, "平方英尺"),
                 Property = new ProductProperty
                 {
                     ProductName = selectedRow.Cells["名称"].Value.ToString(),
-                    DesignPrice = Convert.ToInt32(selectedRow.Cells["花样价格"].Value),
+                    DesignPrice = Convert.ToDecimal(selectedRow.Cells["花样价格"].Value),
                     IsPowder = Convert.ToBoolean(selectedRow.Cells["烤漆"].Value),
                     IsGold = Convert.ToBoolean(selectedRow.Cells["金色"].Value),
                     IsBronze = Convert.ToBoolean(selectedRow.Cells["古铜色"].Value),
@@ -513,8 +513,8 @@ namespace 计价器
                     HasScreen = Convert.ToBoolean(selectedRow.Cells["纱窗"].Value),
                     HasAutoSwing = Convert.ToBoolean(selectedRow.Cells["电动双开"].Value),
                     HasAutoSliding = Convert.ToBoolean(selectedRow.Cells["电动推拉"].Value),
-                    PolePrice = Convert.ToInt32(selectedRow.Cells["柱子价格"].Value),
-                    PoleQty = Convert.ToInt32(selectedRow.Cells["柱子数量"].Value)
+                    PolePrice = Convert.ToDecimal(selectedRow.Cells["柱子价格"].Value),
+                    PoleQty = Convert.ToDecimal(selectedRow.Cells["柱子数量"].Value)
                 }
             };
 
@@ -523,18 +523,18 @@ namespace 计价器
 
 
         //示例方法：计算产品价格
-        public int CalculateTotalPrice(CalculatorProduct product)
+        public decimal CalculateTotalPrice(CalculatorProduct product)
         {
-            int price = 0;
+            decimal price = 0;
 
             price = product.UnitPrice * product.Sqft;
 
             return price;
 
         }
-        public int CalculateTotalPrice(List<CalculatorProduct> products)
+        public decimal CalculateTotalPrice(List<CalculatorProduct> products)
         {
-            int totalPrice = 0;
+            decimal totalPrice = 0;
 
             foreach (var product in products)
             {
@@ -543,9 +543,9 @@ namespace 计价器
 
             return totalPrice;
         }
-        public int CalculateTotalPrice(params CalculatorProduct[] products)
+        public decimal CalculateTotalPrice(params CalculatorProduct[] products)
         {
-            int totalPrice = 0;
+            decimal totalPrice = 0;
 
             foreach (var product in products)
             {

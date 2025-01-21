@@ -17,12 +17,12 @@ namespace 计价器
         public bool IsIronSelected { get => mainView.RB_IS_IRON.Checked; set => mainView.RB_IS_IRON.Checked = value; }
         public bool IsStainlessSteelSelected { get => mainView.RB_IS_STAINLESS.Checked; set => mainView.RB_IS_STAINLESS.Checked = value; }
         public string SelectedProductType { get => mainView.CB_PRODUCT_TYPE.Text; set => mainView.CB_PRODUCT_TYPE.Text = value; }
-        public int SetUpBasicUnitPrice
+        public decimal SetUpBasicUnitPrice
         {
             get
             {
                 // 如果文本框为空或无法解析为整数，返回默认值 0
-                if (string.IsNullOrWhiteSpace(mainView.TB_BASIC_UNIT_PRICE.Text) || !int.TryParse(mainView.TB_BASIC_UNIT_PRICE.Text, out int value))
+                if (string.IsNullOrWhiteSpace(mainView.TB_BASIC_UNIT_PRICE.Text) || !decimal.TryParse(mainView.TB_BASIC_UNIT_PRICE.Text, out decimal value))
                 {
                     return 0; // 默认返回值
                 }
@@ -40,12 +40,12 @@ namespace 计价器
         }
 
         public string NewProductType { get => mainView.TB_NEW_PRODUCT_TYPE.Text; set => mainView.TB_NEW_PRODUCT_TYPE.Text= value; }
-        public int NewProductUnitPrice
+        public decimal NewProductUnitPrice
         {
             get
             {
                 // 如果文本框为空或无法解析为整数，返回默认值 0
-                if (string.IsNullOrWhiteSpace(mainView.TB_NEW_PRODUCT_UNIT_PRICE.Text) || !int.TryParse(mainView.TB_NEW_PRODUCT_UNIT_PRICE.Text, out int value))
+                if (string.IsNullOrWhiteSpace(mainView.TB_NEW_PRODUCT_UNIT_PRICE.Text) || !decimal.TryParse(mainView.TB_NEW_PRODUCT_UNIT_PRICE.Text, out decimal value))
                 {
                     return 0; // 默认返回值
                 }

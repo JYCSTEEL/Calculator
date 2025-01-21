@@ -109,12 +109,12 @@ namespace 计价器
             product.Property.HasCurved = CustomizedSetting.Instance.CURVED.Checked;
             product.Property.HasPole = CustomizedSetting.Instance.POLE.Checked;
             product.Property.HasLock = CustomizedSetting.Instance.HASLOCK.Checked;
-            product.Property.DesignPrice = SafeParseInt(CustomizedSetting.Instance.DESIGN_PRICE.Text, "花样价格");
+            product.Property.DesignPrice = SafeParsedecimal(CustomizedSetting.Instance.DESIGN_PRICE.Text, "花样价格");
 
             if (product.Property.HasPole)
             {
-                product.Property.PolePrice = SafeParseInt(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
-                product.Property.PoleQty = SafeParseInt(CustomizedSetting.Instance.POLE_QTY.Text, "大柱数量");
+                product.Property.PolePrice = SafeParsedecimal(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
+                product.Property.PoleQty = SafeParsedecimal(CustomizedSetting.Instance.POLE_QTY.Text, "大柱数量");
 
             }
           
@@ -162,11 +162,11 @@ namespace 计价器
 
             product.Property.HasLock = CustomizedSetting.Instance.HASLOCK.Checked;
 
-            product.Property.DesignPrice = SafeParseInt(CustomizedSetting.Instance.DESIGN_PRICE.Text, "花样价格");
+            product.Property.DesignPrice = SafeParsedecimal(CustomizedSetting.Instance.DESIGN_PRICE.Text, "花样价格");
             if (product.Property.HasPole)
             {
-                product.Property.PolePrice = SafeParseInt(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
-                product.Property.PoleQty = SafeParseInt(CustomizedSetting.Instance.POLE_QTY.Text, "大柱数量");
+                product.Property.PolePrice = SafeParsedecimal(CustomizedSetting.Instance.POLE_PRICE.Text, "大柱单价");
+                product.Property.PoleQty = SafeParsedecimal(CustomizedSetting.Instance.POLE_QTY.Text, "大柱数量");
 
             }
 
@@ -223,12 +223,12 @@ namespace 计价器
             }
             if (CustomizedSetting.Instance.POLE.Checked)
             {
-                if (!IsIntOverZero(Convert.ToInt32(CustomizedSetting.Instance.POLE_PRICE.Text)))
+                if (!IsdecimalOverZero(Convert.ToDecimal(CustomizedSetting.Instance.POLE_PRICE.Text)))
                 {
                     MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (!IsIntOverZero(Convert.ToInt32(CustomizedSetting.Instance.POLE_QTY.Text)))
+                if (!IsdecimalOverZero(Convert.ToDecimal(CustomizedSetting.Instance.POLE_QTY.Text)))
                 {
                     MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -285,12 +285,12 @@ namespace 计价器
 
             if (CustomizedSetting.Instance.POLE.Checked)
             {
-                if (!IsIntOverZero(Convert.ToInt32(CustomizedSetting.Instance.POLE_PRICE.Text)))
+                if (!IsdecimalOverZero(Convert.ToDecimal(CustomizedSetting.Instance.POLE_PRICE.Text)))
                 {
                     MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                if (!IsIntOverZero(Convert.ToInt32(CustomizedSetting.Instance.POLE_QTY.Text)))
+                if (!IsdecimalOverZero(Convert.ToDecimal(CustomizedSetting.Instance.POLE_QTY.Text)))
                 {
                     MessageBox.Show("单价必须大于 0！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -347,7 +347,7 @@ namespace 计价器
                 return true;
 
             }
-            private bool IsIntOverZero(int unitPriceInput)
+            private bool IsdecimalOverZero(decimal unitPriceInput)
             {
                 if (unitPriceInput <= 0)
                 {
@@ -366,12 +366,12 @@ namespace 计价器
                 {
                     Material = row["材料"].ToString(),
                     Type = row["类型"].ToString(),
-                    UnitPrice = row["单价"] != DBNull.Value ? Convert.ToInt32(row["单价"]) : 0,
+                    UnitPrice = row["单价"] != DBNull.Value ? Convert.ToDecimal(row["单价"]) : 0,
 
                     Property = new ProductProperty
                     {
                         ProductName = row["名称"].ToString(),
-                        DesignPrice = row["花样价格"] != DBNull.Value ? Convert.ToInt32(row["花样价格"]) : 0,
+                        DesignPrice = row["花样价格"] != DBNull.Value ? Convert.ToDecimal(row["花样价格"]) : 0,
                         IsPowder = row["烤漆"] != DBNull.Value && Convert.ToBoolean(row["烤漆"]),
                         IsGold = row["金色"] != DBNull.Value && Convert.ToBoolean(row["金色"]),
                         IsBronze = row["古铜色"] != DBNull.Value && Convert.ToBoolean(row["古铜色"]),
@@ -389,8 +389,8 @@ namespace 计价器
                         HasScreen = row["纱窗"] != DBNull.Value && Convert.ToBoolean(row["纱窗"]),
                         HasAutoSwing = row["电动双开"] != DBNull.Value && Convert.ToBoolean(row["电动双开"]),
                         HasAutoSliding = row["电动推拉"] != DBNull.Value && Convert.ToBoolean(row["电动推拉"]),
-                        PolePrice = row["柱子价格"] != DBNull.Value ? Convert.ToInt32(row["柱子价格"]) : 0,
-                        PoleQty = row["柱子数量"] != DBNull.Value ? Convert.ToInt32(row["柱子数量"]) : 0
+                        PolePrice = row["柱子价格"] != DBNull.Value ? Convert.ToDecimal(row["柱子价格"]) : 0,
+                        PoleQty = row["柱子数量"] != DBNull.Value ? Convert.ToDecimal(row["柱子数量"]) : 0
                     }
                 };
 
@@ -402,9 +402,9 @@ namespace 计价器
 
 
 
-        private int SafeParseInt(string input, string fieldName)
+        private decimal SafeParsedecimal(string input, string fieldName)
         {
-            if (int.TryParse(input, out int result))
+            if (decimal.TryParse(input, out decimal result))
             {
                 return result;
             }

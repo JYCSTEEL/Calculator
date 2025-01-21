@@ -24,21 +24,21 @@ namespace 计价器
         public CheckedListBox ChecklistBoxCalculator { get => checkedListBoxCalculator; set => checkedListBoxCalculator = value; }
 
         public DataGridView MainProductView { get => dataGridViewProducts; set => dataGridViewProducts = value; }
-        public TabControl MaintabControl { get => tabControl; }
+        public TabControl MadecimalabControl { get => tabControl; }
         public TabPage TabpageCalculator { get => tabPageCalculate; }
         public TabPage TabpageBasicSetUp { get => tabPageSetting; }
 
         public string SelectedMaterial { get; set; }
         public string ProductType { get => comboBoxCalculatorName.Text; set => comboBoxCalculatorName.Text = value; }
-        public int UnitPrice { get => Convert.ToInt32(textBoxCalculatorUnitPrice.Text); set => textBoxCalculatorUnitPrice.Text = value.ToString(); }
-        public int LengthWidthInch { get => Convert.ToInt32(textBoxCalculatorLengthWidth.Text); set => textBoxCalculatorLengthWidth.Text = value.ToString(); }
-        public int LengthWidthFeet { get => Convert.ToInt32(textBoxCalculatorLengthWidthFeet.Text); set => textBoxCalculatorLengthWidthFeet.Text = value.ToString(); }
-        public int HeightDeepthInch { get => Convert.ToInt32(textBoxCalculatorHeightDeepth.Text); set => textBoxCalculatorHeightDeepth.Text = value.ToString(); }
-        public int HeightDeepthFeet { get => Convert.ToInt32(textBoxCalculatorHeightDeepthFeet.Text); set => textBoxCalculatorHeightDeepthFeet.Text = value.ToString(); }
-        public int Sqft { get => Convert.ToInt32(textBoxCalculatorSqft.Text); set => textBoxCalculatorSqft.Text = value.ToString(); }
-        public int PoleQty { get => Convert.ToInt32(textBoxCalculatorPoleQty.Text); set => textBoxCalculatorPoleQty.Text = value.ToString(); }
-        public int DesignUnitPrice { get => Convert.ToInt32(textBoxCalculatorDesignUnitPrice.Text); set => textBoxCalculatorDesignUnitPrice.Text = value.ToString(); }
-        public int PredictDesignQty { get => Convert.ToInt32(textBoxCalculatorPredictQtyOfDesign.Text); set => textBoxCalculatorPredictQtyOfDesign.Text = value.ToString(); }
+        public decimal UnitPrice { get => Convert.ToDecimal(textBoxCalculatorUnitPrice.Text); set => textBoxCalculatorUnitPrice.Text = value.ToString(); }
+        public decimal LengthWidthInch { get => Convert.ToDecimal(textBoxCalculatorLengthWidth.Text); set => textBoxCalculatorLengthWidth.Text = value.ToString(); }
+        public decimal LengthWidthFeet { get => Convert.ToDecimal(textBoxCalculatorLengthWidthFeet.Text); set => textBoxCalculatorLengthWidthFeet.Text = value.ToString(); }
+        public decimal HeightDeepthInch { get => Convert.ToDecimal(textBoxCalculatorHeightDeepth.Text); set => textBoxCalculatorHeightDeepth.Text = value.ToString(); }
+        public decimal HeightDeepthFeet { get => Convert.ToDecimal(textBoxCalculatorHeightDeepthFeet.Text); set => textBoxCalculatorHeightDeepthFeet.Text = value.ToString(); }
+        public decimal Sqft { get => Convert.ToDecimal(textBoxCalculatorSqft.Text); set => textBoxCalculatorSqft.Text = value.ToString(); }
+        public decimal PoleQty { get => Convert.ToDecimal(textBoxCalculatorPoleQty.Text); set => textBoxCalculatorPoleQty.Text = value.ToString(); }
+        public decimal DesignUnitPrice { get => Convert.ToDecimal(textBoxCalculatorDesignUnitPrice.Text); set => textBoxCalculatorDesignUnitPrice.Text = value.ToString(); }
+        public decimal PredictDesignQty { get => Convert.ToDecimal(textBoxCalculatorPredictQtyOfDesign.Text); set => textBoxCalculatorPredictQtyOfDesign.Text = value.ToString(); }
         public bool HasPole { get => checkBoxCalculatorPole.Checked; set => checkBoxCalculatorPole.Checked = value; }
         public bool IsPowderCoating { get => checkBoxCalculatorPowderCoating.Checked; set => checkBoxCalculatorPowderCoating.Checked = value; }
         public bool IsBronze { get => checkBoxCalculatorBronze.Checked; set => checkBoxCalculatorBronze.Checked = value; }
@@ -55,21 +55,21 @@ namespace 计价器
 
         public bool IsCodeLock { get => checkBoxCalculatorCodeLock.Checked; set => checkBoxCalculatorCodeLock.Checked = value; }
 
-        public bool IsFingerPrintLock { get => checkBoxCalculatorFingerPrintLock.Checked; set => checkBoxCalculatorFingerPrintLock.Checked = value; }
+        public bool IsFingerPrdecimalLock { get => checkBoxCalculatorFingerPrdecimalLock.Checked; set => checkBoxCalculatorFingerPrdecimalLock.Checked = value; }
         /// <summary>
         /// 基础设置控件
         /// </summary>
         public bool IsIronSelected { get => radioButtonIsIron.Checked; set => radioButtonIsIron.Checked = value; }
         public bool IsStainlessSteelSelected { get => radioButtonIsStainless.Checked; set => radioButtonIsStainless.Checked = value; }
         public string SelectedProductType { get => comboBoxSetUpProductType.Text; set => comboBoxSetUpProductType.Text = value; }
-        public int SetUpBasicUnitPrice { get => Convert.ToInt32( textBoxSetUpUnitPrice.Text); set => textBoxSetUpUnitPrice.Text = value.ToString(); }
+        public decimal SetUpBasicUnitPrice { get => Convert.ToDecimal( textBoxSetUpUnitPrice.Text); set => textBoxSetUpUnitPrice.Text = value.ToString(); }
 
         public string NewProductType { get => textBoxNewProductType.Text; set => textBoxNewProductType.Text = value; }
-        public int NewProductUnitPrice {
+        public decimal NewProductUnitPrice {
             get
             {
                 // 如果文本框为空或无法解析为整数，返回默认值 0
-                if (string.IsNullOrWhiteSpace(textBoxNewUnitPrice.Text) || !int.TryParse(textBoxNewUnitPrice.Text, out int value))
+                if (string.IsNullOrWhiteSpace(textBoxNewUnitPrice.Text) || !decimal.TryParse(textBoxNewUnitPrice.Text, out decimal value))
                 {
                     return 0; // 默认返回值
                 }
@@ -149,7 +149,7 @@ namespace 计价器
 
         public CheckBox CP_HASLOCK { get => checkBoxCustomizedHasLock; set => checkBoxCustomizedHasLock = value; }
         public CheckBox CP_NORMAL_LOCK { get => checkBoxCustomizedNormalLock; set => checkBoxCustomizedNormalLock = value; }
-        public CheckBox CP_FINGER_PRINT { get => checkBoxCustomizedFingerPrintLock; set => checkBoxCustomizedFingerPrintLock = value; }
+        public CheckBox CP_FINGER_PRdecimal { get => checkBoxCustomizedFingerPrdecimalLock; set => checkBoxCustomizedFingerPrdecimalLock = value; }
         public CheckBox CP_CODE_LOCK { get => checkBoxCustomizedCodeLock; set => checkBoxCustomizedCodeLock = value; }
         public CheckBox CP_AUTO_SWING { get => checkBoxCustomizedSwing; set => checkBoxCustomizedSwing = value; }
         public CheckBox CP_AUTO_SLIDING { get => checkBoxCustomizedSliding; set => checkBoxCustomizedSliding = value; }
@@ -197,7 +197,7 @@ namespace 计价器
       
         public CheckBox CC_HASLOCK { get => checkBoxCalculatorHasLock; set => checkBoxCalculatorHasLock = value; }
         public CheckBox CC_NORMAL_LOCK { get => checkBoxCalculatorNormalLock; set => checkBoxCalculatorNormalLock = value; }
-        public CheckBox CC_FINGER_PRINT { get => checkBoxCalculatorFingerPrintLock; set => checkBoxCalculatorFingerPrintLock = value; }
+        public CheckBox CC_FINGER_PRdecimal { get => checkBoxCalculatorFingerPrdecimalLock; set => checkBoxCalculatorFingerPrdecimalLock = value; }
         public CheckBox CC_CODE_LOCK { get => checkBoxCalculatorCodeLock; set => checkBoxCalculatorCodeLock = value; }
         public CheckBox CC_AUTO_SWING { get => checkBoxCalculatorAutoSwing; set => checkBoxCalculatorAutoSwing = value; }
         public CheckBox CC_AUTO_SLIDING { get => checkBoxCalculatorAutoSliding; set => checkBoxCalculatorAutoSliding = value; }
@@ -253,5 +253,7 @@ namespace 计价器
                 SelectedMaterial = radioButtonIsStainless.Text;
             }
         }
+
+
     }
 }

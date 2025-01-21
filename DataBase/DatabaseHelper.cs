@@ -54,7 +54,7 @@ namespace 计价器
                     CREATE TABLE 产品表 (
                         材料 TEXT NOT NULL,
                         类型 TEXT NOT NULL,
-                        单价 INTEGER NOT NULL
+                        单价 REAL NOT NULL
                     );
                 ";
                         using (var createCommand = new SQLiteCommand(createTableQuery, connection))
@@ -85,8 +85,8 @@ namespace 计价器
                     材料 TEXT,
                     类型 TEXT,
                     名称 TEXT,
-                    单价 INTEGER,
-                    花样价格 INTEGER,
+                    单价 REAL,
+                    花样价格 REAL,
                     烤漆 BOOLEAN,
                     金色 BOOLEAN,
                     古铜色 BOOLEAN,
@@ -104,8 +104,8 @@ namespace 计价器
                     纱窗 BOOLEAN,
                     电动双开 BOOLEAN,
                     电动推拉 BOOLEAN,
-                    柱子价格 INTEGER,
-                    柱子数量 INTEGER
+                    柱子价格 REAL,
+                    柱子数量 REAL
                 );";
                         using (var createCommand = new SQLiteCommand(createTableQuery, connection))
                         {
@@ -135,14 +135,14 @@ namespace 计价器
                     材料 TEXT,
                     类型 TEXT,
                     名称 TEXT,
-                    单价 INTEGER,
-                    长度或宽度 INTEGER,
-                    高度或深度 INTEGER,
-                    长度或宽度英尺 INTEGER,
-                    高度或深度英尺 INTEGER,
-                    平方英尺 INTEGER,
-                    花样价格 INTEGER,
-                    花样数量 INTEGER,
+                    单价 REAL,
+                    长度或宽度 REAL,
+                    高度或深度 REAL,
+                    长度或宽度英尺 REAL,
+                    高度或深度英尺 REAL,
+                    平方英尺 REAL,
+                    花样价格 REAL,
+                    花样数量 REAL,
                     烤漆 BOOLEAN,
                     金色 BOOLEAN,
                     古铜色 BOOLEAN,
@@ -160,11 +160,11 @@ namespace 计价器
                     纱窗 BOOLEAN,
                     电动双开 BOOLEAN,
                     电动推拉 BOOLEAN,
-                    柱子价格 INTEGER,
-                    柱子数量 INTEGER,
-                    单个产品价格 INTEGER,
-                    产品数量 INTEGER,
-                    总共价格 INTEGER
+                    柱子价格 REAL,
+                    柱子数量 REAL,
+                    单个产品价格 REAL,
+                    产品数量 REAL,
+                    总共价格 REAL
                 );";
                         using (var createCommand = new SQLiteCommand(createTableQuery, connection))
                         {
@@ -175,7 +175,7 @@ namespace 计价器
             }
         }
 
-        public int GetUnitPrice(string material, string type)
+        public decimal GetUnitPrice(string material, string type)
         {
             // 如果输入为空或全是空格，直接返回 null
             if (string.IsNullOrWhiteSpace(type))
@@ -197,7 +197,7 @@ namespace 计价器
                     object result = command.ExecuteScalar();
 
                     // 如果查询结果为空，返回 null，否则返回单价
-                    return Convert.ToInt32(result);
+                    return Convert.ToDecimal(result);
                 }
             }
         }
@@ -470,7 +470,7 @@ namespace 计价器
             return productTypes;
         }
         // 插入产品数据
-        public void InsertProduct(string material, string type, int unitPrice)
+        public void InsertProduct(string material, string type, decimal unitPrice)
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -627,7 +627,7 @@ namespace 计价器
 
 
         // 更新“产品表”中的单价
-        public void UpdateProductPrice(string material, string type, int newUnitPrice)
+        public void UpdateProductPrice(string material, string type, decimal newUnitPrice)
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -1028,7 +1028,7 @@ namespace 计价器
                     command.Parameters.AddWithValue("@Material", material);
                     command.Parameters.AddWithValue("@Type", type);
 
-                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    decimal count = Convert.ToDecimal(command.ExecuteScalar());
                     return count > 0; // 返回是否存在
                 }
             }
@@ -1050,7 +1050,7 @@ namespace 计价器
                     command.Parameters.AddWithValue("@Type", type);
                     command.Parameters.AddWithValue("@Name", name);
 
-                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    decimal count = Convert.ToDecimal(command.ExecuteScalar());
                     return count > 0;
                 }
             }
@@ -1072,7 +1072,7 @@ namespace 计价器
                     command.Parameters.AddWithValue("@Type", customizedProduct.Type);
                     command.Parameters.AddWithValue("@Name", customizedProduct.Property.ProductName);
 
-                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    decimal count = Convert.ToDecimal(command.ExecuteScalar());
                     return count > 0;
                 }
             }
@@ -1095,7 +1095,7 @@ namespace 计价器
                     command.Parameters.AddWithValue("@Type", product.Type);
                     command.Parameters.AddWithValue("@Name", product.Property.ProductName);
 
-                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    decimal count = Convert.ToDecimal(command.ExecuteScalar());
                     return count > 0;
                 }
             }

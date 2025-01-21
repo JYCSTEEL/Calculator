@@ -10,7 +10,7 @@ namespace 计价器
     {
         public string ProductName { get; set; }
 
-        public int DesignPrice { get; set; }
+        public decimal DesignPrice { get; set; }
 
 
         public bool IsPowder { get; set; }
@@ -35,8 +35,8 @@ namespace 计价器
         public bool HasAutoSwing { get; set; }
         public bool HasAutoSliding { get; set; }
 
-        public int PolePrice { get; set; }
-        public int PoleQty { get; set; }
+        public decimal PolePrice { get; set; }
+        public decimal PoleQty { get; set; }
 
 
 

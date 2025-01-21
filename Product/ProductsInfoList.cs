@@ -33,15 +33,15 @@ namespace 计价器
         {
             get => BasicProductsList.Count.ToString();
         }
-        public static int Count
+        public static decimal Count
         {
             get => BasicProductsList.Count;
         }
-        public static int GetProductUnitPrice(Product product)
+        public static decimal GetProductUnitPrice(Product product)
         {
             return product.UnitPrice;
         }
-        public static int GetProductUnitPrice(string material, string type)
+        public static decimal GetProductUnitPrice(string material, string type)
         {
             var product = BasicProductsList.FirstOrDefault(p => p.Material == material && p.Type == type);
 

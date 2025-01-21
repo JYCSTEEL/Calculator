@@ -51,15 +51,15 @@ namespace 计价器
                 Material = selectedRow.Cells["材料"].Value.ToString(),
                 Type = selectedRow.Cells["类型"].Value.ToString(),
 
-                DesignQty = Convert.ToInt32(selectedRow.Cells["花样数量"].Value),
-                UnitPrice = Convert.ToInt32(selectedRow.Cells["单价"].Value),
-                SinglePrice = Convert.ToInt32(selectedRow.Cells["单个产品价格"].Value),
-                Qty = Convert.ToInt32(selectedRow.Cells["产品数量"].Value),
-                TotalPrice = Convert.ToInt32(selectedRow.Cells["总共价格"].Value),
+                DesignQty = Convert.ToDecimal(selectedRow.Cells["花样数量"].Value),
+                UnitPrice = Convert.ToDecimal(selectedRow.Cells["单价"].Value),
+                SinglePrice = Convert.ToDecimal(selectedRow.Cells["单个产品价格"].Value),
+                Qty = Convert.ToDecimal(selectedRow.Cells["产品数量"].Value),
+                TotalPrice = Convert.ToDecimal(selectedRow.Cells["总共价格"].Value),
                 Property = new ProductProperty
                 {
                     ProductName = selectedRow.Cells["名称"].Value.ToString(),
-                    DesignPrice = Convert.ToInt32(selectedRow.Cells["花样价格"].Value),
+                    DesignPrice = Convert.ToDecimal(selectedRow.Cells["花样价格"].Value),
                     IsPowder = Convert.ToBoolean(selectedRow.Cells["烤漆"].Value),
                     IsGold = Convert.ToBoolean(selectedRow.Cells["金色"].Value),
                     IsBronze = Convert.ToBoolean(selectedRow.Cells["古铜色"].Value),
@@ -77,8 +77,8 @@ namespace 计价器
                     HasScreen = Convert.ToBoolean(selectedRow.Cells["纱窗"].Value),
                     HasAutoSwing = Convert.ToBoolean(selectedRow.Cells["电动双开"].Value),
                     HasAutoSliding = Convert.ToBoolean(selectedRow.Cells["电动推拉"].Value),
-                    PolePrice = Convert.ToInt32(selectedRow.Cells["柱子价格"].Value),
-                    PoleQty = Convert.ToInt32(selectedRow.Cells["柱子数量"].Value)
+                    PolePrice = Convert.ToDecimal(selectedRow.Cells["柱子价格"].Value),
+                    PoleQty = Convert.ToDecimal(selectedRow.Cells["柱子数量"].Value)
                 }
 
             };
@@ -103,7 +103,7 @@ namespace 计价器
             {
                 Material = selectedRow.Cells["材料"].Value.ToString(),
                 Type = selectedRow.Cells["类型"].Value.ToString(),
-                UnitPrice = Convert.ToInt32(selectedRow.Cells["单价"].Value)
+                UnitPrice = Convert.ToDecimal(selectedRow.Cells["单价"].Value)
 
             };
 
@@ -126,12 +126,12 @@ namespace 计价器
             {
                 Material = selectedRow.Cells["材料"].Value.ToString(),
                 Type = selectedRow.Cells["类型"].Value.ToString(),
-                UnitPrice = Convert.ToInt32(selectedRow.Cells["单价"].Value),
+                UnitPrice = Convert.ToDecimal(selectedRow.Cells["单价"].Value),
 
                 Property = new ProductProperty
                 {
                     ProductName = selectedRow.Cells["名称"].Value.ToString(),
-                    DesignPrice = Convert.ToInt32(selectedRow.Cells["花样价格"].Value),
+                    DesignPrice = Convert.ToDecimal(selectedRow.Cells["花样价格"].Value),
                     IsPowder = Convert.ToBoolean(selectedRow.Cells["烤漆"].Value),
                     IsGold = Convert.ToBoolean(selectedRow.Cells["金色"].Value),
                     IsBronze = Convert.ToBoolean(selectedRow.Cells["古铜色"].Value),
@@ -149,8 +149,8 @@ namespace 计价器
                     HasScreen = Convert.ToBoolean(selectedRow.Cells["纱窗"].Value),
                     HasAutoSwing = Convert.ToBoolean(selectedRow.Cells["电动双开"].Value),
                     HasAutoSliding = Convert.ToBoolean(selectedRow.Cells["电动推拉"].Value),
-                    PolePrice = Convert.ToInt32(selectedRow.Cells["柱子价格"].Value),
-                    PoleQty = Convert.ToInt32(selectedRow.Cells["柱子数量"].Value)
+                    PolePrice = Convert.ToDecimal(selectedRow.Cells["柱子价格"].Value),
+                    PoleQty = Convert.ToDecimal(selectedRow.Cells["柱子数量"].Value)
                 }
             };
 
