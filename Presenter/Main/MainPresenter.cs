@@ -65,6 +65,9 @@ namespace 计价器
             BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
             BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += CustomizedRefresher.Instance.LoadData;
             BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += CalculatorRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += CalculatorRefresher.Instance.LoadData;
+            BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += CalculatorRefresher.Instance.LoadData;
 
             //
 
