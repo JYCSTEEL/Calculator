@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace 计价器
 {
@@ -28,6 +24,7 @@ namespace 计价器
             CustomizedPresenter = CustomizedPresenter.Instance;
             CalculatorPresenter = CalculatorPresenter.Instance;
             SetPricePresenter = SetPricePresenter.Instance;
+
             EventPublisher.OnProductListChangedEvent += CalculatorRefresher.Instance.LoadType;
             BindEvents();
             ConfigureDataGridView(BasicSetting.Instance.DATAVIEW);
