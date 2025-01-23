@@ -15,7 +15,6 @@ namespace 计价器
         private static readonly DatabaseHelper _instance = new DatabaseHelper("server=43.166.250.145;port=3306;user=root;password=ZHSteel123$;database=JYCquote;");
         private string _connectionString;
 
-        private static readonly string databaseName = "JYCquote";
 
         // 私有构造函数，防止外部实例化
         private DatabaseHelper(string connectionString)

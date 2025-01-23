@@ -22,7 +22,7 @@ namespace 计价器
             get
             {
                 // 如果文本框为空或无法解析为整数，返回默认值 0
-                if (string.IsNullOrWhiteSpace(mainView.TB_BASIC_UNIT_PRICE.Text) || !decimal.TryParse(mainView.TB_BASIC_UNIT_PRICE.Text, out decimal value))
+                if (string.IsNullOrWhiteSpace(mainView.TB_BASIC_PRICE.Text) || !decimal.TryParse(mainView.TB_BASIC_PRICE.Text, out decimal value))
                 {
                     return 0; // 默认返回值
                 }
@@ -35,7 +35,7 @@ namespace 计价器
                 {
                     throw new ArgumentOutOfRangeException("单价不能为负数！");
                 }
-                mainView.TB_BASIC_UNIT_PRICE.Text = value.ToString();
+                mainView.TB_BASIC_PRICE.Text = value.ToString();
             }
         }
 
@@ -83,7 +83,7 @@ namespace 计价器
         /// <summary>
         /// 文本框
         /// </summary>
-        public TextBox TB_BASIC_UNIT_PRICE { get => mainView.TB_BASIC_UNIT_PRICE; set => mainView.TB_BASIC_UNIT_PRICE = value; }
+        public TextBox TB_BASIC_PRICE { get => mainView.TB_BASIC_PRICE; set => mainView.TB_BASIC_PRICE = value; }
 
         public TextBox TB_NEW_PRODUCT_TYPE { get => mainView.TB_NEW_PRODUCT_TYPE; set => mainView.TB_NEW_PRODUCT_TYPE = value; }
         public TextBox TB_NEW_PRODUCT_UNIT_PRICE { get => mainView.TB_NEW_PRODUCT_UNIT_PRICE; set => mainView.TB_NEW_PRODUCT_UNIT_PRICE = value; }

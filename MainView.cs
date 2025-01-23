@@ -103,7 +103,7 @@ namespace 计价器
         /// <summary>
         /// 文本框
         /// </summary>
-        public TextBox TB_BASIC_UNIT_PRICE { get => textBoxSetUpUnitPrice; set => textBoxSetUpUnitPrice = value; }
+        public TextBox TB_BASIC_PRICE { get => textBoxSetUpUnitPrice; set => textBoxSetUpUnitPrice = value; }
 
         public TextBox TB_NEW_PRODUCT_TYPE { get => textBoxNewProductType; set => textBoxNewProductType = value; }
         public TextBox TB_NEW_PRODUCT_UNIT_PRICE { get => textBoxNewUnitPrice; set => textBoxNewUnitPrice = value; }

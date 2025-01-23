@@ -41,6 +41,7 @@ namespace 计价器
             BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
             BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += BasicRefresher.Instance.LoadData;
             BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BasicRefresher.Instance.LoadData;
+
             BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += BasicRefresher.Instance.ReFreshDataGridView;
             BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += BasicRefresher.Instance.ReFreshDataGridView;
             BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += BasicRefresher.Instance.ReFreshDataGridView;
@@ -50,17 +51,20 @@ namespace 计价器
             BasicSetting.Instance.CB_PRODUCT_TYPE.SelectedIndexChanged += BasicRefresher.Instance.RefreshUnitPrice;
 
 
-            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.KeyPress += TextBox_KeyPress;
+            BasicSetting.Instance.TB_BASIC_PRICE.KeyPress += TextBox_KeyPress;
             BasicSetting.Instance.TB_NEW_PRODUCT_UNIT_PRICE.KeyPress += TextBox_KeyPress;
             ////不输入默认为0
             ///
-            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Leave += TextBox_Leave;
+            BasicSetting.Instance.TB_BASIC_PRICE.Leave += TextBox_Leave;
             BasicSetting.Instance.TB_NEW_PRODUCT_UNIT_PRICE.Leave += TextBox_Leave;
 
+           
+            BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += CustomizedPresenter.Instance.UpdateProductPrice;
+            BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += CustomizedPresenter.Instance.UpdateProductPrice;
+            BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += CustomizedPresenter.Instance.UpdateProductPrice;
             BasicSetting.Instance.BTN_NEW_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
             BasicSetting.Instance.BTN_UPDATE_UNIT_PRICE.Click += CustomizedRefresher.Instance.LoadData;
             BasicSetting.Instance.BTN_DELETE_PRODUCT_TYPE.Click += CustomizedRefresher.Instance.LoadData;
-
 
             //
 
@@ -178,7 +182,7 @@ namespace 计价器
 
         private void IniatializeNumberTextBox()
         {
-            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = "0";
+            BasicSetting.Instance.TB_BASIC_PRICE.Text = "0";
             BasicSetting.Instance.TB_NEW_PRODUCT_UNIT_PRICE.Text = "0";
             CustomizedSetting.Instance.DESIGN_PRICE.Text = "0";
             CustomizedSetting.Instance.POLE_PRICE.Text = "0";
