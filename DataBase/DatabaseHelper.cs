@@ -4,8 +4,6 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
-using System.IO;
 using System.Windows.Forms;
 
 
@@ -14,77 +12,82 @@ namespace 计价器
 
     public class DatabaseHelper
     {
-        private static readonly DatabaseHelper _instance = new DatabaseHelper("database.sqlite");
+        private static readonly DatabaseHelper _instance = new DatabaseHelper("server=43.166.250.145;port=3306;user=root;password=ZHSteel123$;database=JYCquote;");
         private string _connectionString;
 
         private static readonly string databaseName = "JYCquote";
 
-
         // 私有构造函数，防止外部实例化
-        private DatabaseHelper(string databasePath)
+        private DatabaseHelper(string connectionString)
         {
-            _connectionString = $"Data Source={databasePath};Version=3;";
-            EnsureDatabaseExists(databasePath); // 确保数据库存在
-            
-        }
-
-        // 获取单例实例
-        public static DatabaseHelper Instance => _instance;
-
-        // 检查数据库文件是否存在，如果不存在则创建
-        private void EnsureDatabaseExists(string databasePath)
-        {
-            if (!File.Exists(databasePath))
-            {
-                SQLiteConnection.CreateFile(databasePath); // 创建数据库文件
-            }
+            _connectionString = connectionString;
             EnsureProductsTableExists();
             EnsureCustomizedTableExists();
             EnsureCalculatorTableExists();
-
             EnsureSetPriceTableExists();
         }
+        public static DatabaseHelper Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+        // 确保数据库存在的方法
+    
+
+
 
         // 检查是否存在表“产品表”，如果不存在则创建
         public void EnsureProductsTableExists()
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
-                string checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='产品表';";
-                using (var command = new SQLiteCommand(checkTableQuery, connection))
+
+                // 使用 INFORMATION_SCHEMA.TABLES 检查表是否存在
+                string checkTableQuery = @"
+            SELECT TABLE_NAME 
+            FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '产品表';";
+
+                using (var command = new MySqlCommand(checkTableQuery, connection))
                 {
                     var result = command.ExecuteScalar(); // 查询表是否存在
+
                     if (result == null)
                     {
-                        // 创建产品表
+                        // 如果表不存在，创建表
                         string createTableQuery = @"
                     CREATE TABLE 产品表 (
-                        材料 TEXT NOT NULL,
-                        类型 TEXT NOT NULL,
-                        单价 REAL NOT NULL
-                    );
-                ";
-                        using (var createCommand = new SQLiteCommand(createTableQuery, connection))
+                        材料 VARCHAR(255) NOT NULL,
+                        类型 VARCHAR(255) NOT NULL,
+                        单价 DECIMAL(10, 2) NOT NULL
+                    );";
+
+                        using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery(); // 执行创建表的SQL语句
                         }
                     }
                 }
             }
-        
-             
-           
         }
+
+        // 确保 "自定义产品表" 存在
         public void EnsureCustomizedTableExists()
         {
-            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
                 // 检查表是否存在
-                string checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='自定义产品表';";
-                using (var command = new SQLiteCommand(checkTableQuery, connection))
+                string checkTableQuery = @"
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '自定义产品表';";
+
+                using (var command = new MySqlCommand(checkTableQuery, connection))
                 {
                     var result = command.ExecuteScalar();
 
@@ -93,11 +96,11 @@ namespace 计价器
                     {
                         string createTableQuery = @"
                 CREATE TABLE 自定义产品表 (
-                    材料 TEXT,
-                    类型 TEXT,
-                    名称 TEXT,
-                    单价 REAL,
-                    花样价格 REAL,
+                    材料 VARCHAR(255),
+                    类型 VARCHAR(255),
+                    名称 VARCHAR(255),
+                    单价 DECIMAL(10, 2),
+                    花样价格 DECIMAL(10, 2),
                     烤漆 BOOLEAN,
                     金色 BOOLEAN,
                     古铜色 BOOLEAN,
@@ -115,10 +118,10 @@ namespace 计价器
                     纱窗 BOOLEAN,
                     电动双开 BOOLEAN,
                     电动推拉 BOOLEAN,
-                    柱子价格 REAL,
-                    柱子数量 REAL
+                    柱子价格 DECIMAL(10, 2),
+                    柱子数量 INT
                 );";
-                        using (var createCommand = new SQLiteCommand(createTableQuery, connection))
+                        using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
                         }
@@ -126,15 +129,21 @@ namespace 计价器
                 }
             }
         }
+
+        // 确保 "计价表" 存在
         public void EnsureCalculatorTableExists()
         {
-            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
                 // 检查表是否存在
-                string checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='计价表';";
-                using (var command = new SQLiteCommand(checkTableQuery, connection))
+                string checkTableQuery = @"
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '计价表';";
+
+                using (var command = new MySqlCommand(checkTableQuery, connection))
                 {
                     var result = command.ExecuteScalar();
 
@@ -143,17 +152,17 @@ namespace 计价器
                     {
                         string createTableQuery = @"
                 CREATE TABLE 计价表 (
-                    材料 TEXT,
-                    类型 TEXT,
-                    名称 TEXT,
-                    单价 REAL,
-                    长度或宽度 REAL,
-                    高度或深度 REAL,
-                    长度或宽度英尺 REAL,
-                    高度或深度英尺 REAL,
-                    平方英尺 REAL,
-                    花样价格 REAL,
-                    花样数量 REAL,
+                    材料 VARCHAR(255),
+                    类型 VARCHAR(255),
+                    名称 VARCHAR(255),
+                    单价 DECIMAL(10, 2),
+                    长度或宽度 DECIMAL(10, 2),
+                    高度或深度 DECIMAL(10, 2),
+                    长度或宽度英尺 DECIMAL(10, 2),
+                    高度或深度英尺 DECIMAL(10, 2),
+                    平方英尺 DECIMAL(10, 2),
+                    花样价格 DECIMAL(10, 2),
+                    花样数量 INT,
                     烤漆 BOOLEAN,
                     金色 BOOLEAN,
                     古铜色 BOOLEAN,
@@ -171,13 +180,13 @@ namespace 计价器
                     纱窗 BOOLEAN,
                     电动双开 BOOLEAN,
                     电动推拉 BOOLEAN,
-                    柱子价格 REAL,
-                    柱子数量 REAL,
-                    单个产品价格 REAL,
-                    产品数量 REAL,
-                    总共价格 REAL
+                    柱子价格 DECIMAL(10, 2),
+                    柱子数量 INT,
+                    单个产品价格 DECIMAL(10, 2),
+                    产品数量 INT,
+                    总共价格 DECIMAL(10, 2)
                 );";
-                        using (var createCommand = new SQLiteCommand(createTableQuery, connection))
+                        using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
                         }
@@ -185,15 +194,21 @@ namespace 计价器
                 }
             }
         }
+
+        // 确保 "设置单价表" 存在
         public void EnsureSetPriceTableExists()
         {
-            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
                 // 检查表是否存在
-                string checkTableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='设置单价表';";
-                using (var command = new SQLiteCommand(checkTableQuery, connection))
+                string checkTableQuery = @"
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '设置单价表';";
+
+                using (var command = new MySqlCommand(checkTableQuery, connection))
                 {
                     var result = command.ExecuteScalar();
 
@@ -202,26 +217,28 @@ namespace 计价器
                     {
                         string createTableQuery = @"
                 CREATE TABLE 设置单价表 (
-                    烤漆 REAL,
-                    金色 REAL,
-                    古铜色 REAL,
-                    铁板 REAL,
-                    胶板 REAL,
-                    玻璃 REAL,
-                    弧形 REAL,
-                    普通锁 REAL,
-                    指纹锁 REAL,
-                    密码锁 REAL,
-                    闭门器 REAL,
-                    门中门 REAL,
-                    纱窗 REAL,
-                    电动双开 REAL,
-                    电动推拉 REAL
+                    烤漆 DECIMAL(10, 2),
+                    金色 DECIMAL(10, 2),
+                    古铜色 DECIMAL(10, 2),
+                    铁板 DECIMAL(10, 2),
+                    胶板 DECIMAL(10, 2),
+                    玻璃 DECIMAL(10, 2),
+                    弧形 DECIMAL(10, 2),
+                    普通锁 DECIMAL(10, 2),
+                    指纹锁 DECIMAL(10, 2),
+                    密码锁 DECIMAL(10, 2),
+                    闭门器 DECIMAL(10, 2),
+                    门中门 DECIMAL(10, 2),
+                    纱窗 DECIMAL(10, 2),
+                    电动双开 DECIMAL(10, 2),
+                    电动推拉 DECIMAL(10, 2)
                 );";
-                        using (var createCommand = new SQLiteCommand(createTableQuery, connection))
+                        using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
                         }
+
+                        // 插入默认值
                         InsertDefaultValuesIntoSetPriceTable();
                     }
                 }
@@ -230,21 +247,21 @@ namespace 计价器
 
         public void InsertDefaultValuesIntoSetPriceTable()
         {
-            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
                 // 构造插入语句
                 string insertQuery = @"
         INSERT INTO 设置单价表 (
-            烤漆, 金色, 古铜色, 铁板, 胶板, 玻璃, 弧形, 普通锁, 指纹锁, 密码锁,闭门器,
+            烤漆, 金色, 古铜色, 铁板, 胶板, 玻璃, 弧形, 普通锁, 指纹锁, 密码锁, 闭门器,
             门中门, 纱窗, 电动双开, 电动推拉
         ) VALUES (
             @Powder, @Gold, @Bronze, @MetalSheet, @Plastic, @Glass, @Curved, @NormalLock,
             @FingerLock, @CodeLock, @Closer, @DoorInDoor, @Screen, @AutoSwing, @AutoSliding
         );";
 
-                using (var command = new SQLiteCommand(insertQuery, connection))
+                using (var command = new MySqlCommand(insertQuery, connection))
                 {
                     // 设置所有参数为 0
                     command.Parameters.AddWithValue("@Powder", 0);
@@ -257,44 +274,46 @@ namespace 计价器
                     command.Parameters.AddWithValue("@NormalLock", 0);
                     command.Parameters.AddWithValue("@FingerLock", 0);
                     command.Parameters.AddWithValue("@CodeLock", 0);
-
                     command.Parameters.AddWithValue("@Closer", 0);
                     command.Parameters.AddWithValue("@DoorInDoor", 0);
                     command.Parameters.AddWithValue("@Screen", 0);
                     command.Parameters.AddWithValue("@AutoSwing", 0);
                     command.Parameters.AddWithValue("@AutoSliding", 0);
 
-            command.ExecuteNonQuery(); // 执行插入操作
+                    // 执行插入操作
+                    command.ExecuteNonQuery();
+                }
+            }
         }
-    }
-}
 
         public decimal GetUnitPrice(string material, string type)
         {
-            // 如果输入为空或全是空格，直接返回 null
+            // 如果输入为空或全是空格，直接返回 0
             if (string.IsNullOrWhiteSpace(type))
             {
                 return 0;
             }
 
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
                 // 查询指定类型的单价
                 string query = "SELECT 单价 FROM 产品表 WHERE 材料 = @Material AND 类型 = @Type;";
-                using (var command = new SQLiteCommand(query, connection))
+                using (var command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Material", material);
                     command.Parameters.AddWithValue("@Type", type);
 
-            object result = ExecuteScalar(query, parameters);
+                    // 执行查询
+                    object result = command.ExecuteScalar();
 
-                    // 如果查询结果为空，返回 null，否则返回单价
-                    return Convert.ToDecimal(result);
+                    // 如果查询结果为空，返回 0，否则返回单价
+                    return result == null ? 0 : Convert.ToDecimal(result);
                 }
             }
         }
+
 
 
         // 查询所有产品数据
@@ -303,27 +322,33 @@ namespace 计价器
             using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
+
+                // 查询所有产品记录
                 string selectQuery = "SELECT * FROM 产品表;";
-                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var command = new MySqlCommand(selectQuery, connection))
                 {
-                    using (var adapter = new SQLiteDataAdapter(command))
+                    using (var adapter = new MySqlDataAdapter(command))
                     {
                         DataTable productsTable = new DataTable();
-                        adapter.Fill(productsTable); // 填充查询结果
+
+                        // 填充查询结果到 DataTable
+                        adapter.Fill(productsTable);
+
                         return productsTable;
                     }
                 }
             }
         }
+
         public DataTable GetAllCustomizedProducts()
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
                 string selectQuery = "SELECT * FROM 自定义产品表;";
-                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var command = new MySqlCommand(selectQuery, connection))
                 {
-                    using (var adapter = new SQLiteDataAdapter(command))
+                    using (var adapter = new MySqlDataAdapter(command))
                     {
                         DataTable productsTable = new DataTable();
                         adapter.Fill(productsTable); // 填充查询结果
@@ -334,13 +359,13 @@ namespace 计价器
         }
         public DataTable GetAllCalculatorProducts()
         {
-            using (var connection = new SQLiteConnection(_connectionString))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
                 string selectQuery = "SELECT * FROM 计价表;";
-                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var command = new MySqlCommand(selectQuery, connection))
                 {
-                    using (var adapter = new SQLiteDataAdapter(command))
+                    using (var adapter = new MySqlDataAdapter(command))
                     {
                         DataTable productsTable = new DataTable();
                         adapter.Fill(productsTable); // 填充查询结果
@@ -350,35 +375,41 @@ namespace 计价器
             }
         }
 
-   
 
         public DataTable GetCustomizedProductsByMaterial(string material)
         {
-            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            try
             {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+                SELECT * 
+                FROM 自定义产品表
+                WHERE 材料 = @Material;";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Material", material);
+
+                        using (var adapter = new MySqlDataAdapter(command))
+                        {
+                            DataTable dataTable = new DataTable();
+                            adapter.Fill(dataTable); // 填充结果到 DataTable
+                            return dataTable;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // 捕获异常并显示错误信息
                 MessageBox.Show($"数据库查询失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
 
-                string query = @"
-            SELECT * 
-            FROM 自定义产品表
-            WHERE 材料 = @Material;";
-
-                using (var command = new SQLiteCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Material", material);
-
-                    using (var adapter = new SQLiteDataAdapter(command))
-                    {
-                        DataTable dataTable = new DataTable();
-                        adapter.Fill(dataTable); // 填充结果到 DataTable
-                        return dataTable;
-                    }
-                }
-            }
-        }
         public DataTable GetCustomizedProductsByMaterialAndType(string material, string type)
         {
             using (var connection = new MySqlConnection(_connectionString))
@@ -390,12 +421,12 @@ namespace 计价器
             FROM 自定义产品表
             WHERE 材料 = @Material AND 类型 = @Type;";
 
-                using (var command = new SQLiteCommand(query, connection))
+                using (var command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Material", material);
                     command.Parameters.AddWithValue("@Type", type);
 
-                    using (var adapter = new SQLiteDataAdapter(command))
+                    using (var adapter = new MySqlDataAdapter(command))
                     {
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable); // 填充结果到 DataTable
@@ -407,7 +438,7 @@ namespace 计价器
 
         public DataTable GetCalculatorProductsByMaterialAndTypeAndName(string material, string type,string name)
         {
-            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -416,13 +447,13 @@ namespace 计价器
             FROM 计价表
             WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
 
-                using (var command = new SQLiteCommand(query, connection))
+                using (var command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Material", material);
                     command.Parameters.AddWithValue("@Type", type);
                     command.Parameters.AddWithValue("@Name", name);
 
-                    using (var adapter = new SQLiteDataAdapter(command))
+                    using (var adapter = new MySqlDataAdapter(command))
                     {
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable); // 填充结果到 DataTable
@@ -433,38 +464,45 @@ namespace 计价器
         }
         public List<string> GetCustomizedNamesByMaterialAndType(string material, string type)
         {
-            using (var connection = new SQLiteConnection("Data Source=database.sqlite;Version=3;"))
+            var names = new List<string>();
+
+            try
             {
-                connection.Open();
-
-                string query = @"
-            SELECT 名称 
-            FROM 自定义产品表
-            WHERE 材料 = @Material AND 类型 = @Type;";
-
-                using (var command = new SQLiteCommand(query, connection))
+                using (var connection = new MySqlConnection(_connectionString))
                 {
-                    command.Parameters.AddWithValue("@Material", material);
-                    command.Parameters.AddWithValue("@Type", type);
+                    connection.Open();
 
-            return ExecuteDataTableQuery(query, parameters);
+                    string query = @"
+                SELECT 名称 
+                FROM 自定义产品表
+                WHERE 材料 = @Material AND 类型 = @Type;";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Material", material);
+                        command.Parameters.AddWithValue("@Type", type);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // 将查询结果的 "名称" 列值加入列表
+                                names.Add(reader["名称"].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // 捕获异常并显示错误信息
+                MessageBox.Show($"查询自定义产品名称失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return names;
         }
-        public DataTable GetCalculatorProductsByMaterialAndTypeAndName(string material, string type, string name)
-        {
-            string query = @"
-        SELECT * 
-        FROM 计价表
-        WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
 
-            var parameters = new Dictionary<string, object>
-    {
-        { "@Material", material },
-        { "@Type", type },
-        { "@Name", name }
-    };
-
-            return ExecuteDataTableQuery(query, parameters);
-        }
+    
         public List<string> GetCalculatorNamesByMaterialAndType(string material, string type)
         {
             using (var connection = new MySqlConnection(_connectionString))
@@ -1208,28 +1246,36 @@ namespace 计价器
         public List<string> GetTableColumnNames(string tableName)
         {
             List<string> columnNames = new List<string>();
-            string connectionString = "Data Source=database.sqlite;Version=3;";
 
-            using (var connection = new SQLiteConnection(connectionString))
+            using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
 
-                // 使用 PRAGMA 查询表信息
-                string query = $"PRAGMA table_info({tableName});";
+                // 查询 INFORMATION_SCHEMA.COLUMNS 获取列信息
+                string query = @"
+            SELECT COLUMN_NAME 
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = @TableName;";
 
-                using (var command = new SQLiteCommand(query, connection))
-                using (var reader = command.ExecuteReader())
+                using (var command = new MySqlCommand(query, connection))
                 {
-                    while (reader.Read())
+                    // 使用参数化查询，防止 SQL 注入
+                    command.Parameters.AddWithValue("@TableName", tableName);
+
+                    using (var reader = command.ExecuteReader())
                     {
-                        // 第 2 列为列名
-                        columnNames.Add(reader["name"].ToString());
+                        while (reader.Read())
+                        {
+                            // 获取列名并添加到列表
+                            columnNames.Add(reader["COLUMN_NAME"].ToString());
+                        }
                     }
                 }
             }
 
             return columnNames;
         }
+
         public string GetSingleValueAsString(string tableName, string columnName)
         {
             using (var connection = new MySqlConnection(_connectionString))
