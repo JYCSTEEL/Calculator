@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace 计价器
@@ -416,6 +410,22 @@ namespace 计价器
             }
         }
 
-    
+        internal void UpdateProductPrice(object sender, EventArgs e)
+        {
+            List<CustomizedProduct> products = ConvertDataTableToCustomizedProductList( DatabaseHelper.Instance.GetAllCustomizedProducts());
+
+            foreach (CustomizedProduct product in products)
+            {
+                if (product.Type== BasicSetting.Instance.CB_PRODUCT_TYPE.Text && product.Material== BasicSetting.Instance.SelectedMaterial)
+                {
+                    product.UnitPrice = Convert.ToDecimal( BasicSetting.Instance.TB_BASIC_PRICE.Text);
+                 CustomizedProduct infoProduct =    CustomizedProductsInfoList.FindProductFirstOneByMaterialAndTypeAndName(product.Material, product.Type,product.Property.ProductName);
+                    infoProduct.UnitPrice = product.UnitPrice;
+                }
+            }
+
+
+            DatabaseHelper.Instance.UpdateSingleValue("自定义产品表","单价", BasicSetting.Instance.TB_BASIC_PRICE.Text);
+        }
     }
 }

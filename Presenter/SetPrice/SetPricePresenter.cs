@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace 计价器
             LoadTextBox();
         }
 
+      
         private void LoadTextBox()
         {
             // 从数据库获取值并设置到文本框

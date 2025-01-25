@@ -56,12 +56,12 @@ namespace 计价器
             if(product != null)
             {
                 string price = product.UnitPrice.ToString();
-                BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = price;
+                BasicSetting.Instance.TB_BASIC_PRICE.Text = price;
             }
             else
             {
                 string price = "0";
-                BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = price;
+                BasicSetting.Instance.TB_BASIC_PRICE.Text = price;
             }
           
 
@@ -79,7 +79,7 @@ namespace 计价器
         private void RefreshUnitPrice()
         {
             string price = DatabaseHelper.Instance.GetUnitPrice(BasicSetting.Instance.SelectedMaterial, BasicSetting.Instance.SelectedProductType).ToString();
-            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = price;
+            BasicSetting.Instance.TB_BASIC_PRICE.Text = price;
 
         }
         public void RefreshUnitPrice(object sender, EventArgs e)
@@ -125,7 +125,7 @@ namespace 计价器
                     break;
             }
             BasicSetting.Instance.CB_PRODUCT_TYPE.Text = product.Type;
-            BasicSetting.Instance.TB_BASIC_UNIT_PRICE.Text = product.UnitPrice.ToString();
+            BasicSetting.Instance.TB_BASIC_PRICE.Text = product.UnitPrice.ToString();
 
 
         }

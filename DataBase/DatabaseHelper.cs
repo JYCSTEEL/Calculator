@@ -1,84 +1,40 @@
 ﻿
+
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Data.SQLite;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
+
 
 namespace 计价器
 {
 
     public class DatabaseHelper
     {
-        private static readonly DatabaseHelper _instance = new DatabaseHelper("43.166.250.145", "JYCquote", "root", "ZHSteel123$");
+        private static readonly DatabaseHelper _instance = new DatabaseHelper("server=43.166.250.145;port=3306;user=root;password=ZHSteel123$;database=JYCquote;");
         private string _connectionString;
-        // 初始化 DatabaseHelper，传入 MySQL 的服务器信息
-
-        private static readonly string databaseName = "JYCquote";
 
 
         // 私有构造函数，防止外部实例化
-        private DatabaseHelper(string server, string databaseName, string username, string password)
+        private DatabaseHelper(string connectionString)
         {
-            // 设置 MySQL 数据库连接字符串
-            _connectionString = $"Server={server};Database={databaseName};Uid={username};Pwd={password};";
-
-            // 确保数据库存在
-            EnsureDatabaseExists(databaseName);
+            _connectionString = connectionString;
             EnsureProductsTableExists();
             EnsureCustomizedTableExists();
             EnsureCalculatorTableExists();
             EnsureSetPriceTableExists();
-            // 插入默认值
-            InsertDefaultValuesIntoSetPriceTable();
         }
-
-
-        // 获取单例实例
-        public static DatabaseHelper Instance => _instance;
-
-        // 检查数据库文件是否存在，如果不存在则创建
-        private void EnsureDatabaseExists(string databaseName)
+        public static DatabaseHelper Instance
         {
-          
-            using (var connection = new MySqlConnection(_connectionString))
+            get
             {
-                try
-                {
-                    connection.Open();
-
-                    // 检查数据库是否存在
-                    string checkDatabaseQuery = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = @DatabaseName;";
-                    using (var command = new MySqlCommand(checkDatabaseQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@DatabaseName", databaseName);
-
-                        var result = command.ExecuteScalar();
-                        if (result == null) // 数据库不存在
-                        {
-                            // 创建数据库
-                            string createDatabaseQuery = $"CREATE DATABASE `{databaseName}`;";
-                            using (var createCommand = new MySqlCommand(createDatabaseQuery, connection))
-                            {
-                                createCommand.ExecuteNonQuery();
-                            }
-
-                            MessageBox.Show($"数据库 '{databaseName}' 创建成功。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                     
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // 提示数据库初始化失败
-                    MessageBox.Show($"数据库初始化失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                return _instance;
             }
         }
+        // 确保数据库存在的方法
+    
+
 
 
         // 检查是否存在表“产品表”，如果不存在则创建
@@ -88,30 +44,36 @@ namespace 计价器
             {
                 connection.Open();
 
-                // 查询表是否存在
-                string checkTableQuery = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '产品表';";
+                // 使用 INFORMATION_SCHEMA.TABLES 检查表是否存在
+                string checkTableQuery = @"
+            SELECT TABLE_NAME 
+            FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '产品表';";
+
                 using (var command = new MySqlCommand(checkTableQuery, connection))
                 {
-                    var result = command.ExecuteScalar();
+                    var result = command.ExecuteScalar(); // 查询表是否存在
+
                     if (result == null)
                     {
-                        // 创建产品表
+                        // 如果表不存在，创建表
                         string createTableQuery = @"
                     CREATE TABLE 产品表 (
-                        材料 VARCHAR(255) NOT NULL, -- 材料字段
-                        类型 VARCHAR(255) NOT NULL, -- 类型字段
-                        单价 DECIMAL(10, 2) NOT NULL -- 单价字段，精确到两位小数
-                    );
-                ";
+                        材料 VARCHAR(255) NOT NULL,
+                        类型 VARCHAR(255) NOT NULL,
+                        单价 DECIMAL(10, 2) NOT NULL
+                    );";
+
                         using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
-                            createCommand.ExecuteNonQuery(); // 执行创建表的 SQL 语句
+                            createCommand.ExecuteNonQuery(); // 执行创建表的SQL语句
                         }
                     }
                 }
             }
         }
 
+        // 确保 "自定义产品表" 存在
         public void EnsureCustomizedTableExists()
         {
             using (var connection = new MySqlConnection(_connectionString))
@@ -119,7 +81,11 @@ namespace 计价器
                 connection.Open();
 
                 // 检查表是否存在
-                string checkTableQuery = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '自定义产品表';";
+                string checkTableQuery = @"
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '自定义产品表';";
+
                 using (var command = new MySqlCommand(checkTableQuery, connection))
                 {
                     var result = command.ExecuteScalar();
@@ -128,33 +94,32 @@ namespace 计价器
                     if (result == null)
                     {
                         string createTableQuery = @"
-                    CREATE TABLE 自定义产品表 (
-                        材料 VARCHAR(255),
-                        类型 VARCHAR(255),
-                        名称 VARCHAR(255),
-                        单价 DECIMAL(10, 2),
-                        花样价格 DECIMAL(10, 2),
-                        烤漆 BOOLEAN,
-                        金色 BOOLEAN,
-                        古铜色 BOOLEAN,
-                        铁板 BOOLEAN,
-                        胶板 BOOLEAN,
-                        玻璃 BOOLEAN,
-                        弧形 BOOLEAN,
-                        有锁 BOOLEAN,
-                        普通锁 BOOLEAN,
-                        指纹锁 BOOLEAN,
-                        密码锁 BOOLEAN,
-                        有柱子 BOOLEAN,
-                        有闭门器 BOOLEAN,
-                        门中门 BOOLEAN,
-                        纱窗 BOOLEAN,
-                        电动双开 BOOLEAN,
-                        电动推拉 BOOLEAN,
-                        柱子价格 DECIMAL(10, 2),
-                        柱子数量 DECIMAL(10, 2)
-                    );
-                ";
+                CREATE TABLE 自定义产品表 (
+                    材料 VARCHAR(255),
+                    类型 VARCHAR(255),
+                    名称 VARCHAR(255),
+                    单价 DECIMAL(10, 2),
+                    花样价格 DECIMAL(10, 2),
+                    烤漆 BOOLEAN,
+                    金色 BOOLEAN,
+                    古铜色 BOOLEAN,
+                    铁板 BOOLEAN,
+                    胶板 BOOLEAN,
+                    玻璃 BOOLEAN,
+                    弧形 BOOLEAN,
+                    有锁 BOOLEAN,
+                    普通锁 BOOLEAN,
+                    指纹锁 BOOLEAN,
+                    密码锁 BOOLEAN,
+                    有柱子 BOOLEAN,
+                    有闭门器 BOOLEAN,
+                    门中门 BOOLEAN,
+                    纱窗 BOOLEAN,
+                    电动双开 BOOLEAN,
+                    电动推拉 BOOLEAN,
+                    柱子价格 DECIMAL(10, 2),
+                    柱子数量 INT
+                );";
                         using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
@@ -164,6 +129,7 @@ namespace 计价器
             }
         }
 
+        // 确保 "计价表" 存在
         public void EnsureCalculatorTableExists()
         {
             using (var connection = new MySqlConnection(_connectionString))
@@ -171,7 +137,11 @@ namespace 计价器
                 connection.Open();
 
                 // 检查表是否存在
-                string checkTableQuery = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '计价表';";
+                string checkTableQuery = @"
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '计价表';";
+
                 using (var command = new MySqlCommand(checkTableQuery, connection))
                 {
                     var result = command.ExecuteScalar();
@@ -180,42 +150,41 @@ namespace 计价器
                     if (result == null)
                     {
                         string createTableQuery = @"
-                    CREATE TABLE 计价表 (
-                        材料 VARCHAR(255),
-                        类型 VARCHAR(255),
-                        名称 VARCHAR(255),
-                        单价 DECIMAL(10, 2),
-                        长度或宽度 DECIMAL(10, 2),
-                        高度或深度 DECIMAL(10, 2),
-                        长度或宽度英尺 DECIMAL(10, 2),
-                        高度或深度英尺 DECIMAL(10, 2),
-                        平方英尺 DECIMAL(10, 2),
-                        花样价格 DECIMAL(10, 2),
-                        花样数量 DECIMAL(10, 2),
-                        烤漆 BOOLEAN,
-                        金色 BOOLEAN,
-                        古铜色 BOOLEAN,
-                        铁板 BOOLEAN,
-                        胶板 BOOLEAN,
-                        玻璃 BOOLEAN,
-                        弧形 BOOLEAN,
-                        有锁 BOOLEAN,
-                        普通锁 BOOLEAN,
-                        指纹锁 BOOLEAN,
-                        密码锁 BOOLEAN,
-                        有柱子 BOOLEAN,
-                        有闭门器 BOOLEAN,
-                        门中门 BOOLEAN,
-                        纱窗 BOOLEAN,
-                        电动双开 BOOLEAN,
-                        电动推拉 BOOLEAN,
-                        柱子价格 DECIMAL(10, 2),
-                        柱子数量 DECIMAL(10, 2),
-                        单个产品价格 DECIMAL(10, 2),
-                        产品数量 DECIMAL(10, 2),
-                        总共价格 DECIMAL(10, 2)
-                    );
-                ";
+                CREATE TABLE 计价表 (
+                    材料 VARCHAR(255),
+                    类型 VARCHAR(255),
+                    名称 VARCHAR(255),
+                    单价 DECIMAL(10, 2),
+                    长度或宽度 DECIMAL(10, 2),
+                    高度或深度 DECIMAL(10, 2),
+                    长度或宽度英尺 DECIMAL(10, 2),
+                    高度或深度英尺 DECIMAL(10, 2),
+                    平方英尺 DECIMAL(10, 2),
+                    花样价格 DECIMAL(10, 2),
+                    花样数量 INT,
+                    烤漆 BOOLEAN,
+                    金色 BOOLEAN,
+                    古铜色 BOOLEAN,
+                    铁板 BOOLEAN,
+                    胶板 BOOLEAN,
+                    玻璃 BOOLEAN,
+                    弧形 BOOLEAN,
+                    有锁 BOOLEAN,
+                    普通锁 BOOLEAN,
+                    指纹锁 BOOLEAN,
+                    密码锁 BOOLEAN,
+                    有柱子 BOOLEAN,
+                    有闭门器 BOOLEAN,
+                    门中门 BOOLEAN,
+                    纱窗 BOOLEAN,
+                    电动双开 BOOLEAN,
+                    电动推拉 BOOLEAN,
+                    柱子价格 DECIMAL(10, 2),
+                    柱子数量 INT,
+                    单个产品价格 DECIMAL(10, 2),
+                    产品数量 INT,
+                    总共价格 DECIMAL(10, 2)
+                );";
                         using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
@@ -225,6 +194,7 @@ namespace 计价器
             }
         }
 
+        // 确保 "设置单价表" 存在
         public void EnsureSetPriceTableExists()
         {
             using (var connection = new MySqlConnection(_connectionString))
@@ -232,7 +202,11 @@ namespace 计价器
                 connection.Open();
 
                 // 检查表是否存在
-                string checkTableQuery = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '设置单价表';";
+                string checkTableQuery = @"
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '设置单价表';";
+
                 using (var command = new MySqlCommand(checkTableQuery, connection))
                 {
                     var result = command.ExecuteScalar();
@@ -241,29 +215,30 @@ namespace 计价器
                     if (result == null)
                     {
                         string createTableQuery = @"
-                    CREATE TABLE 设置单价表 (
-                        烤漆 DECIMAL(10, 2),
-                        金色 DECIMAL(10, 2),
-                        古铜色 DECIMAL(10, 2),
-                        铁板 DECIMAL(10, 2),
-                        胶板 DECIMAL(10, 2),
-                        玻璃 DECIMAL(10, 2),
-                        弧形 DECIMAL(10, 2),
-                        普通锁 DECIMAL(10, 2),
-                        指纹锁 DECIMAL(10, 2),
-                        密码锁 DECIMAL(10, 2),
-                        闭门器 DECIMAL(10, 2),
-                        门中门 DECIMAL(10, 2),
-                        纱窗 DECIMAL(10, 2),
-                        电动双开 DECIMAL(10, 2),
-                        电动推拉 DECIMAL(10, 2)
-                    );
-                ";
+                CREATE TABLE 设置单价表 (
+                    烤漆 DECIMAL(10, 2),
+                    金色 DECIMAL(10, 2),
+                    古铜色 DECIMAL(10, 2),
+                    铁板 DECIMAL(10, 2),
+                    胶板 DECIMAL(10, 2),
+                    玻璃 DECIMAL(10, 2),
+                    弧形 DECIMAL(10, 2),
+                    普通锁 DECIMAL(10, 2),
+                    指纹锁 DECIMAL(10, 2),
+                    密码锁 DECIMAL(10, 2),
+                    闭门器 DECIMAL(10, 2),
+                    门中门 DECIMAL(10, 2),
+                    纱窗 DECIMAL(10, 2),
+                    电动双开 DECIMAL(10, 2),
+                    电动推拉 DECIMAL(10, 2)
+                );";
                         using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
                         }
 
+                        // 插入默认值
+                        InsertDefaultValuesIntoSetPriceTable();
                     }
                 }
             }
@@ -277,13 +252,13 @@ namespace 计价器
 
                 // 构造插入语句
                 string insertQuery = @"
-            INSERT INTO 设置单价表 (
-                烤漆, 金色, 古铜色, 铁板, 胶板, 玻璃, 弧形, 普通锁, 指纹锁, 密码锁, 闭门器,
-                门中门, 纱窗, 电动双开, 电动推拉
-            ) VALUES (
-                @Powder, @Gold, @Bronze, @MetalSheet, @Plastic, @Glass, @Curved, @NormalLock,
-                @FingerLock, @CodeLock, @Closer, @DoorInDoor, @Screen, @AutoSwing, @AutoSliding
-            );";
+        INSERT INTO 设置单价表 (
+            烤漆, 金色, 古铜色, 铁板, 胶板, 玻璃, 弧形, 普通锁, 指纹锁, 密码锁, 闭门器,
+            门中门, 纱窗, 电动双开, 电动推拉
+        ) VALUES (
+            @Powder, @Gold, @Bronze, @MetalSheet, @Plastic, @Glass, @Curved, @NormalLock,
+            @FingerLock, @CodeLock, @Closer, @DoorInDoor, @Screen, @AutoSwing, @AutoSliding
+        );";
 
                 using (var command = new MySqlCommand(insertQuery, connection))
                 {
@@ -304,7 +279,8 @@ namespace 计价器
                     command.Parameters.AddWithValue("@AutoSwing", 0);
                     command.Parameters.AddWithValue("@AutoSliding", 0);
 
-                    command.ExecuteNonQuery(); // 执行插入操作
+                    // 执行插入操作
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -317,71 +293,109 @@ namespace 计价器
                 return 0;
             }
 
-            string query = "SELECT 单价 FROM 产品表 WHERE 材料 = @Material AND 类型 = @Type;";
-            var parameters = new Dictionary<string, object>
-    {
-        { "@Material", material },
-        { "@Type", type }
-    };
-
-            object result = ExecuteScalar(query, parameters);
-
-            // 如果查询结果为空，返回 0，否则返回单价
-            return result == null || result == DBNull.Value ? 0 : Convert.ToDecimal(result);
-        }
-
-        // 通用执行查询返回单个值的方法
-        private object ExecuteScalar(string query, Dictionary<string, object> parameters = null)
-        {
             using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
+
+                // 查询指定类型的单价
+                string query = "SELECT 单价 FROM 产品表 WHERE 材料 = @Material AND 类型 = @Type;";
                 using (var command = new MySqlCommand(query, connection))
                 {
-                    if (parameters != null)
-                    {
-                        foreach (var param in parameters)
-                        {
-                            command.Parameters.AddWithValue(param.Key, param.Value);
-                        }
-                    }
-                    return command.ExecuteScalar();
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+
+                    // 执行查询
+                    object result = command.ExecuteScalar();
+
+                    // 如果查询结果为空，返回 0，否则返回单价
+                    return result == null ? 0 : Convert.ToDecimal(result);
                 }
             }
         }
 
-        // 通用执行查询返回 DataTable 的方法
-        private DataTable ExecuteDataTableQuery(string query, Dictionary<string, object> parameters = null)
+
+
+        // 查询所有产品数据
+        public DataTable GetAllProducts()
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 查询所有产品记录
+                string selectQuery = "SELECT * FROM 产品表;";
+                using (var command = new MySqlCommand(selectQuery, connection))
+                {
+                    using (var adapter = new MySqlDataAdapter(command))
+                    {
+                        DataTable productsTable = new DataTable();
+
+                        // 填充查询结果到 DataTable
+                        adapter.Fill(productsTable);
+
+                        return productsTable;
+                    }
+                }
+            }
+        }
+
+        public DataTable GetAllCustomizedProducts()
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+                string selectQuery = "SELECT * FROM 自定义产品表;";
+                using (var command = new MySqlCommand(selectQuery, connection))
+                {
+                    using (var adapter = new MySqlDataAdapter(command))
+                    {
+                        DataTable productsTable = new DataTable();
+                        adapter.Fill(productsTable); // 填充查询结果
+                        return productsTable;
+                    }
+                }
+            }
+        }
+        public DataTable GetAllCalculatorProducts()
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+                string selectQuery = "SELECT * FROM 计价表;";
+                using (var command = new MySqlCommand(selectQuery, connection))
+                {
+                    using (var adapter = new MySqlDataAdapter(command))
+                    {
+                        DataTable productsTable = new DataTable();
+                        adapter.Fill(productsTable); // 填充查询结果
+                        return productsTable;
+                    }
+                }
+            }
+        }
+
+
+        public DataTable GetCustomizedProductsByMaterial(string material)
         {
             try
             {
                 using (var connection = new MySqlConnection(_connectionString))
                 {
                     connection.Open();
+
+                    string query = @"
+                SELECT * 
+                FROM 自定义产品表
+                WHERE 材料 = @Material;";
+
                     using (var command = new MySqlCommand(query, connection))
                     {
-                        if (parameters != null)
-                        {
-                            foreach (var param in parameters)
-                            {
-                                command.Parameters.AddWithValue(param.Key, param.Value);
-                            }
-                        }
-
-                        // 打印调试信息
-                        Console.WriteLine($"Executing Query: {query}");
-                        if (parameters != null)
-                        {
-                            foreach (var param in parameters)
-                            {
-                                Console.WriteLine($"Parameter: {param.Key} = {param.Value}");
-                            }
-                        }
+                        command.Parameters.AddWithValue("@Material", material);
 
                         using (var adapter = new MySqlDataAdapter(command))
                         {
                             DataTable dataTable = new DataTable();
-                            adapter.Fill(dataTable);
+                            adapter.Fill(dataTable); // 填充结果到 DataTable
                             return dataTable;
                         }
                     }
@@ -389,114 +403,105 @@ namespace 计价器
             }
             catch (Exception ex)
             {
+                // 捕获异常并显示错误信息
                 MessageBox.Show($"数据库查询失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
 
-
-        // 查询所有产品数据
-        public DataTable GetAllProducts()
-        {
-            string query = "SELECT * FROM 产品表;";
-            return ExecuteDataTableQuery(query);
-        }
-
-        public DataTable GetAllCustomizedProducts()
-        {
-            string query = "SELECT * FROM 自定义产品表;";
-            return ExecuteDataTableQuery(query);
-        }
-        public DataTable GetAllCalculatorProducts()
-        {
-            string query = "SELECT * FROM 计价表;";
-            return ExecuteDataTableQuery(query);
-        }
-        private List<string> ExecuteListQuery(string query, Dictionary<string, object> parameters = null)
+        public DataTable GetCustomizedProductsByMaterialAndType(string material, string type)
         {
             using (var connection = new MySqlConnection(_connectionString))
             {
                 connection.Open();
+
+                string query = @"
+            SELECT * 
+            FROM 自定义产品表
+            WHERE 材料 = @Material AND 类型 = @Type;";
+
                 using (var command = new MySqlCommand(query, connection))
                 {
-                    if (parameters != null)
-                    {
-                        foreach (var param in parameters)
-                        {
-                            command.Parameters.AddWithValue(param.Key, param.Value);
-                        }
-                    }
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
 
-                    using (var reader = command.ExecuteReader())
+                    using (var adapter = new MySqlDataAdapter(command))
                     {
-                        List<string> list = new List<string>();
-                        while (reader.Read())
-                        {
-                            list.Add(reader[0].ToString());
-                        }
-                        return list;
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable); // 填充结果到 DataTable
+                        return dataTable;
                     }
                 }
             }
         }
-        // 通用执行查询返回单个值的方法
-    
 
-      
+        public DataTable GetCalculatorProductsByMaterialAndTypeAndName(string material, string type,string name)
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT * 
+            FROM 计价表
+            WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Material", material);
+                    command.Parameters.AddWithValue("@Type", type);
+                    command.Parameters.AddWithValue("@Name", name);
+
+                    using (var adapter = new MySqlDataAdapter(command))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable); // 填充结果到 DataTable
+                        return dataTable;
+                    }
+                }
+            }
+        }
         public List<string> GetCustomizedNamesByMaterialAndType(string material, string type)
         {
-            string query = "SELECT 名称 FROM 自定义产品表 WHERE 材料 = @Material AND 类型 = @Type;";
-            var parameters = new Dictionary<string, object>
-    {
-        { "@Material", material },
-        { "@Type", type }
-    };
-            return ExecuteListQuery(query, parameters);
+            var names = new List<string>();
+
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+                SELECT 名称 
+                FROM 自定义产品表
+                WHERE 材料 = @Material AND 类型 = @Type;";
+
+                    using (var command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Material", material);
+                        command.Parameters.AddWithValue("@Type", type);
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // 将查询结果的 "名称" 列值加入列表
+                                names.Add(reader["名称"].ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // 捕获异常并显示错误信息
+                MessageBox.Show($"查询自定义产品名称失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return names;
         }
 
-        public DataTable GetCustomizedProductsByMaterial(string material)
-        {
-            string query = "SELECT * FROM `自定义产品表` WHERE `材料` = @Material;";
-            var parameters = new Dictionary<string, object>
-    {
-        { "@Material", material }
-    };
-
-            return ExecuteDataTableQuery(query, parameters);
-        }
-
-        public DataTable GetCustomizedProductsByMaterialAndType(string material, string type)
-        {
-            string query = @"
-        SELECT * 
-        FROM 自定义产品表
-        WHERE 材料 = @Material AND 类型 = @Type;";
-
-            var parameters = new Dictionary<string, object>
-    {
-        { "@Material", material },
-        { "@Type", type }
-    };
-
-            return ExecuteDataTableQuery(query, parameters);
-        }
-        public DataTable GetCalculatorProductsByMaterialAndTypeAndName(string material, string type, string name)
-        {
-            string query = @"
-        SELECT * 
-        FROM 计价表
-        WHERE 材料 = @Material AND 类型 = @Type AND 名称 = @Name;";
-
-            var parameters = new Dictionary<string, object>
-    {
-        { "@Material", material },
-        { "@Type", type },
-        { "@Name", name }
-    };
-
-            return ExecuteDataTableQuery(query, parameters);
-        }
-        /// 
+    
         public List<string> GetCalculatorNamesByMaterialAndType(string material, string type)
         {
             using (var connection = new MySqlConnection(_connectionString))
@@ -504,9 +509,9 @@ namespace 计价器
                 connection.Open();
 
                 string query = @"
-            SELECT 名称 
-            FROM 计价表
-            WHERE 材料 = @Material AND 类型 = @Type;";
+        SELECT 名称 
+        FROM 计价表
+        WHERE 材料 = @Material AND 类型 = @Type;";
 
                 using (var command = new MySqlCommand(query, connection))
                 {
@@ -526,6 +531,7 @@ namespace 计价器
                 }
             }
         }
+
         public List<string> GetCustomizedTypesByMaterial(string material)
         {
             using (var connection = new MySqlConnection(_connectionString))
@@ -533,9 +539,9 @@ namespace 计价器
                 connection.Open();
 
                 string query = @"
-            SELECT DISTINCT 类型 
-            FROM 自定义产品表
-            WHERE 材料 = @Material;";
+        SELECT DISTINCT 类型 
+        FROM 自定义产品表
+        WHERE 材料 = @Material;";
 
                 using (var command = new MySqlCommand(query, connection))
                 {
@@ -555,6 +561,7 @@ namespace 计价器
                 }
             }
         }
+
         // 获取所有产品类型
         public List<string> GetAllProductTypes()
         {
@@ -578,6 +585,7 @@ namespace 计价器
 
             return productTypes;
         }
+
         // 获取指定材料的所有产品类型
         public List<string> GetProductTypesByMaterial(string material)
         {
@@ -602,6 +610,7 @@ namespace 计价器
 
             return productTypes;
         }
+
         // 插入产品数据
         public void InsertProduct(string material, string type, decimal unitPrice)
         {
@@ -1235,29 +1244,35 @@ namespace 计价器
         }
         public List<string> GetTableColumnNames(string tableName)
         {
-            try
+            List<string> columnNames = new List<string>();
+
+            using (var connection = new MySqlConnection(_connectionString))
             {
-                string query = $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @TableName AND TABLE_SCHEMA = DATABASE();";
-                var parameters = new Dictionary<string, object>
-        {
-            { "@TableName", tableName }
-        };
+                connection.Open();
 
-                DataTable dataTable = ExecuteDataTableQuery(query, parameters);
+                // 查询 INFORMATION_SCHEMA.COLUMNS 获取列信息
+                string query = @"
+            SELECT COLUMN_NAME 
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = @TableName;";
 
-                if (dataTable == null || dataTable.Rows.Count == 0)
+                using (var command = new MySqlCommand(query, connection))
                 {
-                    MessageBox.Show($"未找到表 '{tableName}' 的列信息", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return new List<string>();
-                }
+                    // 使用参数化查询，防止 SQL 注入
+                    command.Parameters.AddWithValue("@TableName", tableName);
 
-                return dataTable.AsEnumerable().Select(row => row["COLUMN_NAME"].ToString()).ToList();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // 获取列名并添加到列表
+                            columnNames.Add(reader["COLUMN_NAME"].ToString());
+                        }
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"获取表列名失败：{ex.Message}", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new List<string>();
-            }
+
+            return columnNames;
         }
 
         public string GetSingleValueAsString(string tableName, string columnName)
