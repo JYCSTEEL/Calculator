@@ -259,6 +259,20 @@ namespace 计价器
             radioButtonIsIron.CheckedChanged += SetSelectedMaterial;
             radioButtonIsStainless.CheckedChanged += SetSelectedMaterial;
 
+            buttonSaveCheckedListCalculator.Click += SaveCheckedListCalculator;
+            buttonSaveCheckedListCustomized.Click += SaveCheckedListCustomized;
+
+
+        }
+
+        private void SaveCheckedListCustomized(object sender, EventArgs e)
+        {
+            DatabaseHelper.Instance.UpdateDatabaseFromCheckedListBox(checkedListBoxCustomized,"自定义显示保存表");
+        }
+
+        private void SaveCheckedListCalculator(object sender, EventArgs e)
+        {
+            DatabaseHelper.Instance.UpdateDatabaseFromCheckedListBox(checkedListBoxCalculator, "计算显示保存表");
         }
 
         private void SetSelectedMaterial(object sender, EventArgs e)

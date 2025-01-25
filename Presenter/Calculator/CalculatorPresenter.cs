@@ -185,8 +185,8 @@ namespace 计价器
 
         private void InitializeCheckedListBox()
         {
-            ViewMGR.IniatialAndSelectAllCheckedListBox("计价表", CalculatorSetting.Instance.CheckListBoxCalculator);
-            CalculatorSetting.Instance.CC_SELECT_ALL.Checked = true;
+            ViewMGR.IniatialCheckedListBox("计价表", CalculatorSetting.Instance.CheckListBoxCalculator);
+          DatabaseHelper.Instance.UpdateCheckedListBoxFromDatabase(CalculatorSetting.Instance.CheckListBoxCalculator, "计算显示保存表");
         }
 
         private void CALCULATE_PRICE(object sender, EventArgs e)

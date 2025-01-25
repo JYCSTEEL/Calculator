@@ -29,8 +29,8 @@ namespace 计价器
         private void InitializeCheckedListBox()
         {
             
-            ViewMGR.IniatialAndSelectAllCheckedListBox("自定义产品表",CustomizedSetting.Instance.CheckListBoxCustomized);
-            CustomizedSetting.Instance.CP_SELECT_ALL.Checked = true;
+            ViewMGR.IniatialCheckedListBox("自定义产品表",CustomizedSetting.Instance.CheckListBoxCustomized);
+            DatabaseHelper.Instance.UpdateCheckedListBoxFromDatabase(CustomizedSetting.Instance.CheckListBoxCustomized, "自定义显示保存表");
         }
 
         // 静态属性，用于获取单例实例

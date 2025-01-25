@@ -198,7 +198,7 @@ namespace 计价器
             return controlTexts;
         }
 
-        public static void IniatialAndSelectAllCheckedListBox(string table, CheckedListBox checkedListBox)
+        public static void IniatialCheckedListBox(string table, CheckedListBox checkedListBox)
         {
             List<string> strings = new List<string>();
             strings = GetAllColumnsNamesFromDatabase(table);
@@ -207,10 +207,7 @@ namespace 计价器
 
             // 添加新的项
             checkedListBox.Items.AddRange(strings.ToArray());
-            for (int i = 0; i < checkedListBox.Items.Count; i++)
-            {
-                checkedListBox.SetItemChecked(i, true);
-            }
+        
 
         }
         public static void SelectAllCheckedListBox(CheckedListBox checkedListBox)

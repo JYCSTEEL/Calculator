@@ -4,6 +4,7 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 
 
@@ -24,6 +25,9 @@ namespace 计价器
             EnsureCustomizedTableExists();
             EnsureCalculatorTableExists();
             EnsureSetPriceTableExists();
+
+            EnsureCheckedListBoxCalculationTableExists();
+            EnsureCheckedListBoxCustomizedTableExists();
         }
         public static DatabaseHelper Instance
         {
@@ -232,18 +236,288 @@ namespace 计价器
                     电动双开 DECIMAL(10, 2),
                     电动推拉 DECIMAL(10, 2)
                 );";
+
+                        // 插入默认值
+                        InsertDefaultValuesIntoSetPriceTable();
                         using (var createCommand = new MySqlCommand(createTableQuery, connection))
                         {
                             createCommand.ExecuteNonQuery();
                         }
 
-                        // 插入默认值
-                        InsertDefaultValuesIntoSetPriceTable();
+                    }
+                }
+            }
+        }
+        public void EnsureCheckedListBoxCustomizedTableExists()
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 检查表是否存在
+                string checkTableQuery = @"
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '自定义显示保存表';";
+
+                using (var command = new MySqlCommand(checkTableQuery, connection))
+                {
+                    var result = command.ExecuteScalar();
+
+                    // 如果表不存在，则创建
+                    if (result == null)
+                    {
+                        // 动态生成创建表的 SQL 查询，所有列都使用 BOOLEAN 类型
+                        string createTableQuery = @"
+                    CREATE TABLE 自定义显示保存表 (
+                        材料 BOOLEAN,
+                        类型 BOOLEAN,
+                        名称 BOOLEAN,
+                        单价 BOOLEAN,
+                        花样价格 BOOLEAN,
+                        烤漆 BOOLEAN,
+                        金色 BOOLEAN,
+                        古铜色 BOOLEAN,
+                        铁板 BOOLEAN,
+                        胶板 BOOLEAN,
+                        玻璃 BOOLEAN,
+                        弧形 BOOLEAN,
+                        有锁 BOOLEAN,
+                        普通锁 BOOLEAN,
+                        指纹锁 BOOLEAN,
+                        密码锁 BOOLEAN,
+                        有柱子 BOOLEAN,
+                        有闭门器 BOOLEAN,
+                        门中门 BOOLEAN,
+                        纱窗 BOOLEAN,
+                        电动双开 BOOLEAN,
+                        电动推拉 BOOLEAN,
+                        柱子价格 BOOLEAN,
+                        柱子数量 BOOLEAN
+                    );";
+
+                        using (var createCommand = new MySqlCommand(createTableQuery, connection))
+                        {
+                            createCommand.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+        public void EnsureCheckedListBoxCalculationTableExists()
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 检查表是否存在
+                string checkTableQuery = @"
+            SELECT TABLE_NAME
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '计算显示保存表';";
+
+                using (var command = new MySqlCommand(checkTableQuery, connection))
+                {
+                    var result = command.ExecuteScalar();
+
+                    // 如果表不存在，则创建
+                    if (result == null)
+                    {
+                        // 动态生成创建表的 SQL 查询，所有列都使用 BOOLEAN 类型
+                        string createTableQuery = @"
+                    CREATE TABLE 计算显示保存表 (
+                        材料 BOOLEAN,
+                        类型 BOOLEAN,
+                        名称 BOOLEAN,
+                        单价 BOOLEAN,
+                        长度或宽度 BOOLEAN,
+                        高度或深度 BOOLEAN,
+                        长度或宽度英尺 BOOLEAN,
+                        高度或深度英尺 BOOLEAN,
+                        平方英尺 BOOLEAN,
+                        花样价格 BOOLEAN,
+                        花样数量 BOOLEAN,
+                        烤漆 BOOLEAN,
+                        金色 BOOLEAN,
+                        古铜色 BOOLEAN,
+                        铁板 BOOLEAN,
+                        胶板 BOOLEAN,
+                        玻璃 BOOLEAN,
+                        弧形 BOOLEAN,
+                        有锁 BOOLEAN,
+                        普通锁 BOOLEAN,
+                        指纹锁 BOOLEAN,
+                        密码锁 BOOLEAN,
+                        有柱子 BOOLEAN,
+                        有闭门器 BOOLEAN,
+                        门中门 BOOLEAN,
+                        纱窗 BOOLEAN,
+                        电动双开 BOOLEAN,
+                        电动推拉 BOOLEAN,
+                        柱子价格 BOOLEAN,
+                        柱子数量 BOOLEAN,
+                        单个产品价格 BOOLEAN,
+                        产品数量 BOOLEAN,
+                        总共价格 BOOLEAN
+                    );";
+
+                        using (var createCommand = new MySqlCommand(createTableQuery, connection))
+                        {
+                            createCommand.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+        public void UpdateDatabaseFromCheckedListBox(CheckedListBox checkedListBox, string tableName)
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 检查数据库中是否已经存在数据行
+                string checkRowQuery = $"SELECT COUNT(*) FROM `{tableName}` LIMIT 1;";
+                using (var checkCommand = new MySqlCommand(checkRowQuery, connection))
+                {
+                    var rowCount = Convert.ToInt32(checkCommand.ExecuteScalar());
+                    int updateCount = 0; // 记录更新的项数
+                    int insertCount = 0; // 记录插入的项数
+                    int unchangedCount = 0; // 记录没有变化的项数
+
+                    // 如果数据库中没有行，插入新行
+                    if (rowCount == 0)
+                    {
+                        // 生成插入查询语句
+                        string insertQuery = $"INSERT INTO `{tableName}` (";
+
+                        // 获取选中的项
+                        var checkedItems = checkedListBox.CheckedItems.Cast<string>().ToList();
+
+                        // 构建 INSERT 查询列
+                        insertQuery += string.Join(",", checkedItems) + ") VALUES (";
+
+                        // 为每个选中的列设置 `TRUE`
+                        insertQuery += string.Join(",", checkedItems.Select(item => "TRUE")) + ");";
+
+                        // 执行插入
+                        using (var insertCommand = new MySqlCommand(insertQuery, connection))
+                        {
+                            insertCommand.ExecuteNonQuery();
+                            insertCount = checkedItems.Count;  // 插入的记录数等于选中的项数
+                        }
+                    }
+                    else
+                    {
+                        // 如果数据库中已有数据，更新选中的项
+                        foreach (var item in checkedListBox.CheckedItems)
+                        {
+                            // 先检查数据库中的当前值
+                            string checkValueQuery = $"SELECT `{item}` FROM `{tableName}` LIMIT 1;";
+                            using (var checkValueCommand = new MySqlCommand(checkValueQuery, connection))
+                            {
+                                var currentValue = checkValueCommand.ExecuteScalar();
+
+                                // 只有当值发生变化时才更新
+                                if (currentValue == DBNull.Value || !Convert.ToBoolean(currentValue))
+                                {
+                                    string updateQuery = $"UPDATE `{tableName}` SET `{item}` = TRUE;";
+                                    using (var updateCommand = new MySqlCommand(updateQuery, connection))
+                                    {
+                                        updateCommand.ExecuteNonQuery();
+                                        updateCount++;  // 记录更新成功的项数
+                                    }
+                                }
+                                else
+                                {
+                                    unchangedCount++;  // 记录没有变化的项数
+                                }
+                            }
+                        }
+
+                        // 如果数据库中有行，但 `CheckedListBox` 中的项被取消选择，更新为 FALSE
+                        foreach (var item in checkedListBox.Items)
+                        {
+                            if (!checkedListBox.CheckedItems.Contains(item))
+                            {
+                                // 检查数据库中的当前值
+                                string checkValueQuery = $"SELECT `{item}` FROM `{tableName}` LIMIT 1;";
+                                using (var checkValueCommand = new MySqlCommand(checkValueQuery, connection))
+                                {
+                                    var currentValue = checkValueCommand.ExecuteScalar();
+
+                                    // 只有当值发生变化时才更新
+                                    if (currentValue == DBNull.Value || Convert.ToBoolean(currentValue))
+                                    {
+                                        string updateQuery = $"UPDATE `{tableName}` SET `{item}` = FALSE;";
+                                        using (var updateCommand = new MySqlCommand(updateQuery, connection))
+                                        {
+                                            updateCommand.ExecuteNonQuery();
+                                            updateCount++;  // 记录更新成功的项数
+                                        }
+                                    }
+                                    else
+                                    {
+                                        unchangedCount++;  // 记录没有变化的项数
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // 显示弹出消息框
+                    if (insertCount > 0)
+                    {
+                        MessageBox.Show($"{insertCount} 处修改保存！", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    if (updateCount > 0)
+                    {
+                        MessageBox.Show($"{updateCount} 处修改保存！", "操作成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    if (unchangedCount == (checkedListBox.CheckedItems.Count + checkedListBox.Items.Count - checkedListBox.CheckedItems.Count))
+                    {
+                        MessageBox.Show("所有数据已是最新，无需更新！", "没有变化", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
         }
 
+        public void UpdateCheckedListBoxFromDatabase(CheckedListBox checkedListBox, string tableName)
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                // 动态构建查询语句，根据传入的表名查询数据
+                string query = $"SELECT * FROM `{tableName}` LIMIT 1;";  // 获取数据库中的一行数据
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // 遍历 CheckedListBox 中的每个项
+                            for (int i = 0; i < checkedListBox.Items.Count; i++)
+                            {
+                                string columnName = checkedListBox.Items[i].ToString();
+
+                                // 检查数据库中对应列的值，如果是 NULL 则设置为 FALSE
+                                bool isChecked = reader.IsDBNull(reader.GetOrdinal(columnName)) ? false : reader.GetBoolean(columnName);
+
+                                // 根据数据库中的值设置 CheckedListBox 中的选中状态
+                                checkedListBox.SetItemChecked(i, isChecked);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// /插入默认价格
+        /// </summary>
         public void InsertDefaultValuesIntoSetPriceTable()
         {
             using (var connection = new MySqlConnection(_connectionString))
